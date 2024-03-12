@@ -34,7 +34,7 @@ public class SpelerMapper {
 
     
     public Speler geefSpeler(String gebruikersnaam) {
-    	Connectie ssh =new Connectie();
+    	Connectie ssh = new Connectie();
         Speler speler = null;
 
         try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC);
