@@ -20,7 +20,8 @@ public class Connectie {
 
     private int allocatedLocalPort = 0;
 
-    private Session sshSession;
+    private Session sshSession; 
+    
 
     public Connectie() {
         createSshConnection();
