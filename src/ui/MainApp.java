@@ -6,6 +6,7 @@ import domein.DomeinController;
 
 public class MainApp {
 
+	private Scanner invoer = new Scanner(System.in);
 	DomeinController dc;
 
 	public MainApp(DomeinController dc) {
@@ -14,16 +15,32 @@ public class MainApp {
 
 	public void startRegistratie() {
 
-		Scanner invoer = new Scanner(System.in);
+		String naam = vraagNaarNaam();
+		int jaar = vraagNaarGeboortjaar();
 
-		System.out.print("Naam speler: ");
-		String naam = invoer.nextLine(); // TODO controle toevoegen
+		dc.registreerSpeler(naam, jaar);
 
-		System.out.print("Geboortejaar: ");
-		int jaar = invoer.nextInt(); // TODO controle toevoegen
+	}
 
-		dc.registreerSpeler("Xander", 2002);
+	// Methodes
 
+	private String vraagNaarNaam() {
+		String naam;
+		do {
+			System.out.print("Naam speler: ");
+			naam = invoer.nextLine();
+		} while (naam == null || naam.isBlank()); // TODO error toevoegen
+		return naam;
+	}
+
+	private int vraagNaarGeboortjaar() {
+		int jaar;
+		do {
+			System.out.print("Geboortejaar: ");
+			jaar = invoer.nextInt();
+		} while (jaar < 1900 || jaar > 2024); // TODO error toevoegen
+
+		return jaar;
 	}
 
 }
