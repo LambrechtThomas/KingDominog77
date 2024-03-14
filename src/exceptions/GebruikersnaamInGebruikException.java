@@ -1,7 +1,6 @@
 package exceptions;
 
-public class GebruikersnaamInGebruikException extends RuntimeException 
-{
+public class GebruikersnaamInGebruikException extends RuntimeException {
 
 	public GebruikersnaamInGebruikException() {
 		super("Gebruikersnaam reeds in gebruik.");
@@ -11,8 +10,5 @@ public class GebruikersnaamInGebruikException extends RuntimeException
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-
-
-
 
 }

@@ -1,27 +1,20 @@
 package domein;
 
+public class Speler {
+	private String gebruikersnaam;
+	private int geboortejaar;
+	private int aantalGewonnen, aantalGespeeld;
 
-public class Speler 
-{
-    private String gebruikersnaam;
-    private int geboortejaar;
-    private int aantalGewonnen, aantalGespeeld;
-    
+	public Speler(String gebruikersnaam, int geboortejaar) {
+		this(gebruikersnaam, geboortejaar, 0, 0);
+	}
 
-    public Speler(String gebruikersnaam,int  geboortejaar) 
-    {
-    	this(gebruikersnaam,geboortejaar,0,0);
-    }
-    
-    public Speler(String gebruikersnaam,int  geboortejaar, int aantalGewonnen, int aantalGespeeld) 
-    {
-    	setGebruikersnaam(gebruikersnaam);
-    	setGeboortejaar(geboortejaar);
-    	setAantalGewonnen(aantalGewonnen);
-    	setAantalGespeeld(aantalGespeeld);
-    }
-    
-    
+	public Speler(String gebruikersnaam, int geboortejaar, int aantalGewonnen, int aantalGespeeld) {
+		setGebruikersnaam(gebruikersnaam);
+		setGeboortejaar(geboortejaar);
+		setAantalGewonnen(aantalGewonnen);
+		setAantalGespeeld(aantalGespeeld);
+	}
 
 	public String getGebruikersnaam() {
 		return gebruikersnaam;
