@@ -1,5 +1,6 @@
 /bin/
 /vpproject/
 .classpath
+/.classpath
 /src/persistentie/Connectie.java
 src/persistentie/Connectie.java
