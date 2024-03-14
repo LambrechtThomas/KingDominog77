@@ -10,7 +10,7 @@ import domein.Speler;
 
 public class SpelerMapper {
 
-	private static final String INSERT_SPELER = "INSERT INTO ID342835_g999.Speler (gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld)"
+	private static final String INSERT_SPELER = "INSERT INTO ID430019_g77.Speler (gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld)"
 			+ "VALUES (?, ?, ?, ?)";
 
 	public void voegToe(Speler speler) {
