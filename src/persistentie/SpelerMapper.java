@@ -36,7 +36,7 @@ public class SpelerMapper {
 
 		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC);
 				PreparedStatement query = conn
-						.prepareStatement("SELECT * FROM ID342835_g999.Speler WHERE gebruikersnaam = ?")) {
+						.prepareStatement("SELECT * FROM ID430019_g77.Speler WHERE gebruikersnaam = ?")) {
 			query.setString(1, gebruikersnaam);
 			try (ResultSet rs = query.executeQuery()) {
 				if (rs.next()) {
