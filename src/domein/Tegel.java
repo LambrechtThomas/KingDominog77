@@ -6,16 +6,14 @@ public class Tegel {
 	private int kroontjes;
 	
 	public Tegel(String landschap, int kroontjes) {
-	
 		this.landschap = landschap;
 		this.kroontjes = kroontjes;
 	}
 	
 	public Tegel() {
-		
-	}
-	
-	public String tegel(String landschap) {
-		return landschap;
+		//Deze constructor wordt gebruikt zodat "KasteelTegel" kan overerven
+		//Vul attributen aan zodat we weten dat het de kasteel is
+		this.landschap = "Kasteel";
+		this.kroontjes = 0;
 	}
 }
