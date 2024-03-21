@@ -8,16 +8,24 @@ public class Speler {
 	
 	private Koninkrijk koninkrijk;
 	private KasteelTegel kasteel;
+	
+	private int score;
 
 	public Speler(String gebruikersnaam, int geboortejaar, int aantalGewonnen, int aantalGespeeld) {
 		setGebruikersnaam(gebruikersnaam);
 		setGeboortejaar(geboortejaar);
 		setAantalGewonnen(aantalGewonnen);
 		setAantalGespeeld(aantalGespeeld);
+		
+		this.koninkrijk = new Koninkrijk();
+		this.kasteel = new KasteelTegel();
 	}
 
 	public Speler(String gebruikersnaam, int geboortejaar) {
 		this(gebruikersnaam, geboortejaar, 0, 0);
+		
+		this.koninkrijk = new Koninkrijk();
+		this.kasteel = new KasteelTegel();
 	}
 
 	// Setters
@@ -61,13 +69,34 @@ public class Speler {
 	public String getKleur() {
 		return kleur;
 	}
+	
+	public Koninkrijk getKoninkrijk() {
+		return koninkrijk;
+	}
 
+	public KasteelTegel getKasteel() {
+		return kasteel;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	// Methodes
 	public void heeftGespeelt() {
 
 	}
 
 	public void heeftGewonnen() {
 
+	}
+	
+	public void berekenScore() {
+		
+	}
+	
+	public void plaatsKasteel(int x, int y) {
+		koninkrijk.setKasteel(x, y, kasteel);
 	}
 
 }
