@@ -6,5 +6,4 @@ public class KasteelTegel extends Tegel {
 		super();
 	}
 
-	
 }
