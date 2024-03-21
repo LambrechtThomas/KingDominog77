@@ -5,7 +5,11 @@ public class Koninkrijk {
 	private static int rij;
 	private static DominoTegel[][] grid;
 	
-	public Koninkrijk(DominoTegel domino, int x, int y) {
+	public Koninkrijk() {
+		
+	}
+	
+	public void plaatsDomino(DominoTegel domino, int x, int y) {
 		
 	}
 	

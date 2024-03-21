@@ -2,9 +2,9 @@ package domein;
 
 public class DominoTegel {
 	private int volgnummer;
+	private Tegel[] tegels;
 	private boolean horizontaal;
 	private boolean spiegeld;
-	private Tegel[] tegels;
 
 	public DominoTegel(int volgnummer, Tegel[] tegels) {
 		this.volgnummer = volgnummer;

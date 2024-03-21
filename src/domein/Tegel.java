@@ -2,8 +2,8 @@ package domein;
 
 public class Tegel {
 
-	private String landschap;
-	private int kroontjes;
+	private final String landschap;
+	private final int kroontjes;
 	
 	public Tegel(String landschap, int kroontjes) {
 		this.landschap = landschap;

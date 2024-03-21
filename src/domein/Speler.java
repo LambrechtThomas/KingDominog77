@@ -5,6 +5,9 @@ public class Speler {
 	private int geboortejaar;
 	private int aantalGewonnen, aantalGespeeld;
 	private String kleur;
+	
+	private Koninkrijk koninkrijk;
+	private KasteelTegel kasteel;
 
 	public Speler(String gebruikersnaam, int geboortejaar, int aantalGewonnen, int aantalGespeeld) {
 		setGebruikersnaam(gebruikersnaam);

@@ -18,6 +18,7 @@ public class DominoTegelRepository {
 	public DominoTegel geefDomino() {
 		DominoTegel eersteTegel = alleDominos.get(0);
 		alleDominos.remove(0);
+		
 		return eersteTegel; 
 	}
 	
