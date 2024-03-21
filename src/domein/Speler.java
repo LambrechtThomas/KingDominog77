@@ -18,7 +18,6 @@ public class Speler {
 	}
 
 	// Setters
-
 	private void setGebruikersnaam(String gebruikersnaam) {
 		this.gebruikersnaam = gebruikersnaam;
 	}
@@ -40,7 +39,6 @@ public class Speler {
 	}
 
 	// Getters
-
 	public String getGebruikersnaam() {
 		return gebruikersnaam;
 	}

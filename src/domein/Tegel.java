@@ -16,4 +16,13 @@ public class Tegel {
 		this.landschap = "Kasteel";
 		this.kroontjes = 0;
 	}
+	
+	//Getters
+	public String getLandschap() {
+		return landschap;
+	}
+
+	public int getKroontjes() {
+		return kroontjes;
+	}
 }
