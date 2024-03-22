@@ -49,24 +49,24 @@ public class MainApp {
 	}
 
 	private int vraagNaarGeboortjaar() {
-		byte jaar;
+		int jaar = 0;
 		boolean correct = false;
 		do {
 			try {
 				// probeerd blok of invulling jaar voldoet aan parrameters in if blok zo niet
 				// throw passende melding
 				System.out.print("Geboortejaar: ");
-				jaar = invoer.nextByte();
+				jaar = invoer.nextInt();
 				if (jaar < 1900 || jaar > 2024) {
 					throw new IllegalArgumentException("Geboortejaar moet tussen 1900 en 2024 liggen.");
 				}
 			} catch (InputMismatchException e) {
 
 				System.err.println("Geen geldig getal ingevoerd. Probeer opnieuw.");
-				return vraagNaarGeboortjaar();
+
 			} catch (IllegalArgumentException e) {
 				System.err.println(e.getMessage());
-				return vraagNaarGeboortjaar();
+
 			}
 			correct = true;
 		} while (!correct);
