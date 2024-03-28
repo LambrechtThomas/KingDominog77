@@ -10,19 +10,19 @@ public class ResourceBundleEx {
 
 		Locale[] locales = { Locale.ENGLISH, new Locale("nl", "NL"), Locale.FRENCH };
 
-		System.out.println("w1:");
+		System.out.println("WELKOM:");
 		for (Locale locale : locales) {
-			getWord(locale, "w1");
+			getWord(locale, "WELKOM");
 		}
 
-		System.out.println("w2:");
+		System.out.println("START:");
 		for (Locale locale : locales) {
-			getWord(locale, "w2");
+			getWord(locale, "START");
 		}
 
-		System.out.println("w3:");
+		System.out.println("STOP:");
 		for (Locale locale : locales) {
-			getWord(locale, "w3");
+			getWord(locale, "STOP");
 		}
 
 	}
