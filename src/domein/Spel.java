@@ -69,7 +69,7 @@ public class Spel {
 		else
 			spelerAanbeurt = huidigeSpelers.get(++indexOfSpelerAanBeurt);
 	}
-	
+
 	// Voegt een speler toe aan het spel
 	public void voegSpelersToe(ArrayList<Speler> spelers) {
 		if (spelers.size() < 3 || spelers.size() > 4)
@@ -81,7 +81,6 @@ public class Spel {
 		Collections.shuffle(alleDominos);
 	}
 
-	// Geeft de beschikbare kleueren terug
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
 		ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
@@ -98,7 +97,6 @@ public class Spel {
 		return nietGebruikteKleuren;
 	}
 
-	// Kiest een koning deze mag beginnen
 	public void kiesKoning() {
 		koning = huidigeSpelers.get(sr.nextInt(huidigeSpelers.size()));
 	}

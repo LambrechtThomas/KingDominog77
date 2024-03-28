@@ -15,17 +15,19 @@ public class DomeinController {
 		Speler nieuweSpeler = new Speler(gebruikersnaam, geboortejaar);
 		spelerRepository.voegToe(nieuweSpeler);
 	}
-	
-	public void startSpel()  {
-		
+
+	public void startSpel() {
+
 	}
-	
-	//public ArrayList<SpelerDTO> geefBeschikbareSpelers() {}
-	
+
+//	public ArrayList<SpelerDTO> geefBeschikbareSpelers() {
+//
+//	}
+
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		return huidigSpel.geefBeschikbareKleuren();
 	}
-	
-	//public SpelerDTO geefSpelerAanbeurt() {}
+
+	// public SpelerDTO geefSpelerAanbeurt() {}
 
 }
