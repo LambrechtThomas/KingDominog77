@@ -15,7 +15,7 @@ public class Koninkrijk {
 	}
 
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
-
+		// TODO
 	}
 
 	// Checkt of het landschap hetzelfde is
