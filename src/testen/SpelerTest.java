@@ -61,4 +61,12 @@ class SpelerTest {
 	void speler_NegatiefaantalGespeelt_assertThrow(int negatiefGespeeld) {
 		assertThrows(IllegalArgumentException.class, () -> new Speler("avatar", 2005, 4, negatiefGespeeld));
 	}
+
+	//
+
+	@Test
+	void speler_geenKleur_assertThrow() {
+		Speler speler = new Speler("avatar", 2005, 4, 5);
+		assertThrows(IllegalArgumentException.class, () -> speler.setKleur(null));
+	}
 }
