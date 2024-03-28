@@ -4,7 +4,7 @@ public class Speler {
 	private String gebruikersnaam;
 	private int geboortejaar;
 	private int aantalGewonnen, aantalGespeeld;
-	private String kleur;
+	private Kleur kleur;
 	
 	private Koninkrijk koninkrijk;
 	private KasteelTegel kasteel;
@@ -45,7 +45,7 @@ public class Speler {
 		this.aantalGespeeld = aantalGespeeld;
 	}
 
-	private void setKleur(String kleur) {
+	public void setKleur(Kleur kleur) {
 		this.kleur = kleur;
 	}
 
@@ -66,7 +66,7 @@ public class Speler {
 		return aantalGespeeld;
 	}
 
-	public String getKleur() {
+	public Kleur getKleur() {
 		return kleur;
 	}
 	

@@ -9,10 +9,6 @@ public class DominoTegelRepository {
 	public DominoTegelRepository() {
 	}
 	
-	// Schud het deck
-	public void schud() {
-		Collections.shuffle(alleDominos);
-	}
 	
 	// Returnt de eerste domino op het deck
 	public DominoTegel geefDomino() {
