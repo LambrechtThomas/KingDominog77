@@ -13,6 +13,7 @@ public class Spel {
 	private ArrayList<Speler> beschikbareSpelers;
 	private ArrayList<Speler> huidigeSpelers;
 	private Speler koning;
+	private int rondeTeller;
 	
 	private SecureRandom sr;
 
@@ -44,10 +45,20 @@ public class Spel {
 	public Speler getKoning() {
 		return koning;
 	}
-
-	// Methoden
+	
+	public Speler getSpelerAanbeurt() {
+		return huidigeSpelers.get(rondeTeller);
+	}
+	
+	// Spel klaar zetten
+	public void startSpel() {
+		kiesKoning();
+		rondeTeller = huidigeSpelers.indexOf(koning);
+	}
+	
+	// Speelt een volgende ronde
 	public void speelRonde() {
-
+		
 	}
 
 	// Schud het deck
@@ -55,6 +66,7 @@ public class Spel {
 		Collections.shuffle(alleDominos);
 	}
 	
+	//Geeft de beschikbare kleueren terug
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
 		ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
