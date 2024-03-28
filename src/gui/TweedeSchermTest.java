@@ -73,6 +73,16 @@ public class TweedeSchermTest extends GridPane {
 		this.add(lblTitle3, 0, 2);
 		this.add(btnButton3, 1, 2);
 
+		// Vierde rij
+		Label lblTitle4 = new Label("Beta V1");
+		Button btnButton4 = new Button("Terug");
+		btnButton4.setOnAction(evt -> {
+			this.getScene().setRoot(welkomScherm);
+
+		});
+		this.add(lblTitle4, 0, 3);
+		this.add(btnButton4, 1, 3);
+
 //		lblWelkom = new Label("Voorbeeld van een 2de scherm");
 //		btnTerug = new Button("Back");
 //		Region spring = new Region();

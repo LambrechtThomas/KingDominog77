@@ -20,7 +20,7 @@ public class StartUp extends Application {
 			WelkomScherm root = new WelkomScherm();
 
 			// Scene aan het scherm toevoegen
-			Scene scene = new Scene(root, 500, 300);
+			Scene scene = new Scene(root, 500, 200);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Beta Kingdominos");
 			primaryStage.show();
