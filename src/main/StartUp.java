@@ -15,6 +15,7 @@ public class StartUp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
+		try {
 		// Scherm aanmaken
 		WelkomScherm root = new WelkomScherm();
 
@@ -23,10 +24,10 @@ public class StartUp extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Welkom bij JavaFX");
 		primaryStage.show();
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
-//	public static void main(String[] args) {
-//		new MainApp(new DomeinController()).startRegistratie();
-//	}
 
 }
