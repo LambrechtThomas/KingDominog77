@@ -16,18 +16,19 @@ public class StartUp extends Application {
 	public void start(Stage primaryStage) {
 
 		try {
-		// Scherm aanmaken
-		WelkomScherm root = new WelkomScherm();
+			// Scherm aanmaken
+			WelkomScherm root = new WelkomScherm();
 
-		// Scene aan het scherm toevoegen
-		Scene scene = new Scene(root, 500, 300);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Welkom bij JavaFX");
-		primaryStage.show();
+			// Scene aan het scherm toevoegen
+			Scene scene = new Scene(root, 500, 300);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Welkom bij JavaFX");
+			primaryStage.show();
+//			primaryStage.setMaximized(true);
+//			primaryStage.setFullScreen(true);
 		} catch (Exception e) {
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 	}
-
 
 }
