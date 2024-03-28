@@ -84,11 +84,11 @@ public class Speler {
 
 	// Methodes
 	public void heeftGespeelt() {
-
+		aantalGespeeld++;
 	}
 
 	public void heeftGewonnen() {
-
+		aantalGewonnen++;
 	}
 	
 	public void berekenScore() {

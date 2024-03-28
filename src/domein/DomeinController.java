@@ -20,12 +20,12 @@ public class DomeinController {
 		
 	}
 	
-	public ArrayList<SpelerDTO> geefBeschikbareSpelers() {
-		
-	}
+	//public ArrayList<SpelerDTO> geefBeschikbareSpelers() {}
 	
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		return huidigSpel.geefBeschikbareKleuren();
 	}
+	
+	//public SpelerDTO geefSpelerAanbeurt() {}
 
 }

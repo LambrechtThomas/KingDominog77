@@ -13,7 +13,7 @@ public class Spel {
 	private ArrayList<Speler> beschikbareSpelers;
 	private ArrayList<Speler> huidigeSpelers;
 	private Speler koning;
-	private int rondeTeller;
+	private Speler spelerAanbeurt;
 
 	private SecureRandom sr;
 
@@ -47,24 +47,33 @@ public class Spel {
 	}
 
 	public Speler getSpelerAanbeurt() {
-		return huidigeSpelers.get(rondeTeller);
+		return spelerAanbeurt;
 	}
 
 	// Spel klaar zetten
 	public void startSpel() {
 		kiesKoning();
-		rondeTeller = huidigeSpelers.indexOf(koning);
+	}
+
+	// Plaats DominoTegel bij speler
+	public void plaatsDominoTegel(Speler speler, DominoTegel domino, int rij, int kolom) {
+		speler.plaatsDomino(domino, rij, kolom);
 	}
 
 	// Duidt de volgende speler aan
-	public void speelRonde(DominoTegel domino, int rij, int kolom) {
-		Speler speler = huidigeSpelers.get(rondeTeller);
-		speler
-		
-		if (rondeTeller == huidigeSpelers.size())
-			rondeTeller = 0;
+	public void duidVolgendeSplerAan(DominoTegel domino, int rij, int kolom) {
+		int indexOfSpelerAanBeurt = huidigeSpelers.indexOf(spelerAanbeurt);
+
+		if (indexOfSpelerAanBeurt == huidigeSpelers.size() - 1)
+			spelerAanbeurt = huidigeSpelers.get(0);
 		else
-			rondeTeller++;
+			spelerAanbeurt = huidigeSpelers.get(++indexOfSpelerAanBeurt);
+	}
+	
+	// Voegt een speler toe aan het spel
+	public void voegSpelersToe(ArrayList<Speler> spelers) {
+		if (spelers.size() < 3 || spelers.size() > 4)
+			throw new IllegalArgumentException();
 	}
 
 	// Schud het deck
