@@ -95,6 +95,10 @@ public class Speler {
 		
 	}
 	
+	public void plaatsDomino(DominoTegel domino, int rij, int kolom) {
+		koninkrijk.plaatsDomino(domino, rij, kolom);
+	}
+	
 	public void plaatsKasteel(int x, int y) {
 		koninkrijk.setKasteel(x, y, kasteel);
 	}
