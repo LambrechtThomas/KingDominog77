@@ -1,20 +1,30 @@
 package testen;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import domein.Tegel;
 
 class TegelTest {
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
+	// ------------------------------------------------------------------
+	// Alle gegevens moeten correct zijn. -------------------------------
+	@ParameterizedTest
+	@ValueSource(ints = { 0, 1, 2, 3 })
+	void speler_GeldigeAantalKroontjes_asserEquals(int aantalKroontjes) {
+		Tegel tegel = new Tegel("Bos", aantalKroontjes);
+		Assertions.assertEquals("Bos", tegel.getLandschap());
+		Assertions.assertEquals(aantalKroontjes, tegel.getKroontjes());
 	}
 
 	// ------------------------------------------------------------------
-	// Alle gegevens moeten correct zijn. -------------------------------
-
-	// ------------------------------------------------------------------
 	// Alle gegevens moeten fout zijn. ----------------------------------
-
+	@ParameterizedTest
+	@ValueSource(ints = { -100, -1, 4, 400 })
+	void speler_OngeldigeLeeftijd_assertThrow(int aantalKroontjes) {
+		assertThrows(IllegalArgumentException.class, () -> new Tegel("Bos", aantalKroontjes));
+	}
 }
