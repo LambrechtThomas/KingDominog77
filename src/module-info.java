@@ -13,4 +13,5 @@ module starterKingdomino {
 	requires javafx.graphics;
 	requires jsch;
 	requires org.junit.jupiter.api;
+	requires org.junit.jupiter.params;
 }
