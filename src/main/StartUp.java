@@ -22,7 +22,7 @@ public class StartUp extends Application {
 			// Scene aan het scherm toevoegen
 			Scene scene = new Scene(root, 500, 300);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Welkom bij JavaFX");
+			primaryStage.setTitle("Beta Kingdominos");
 			primaryStage.show();
 //			primaryStage.setMaximized(true);
 //			primaryStage.setFullScreen(true);

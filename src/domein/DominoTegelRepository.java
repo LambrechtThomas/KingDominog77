@@ -18,6 +18,7 @@ public class DominoTegelRepository {
 
 	// Returnt volledige lijst van dominos
 	public ArrayList<DominoTegel> geefLijstDominos() {
+		// TODO
 		return alleDominos;
 	}
 
