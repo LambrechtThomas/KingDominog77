@@ -86,10 +86,10 @@ public class TweedeSchermTest extends GridPane {
 		btnButton4.setOnAction(evt -> {
 			btnButton4.setVisible(false);
 			txfTitle4.setDisable(true);
+			dc.registreerSpeler(txfTitle4.getText(), 2005);
 
 			txfTitle4.setText(String.format("%s is toegevoegd aan de database.", txfTitle4.getText()));
 
-			dc.registreerSpeler(txfTitle4.getText(), 2005);
 			btnButton4_2.setVisible(true);
 //			this.getScene().setRoot(welkomScherm);
 		});
