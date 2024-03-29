@@ -1,5 +1,6 @@
 package gui;
 
+import domein.DomeinController;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,10 +11,12 @@ public class WelkomScherm extends GridPane {
 
 	private Label lblWelkom;
 	private boolean geefMelding;
+	private DomeinController dc;
 
-	public WelkomScherm() {
+	public WelkomScherm(DomeinController dc) {
+		this.dc = dc;
 		buildGui();
-		TweedeSchermTest tweedescherm = new TweedeSchermTest(this);
+		TweedeSchermTest tweedescherm = new TweedeSchermTest(dc, this);
 	}
 
 	private void buildGui() {
@@ -32,7 +35,7 @@ public class WelkomScherm extends GridPane {
 			// Create an alert object
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 
-			TweedeSchermTest vs = new TweedeSchermTest(this);
+			TweedeSchermTest vs = new TweedeSchermTest(dc, this);
 			this.getScene().setRoot(vs);
 
 			alert.setTitle("[WIP] groep77");

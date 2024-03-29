@@ -1,9 +1,11 @@
 package gui;
 
+import domein.DomeinController;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -13,10 +15,11 @@ public class TweedeSchermTest extends GridPane {
 	private Label lblWelkom;
 	private Button btnTerug;
 	private WelkomScherm welkomScherm;
+	private DomeinController dc;
 
-	public TweedeSchermTest(WelkomScherm welkomScherm) {
+	public TweedeSchermTest(DomeinController dc, WelkomScherm welkomScherm) {
+		this.dc = dc;
 		this.welkomScherm = welkomScherm;
-
 		buildGui();
 
 //		FXMLLoader loader = new FXMLLoader(getClass().getResource("Intermission.fxml"));
@@ -74,14 +77,44 @@ public class TweedeSchermTest extends GridPane {
 		this.add(btnButton3, 1, 2);
 
 		// Vierde rij
-		Label lblTitle4 = new Label("Beta V1");
-		Button btnButton4 = new Button("Terug");
+		Label lblTitle4 = new Label("Gebruiker toevoegen");
+		TextField txfTitle4 = new TextField();
+		Button btnButton4 = new Button("Add");
+		Button btnButton4_2 = new Button("Add new player");
+		btnButton4_2.setVisible(false);
+
 		btnButton4.setOnAction(evt -> {
+			btnButton4.setVisible(false);
+			txfTitle4.setDisable(true);
+
+			txfTitle4.setText(String.format("%s is toegevoegd aan de database.", txfTitle4.getText()));
+
+			dc.registreerSpeler(txfTitle4.getText(), 2005);
+			btnButton4_2.setVisible(true);
+//			this.getScene().setRoot(welkomScherm);
+		});
+
+		btnButton4_2.setOnAction(evt -> {
+			txfTitle4.setText("");
+			btnButton4_2.setVisible(false);
+			btnButton4.setVisible(true);
+			txfTitle4.setDisable(false);
+		});
+
+		this.add(lblTitle4, 0, 3);
+		this.add(txfTitle4, 1, 3);
+		this.add(btnButton4, 2, 3);
+		this.add(btnButton4_2, 2, 3);
+
+		// Vijfde rij
+		Label lblTitle5 = new Label("Beta V1");
+		Button btnButton5 = new Button("Terug");
+		btnButton5.setOnAction(evt -> {
 			this.getScene().setRoot(welkomScherm);
 
 		});
-		this.add(lblTitle4, 0, 3);
-		this.add(btnButton4, 1, 3);
+		this.add(lblTitle5, 1, 4);
+		this.add(btnButton5, 0, 4);
 
 //		lblWelkom = new Label("Voorbeeld van een 2de scherm");
 //		btnTerug = new Button("Back");

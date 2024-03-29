@@ -1,5 +1,6 @@
 package main;
 
+import domein.DomeinController;
 import gui.WelkomScherm;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,10 +18,12 @@ public class StartUp extends Application {
 
 		try {
 			// Scherm aanmaken
-			WelkomScherm root = new WelkomScherm();
+
+			DomeinController dc = new DomeinController();
+			WelkomScherm root = new WelkomScherm(dc);
 
 			// Scene aan het scherm toevoegen
-			Scene scene = new Scene(root, 500, 200);
+			Scene scene = new Scene(root, 750, 250);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Beta Kingdominos");
 			primaryStage.show();
