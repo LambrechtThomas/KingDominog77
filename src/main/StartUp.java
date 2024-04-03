@@ -5,21 +5,23 @@ import gui.WelkomScherm;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ui.MainApp;
 
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
+		new MainApp(new DomeinController()).start();
 		launch(args);
+
 	}
 
-	// Start methode "aanpassen"
+	private DomeinController dc;
+
 	@Override
 	public void start(Stage primaryStage) {
 
 		try {
-			// Scherm aanmaken
-
-			DomeinController dc = new DomeinController();
+			this.dc = new DomeinController();
 			WelkomScherm root = new WelkomScherm(dc);
 
 			// Scene aan het scherm toevoegen
