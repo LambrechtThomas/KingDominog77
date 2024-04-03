@@ -14,6 +14,45 @@ public class MainApp {
 		this.dc = dc;
 	}
 
+	private int aantalMenuOpties = 0;
+
+	private void krijgOpties() {
+		// MENU HIER AANPASSEN
+		String[] options = { //
+				"Speler toevoegen", //
+				"stoppen" //
+		};
+		for (int i = 0; i < options.length; i++) {
+			System.out.println((i + 1) + ". " + options[i]);
+		}
+		aantalMenuOpties = options.length;
+	}
+
+	public void start() {
+
+		int menuGetal = geefGetal();
+		while (menuGetal != aantalMenuOpties) {
+
+			switch (menuGetal) {
+			case 1 -> startRegistratie();
+			}
+
+			menuGetal = geefGetal();
+		}
+		System.out.println("Done: Applicatie sluit af.");
+
+	}
+
+	private int geefGetal() {
+		int getal = 0;
+		do {
+			krijgOpties();
+			System.out.printf("Geef een optie tussen %d en %d: ", 1, aantalMenuOpties);
+			getal = invoer.nextInt();
+		} while (getal <= 0 || getal > aantalMenuOpties);
+		return getal;
+	}
+
 	public void startRegistratie() {
 
 		String naam = vraagNaarNaam();
@@ -32,7 +71,10 @@ public class MainApp {
 			// throw passende melding
 			try {
 				System.out.print("Naam speler: ");
+
 				naam = invoer.nextLine();
+				naam = invoer.nextLine();
+
 				if (naam == null || naam.isBlank()) {
 					throw new IllegalArgumentException("naam kan enkel letters bevatten.");
 				}
