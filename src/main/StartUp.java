@@ -1,16 +1,16 @@
 package main;
 
 import domein.DomeinController;
-import gui.WelkomScherm;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.MainApp;
 
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
-		new MainApp(new DomeinController()).start();
+		// new MainApp(new DomeinController()).start();
 		launch(args);
 
 	}
@@ -22,15 +22,11 @@ public class StartUp extends Application {
 
 		try {
 			this.dc = new DomeinController();
-			WelkomScherm root = new WelkomScherm(dc);
-
-			// Scene aan het scherm toevoegen
-			Scene scene = new Scene(root, 750, 250);
+			Parent root = FXMLLoader.load(getClass().getResource("menuStart.fxml"));
+			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Beta Kingdominos");
 			primaryStage.show();
-//			primaryStage.setMaximized(true);
-//			primaryStage.setFullScreen(true);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
