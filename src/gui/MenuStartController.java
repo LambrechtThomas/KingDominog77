@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SceneController {
+public class MenuStartController {
 
 	private Stage stage;
 	private Scene scene;
@@ -17,15 +17,7 @@ public class SceneController {
 
 	// INFO: sts____ == switchToScene_____
 
-	public void stsStart(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("menuStart.fxml"));
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public void stsLogin(ActionEvent event) throws IOException {
+	public void switchToSceneLogin(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("menuLogin.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -33,7 +25,7 @@ public class SceneController {
 		stage.show();
 	}
 
-	public void stsInstellingen(ActionEvent event) throws IOException {
+	public void switchToSceneInstellingen(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("menuInstellingen.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -41,8 +33,16 @@ public class SceneController {
 		stage.show();
 	}
 
-	public void stsSettings(ActionEvent event) throws IOException {
+	public void switchToSceneSettings(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("menuSettings.fxml"));
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	public void switchToSceneGameBord(ActionEvent event) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("gameBord.fxml"));
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
