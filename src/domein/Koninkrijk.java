@@ -43,4 +43,12 @@ public class Koninkrijk {
 
 		return true;
 	}
+
+	public int berekenOppvervlakte() {
+		return 0;
+	}
+
+	public int berekenScore() {
+		return 0;
+	}
 }
