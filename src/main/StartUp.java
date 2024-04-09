@@ -22,7 +22,7 @@ public class StartUp extends Application {
 
 		try {
 			this.dc = new DomeinController();
-			Parent root = FXMLLoader.load(getClass().getResource("menuStart.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/gui/menuStart.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();

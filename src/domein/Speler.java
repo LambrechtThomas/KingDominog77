@@ -1,5 +1,7 @@
 package domein;
 
+import java.util.ArrayList;
+
 public class Speler {
 	private String gebruikersnaam;
 	private int geboortejaar;
@@ -9,7 +11,21 @@ public class Speler {
 	private Koninkrijk koninkrijk;
 	private KasteelTegel kasteel;
 
-	private int score;
+	private int totaleScore;
+
+	private int moerasScore = 0;
+	private int bosScore = 0;
+	private int grasScore = 0;
+	private int mijnScore = 0;
+	private int waterScore = 0;
+	private int graanScore = 0;
+
+	private ArrayList<ArrayList<Integer>> moerasTegelScores = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> bosTegelScores = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> grasTegelScores = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> mijnTegelScores = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> waterTegelScores = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> graanTegelScores = new ArrayList<>();
 
 	public Speler(String gebruikersnaam, int geboortejaar, int aantalGewonnen, int aantalGespeeld) {
 		setGebruikersnaam(gebruikersnaam);
@@ -73,6 +89,31 @@ public class Speler {
 		this.kleur = kleur;
 	}
 
+	// Setters voor de list<list>
+	public void setMoerasTegelScores(ArrayList<ArrayList<Integer>> moerasTegelScores) {
+		this.moerasTegelScores = moerasTegelScores;
+	}
+
+	public void setBosTegelScores(ArrayList<ArrayList<Integer>> bosTegelScores) {
+		this.bosTegelScores = bosTegelScores;
+	}
+
+	public void setGrasTegelScores(ArrayList<ArrayList<Integer>> grasTegelScores) {
+		this.grasTegelScores = grasTegelScores;
+	}
+
+	public void setMijnTegelScores(ArrayList<ArrayList<Integer>> mijnTegelScores) {
+		this.mijnTegelScores = mijnTegelScores;
+	}
+
+	public void setWaterTegelScores(ArrayList<ArrayList<Integer>> waterTegelScores) {
+		this.waterTegelScores = waterTegelScores;
+	}
+
+	public void setGraanTegelScores(ArrayList<ArrayList<Integer>> graanTegelScores) {
+		this.graanTegelScores = graanTegelScores;
+	}
+
 	// Getters
 	public String getGebruikersnaam() {
 		return gebruikersnaam;
@@ -102,29 +143,68 @@ public class Speler {
 		return kasteel;
 	}
 
-	public int getScore() {
-		return score;
+	public int getTotaleScore() {
+		return totaleScore;
 	}
 
-	// Methodes
-	public void heeftGespeelt() {
-		aantalGespeeld++;
+	public ArrayList<ArrayList<Integer>> getMoerasTegelScores() {
+		return moerasTegelScores;
 	}
 
-	public void heeftGewonnen() {
-		aantalGewonnen++;
+	public ArrayList<ArrayList<Integer>> getBosTegelScores() {
+		return bosTegelScores;
 	}
 
-	public void berekenScore() {
-
+	public ArrayList<ArrayList<Integer>> getGrasTegelScores() {
+		return grasTegelScores;
 	}
 
+	public ArrayList<ArrayList<Integer>> getMijnTegelScores() {
+		return mijnTegelScores;
+	}
+
+	public ArrayList<ArrayList<Integer>> getWaterTegelScores() {
+		return waterTegelScores;
+	}
+
+	public ArrayList<ArrayList<Integer>> getGraanTegelScores() {
+		return graanTegelScores;
+	}
+
+	// plaatst het kasteel in het koningrijk
+	public void plaatsKasteel(int x, int y) {
+		koninkrijk.setKasteel(x, y, kasteel);
+	}
+
+	// plaatst de domino in koningrijk
 	public void plaatsDomino(DominoTegel domino, int rij, int kolom) {
 		koninkrijk.plaatsDomino(domino, rij, kolom);
 	}
 
-	public void plaatsKasteel(int x, int y) {
-		koninkrijk.setKasteel(x, y, kasteel);
+	// bereken score van elk type landschap
+	public void berekenScore() {
+		totaleScore = 0;
+
+		moerasScore = berekenTotaleScoreDomein(bosTegelScores);
+		bosScore = berekenTotaleScoreDomein(bosTegelScores);
+		grasScore = berekenTotaleScoreDomein(bosTegelScores);
+		mijnScore = berekenTotaleScoreDomein(mijnTegelScores);
+		waterScore = berekenTotaleScoreDomein(waterTegelScores);
+		graanScore = berekenTotaleScoreDomein(graanTegelScores);
+
+		totaleScore = moerasScore + bosScore + grasScore + mijnScore + waterScore + graanScore;
+
+	}
+
+	// hulp methode om landschap makkelijker te kunnen berekenen
+	public int berekenTotaleScoreDomein(ArrayList<ArrayList<Integer>> lijst) {
+		int score = 0;
+
+		for (ArrayList<Integer> integers : lijst) {
+			score += integers.get(0) * integers.get(1);
+		}
+
+		return score;
 	}
 
 }
