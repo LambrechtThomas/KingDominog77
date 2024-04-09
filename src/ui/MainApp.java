@@ -1,9 +1,11 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import domein.DomeinController;
+import domein.Kleur;
 
 public class MainApp {
 
@@ -20,6 +22,7 @@ public class MainApp {
 		// MENU HIER AANPASSEN
 		String[] options = { //
 				"Speler toevoegen", //
+				"Spel starten", //
 				"stoppen" //
 		};
 		for (int i = 0; i < options.length; i++) {
@@ -35,11 +38,34 @@ public class MainApp {
 
 			switch (menuGetal) {
 			case 1 -> startRegistratie();
+			case 2 -> startSpel();
 			}
 
 			menuGetal = geefGetal();
 		}
 		System.out.println("Done: Applicatie sluit af.");
+
+	}
+
+	private void startSpel() {
+		System.out.println("Het spel start nu");
+
+		String naam = vraagNaarNaam();
+		int geboortejaar = vraagNaarGeboortjaar();
+
+		// TODO Valideer toevoegen aan vraagNaarNaam() en vraagNaarGeboortjaar()
+		// TODO Gepaste melding weergeven als het fout is.
+		// TODO anders is er geen probleem en gaat het spel verder
+
+		System.out.printf("Welkom %s!%nJe kan nu je kleur kiezen in de beschikbare opties.", naam);
+
+		// TODO: Het spel moet starten
+		dc.startSpel();
+		ArrayList<Kleur> kleuren = dc.geefBeschikbareKleuren();
+
+		for (int i = 0; i < kleuren.size(); i++) {
+			System.out.print(kleuren.get(i));
+		}
 
 	}
 
@@ -57,6 +83,9 @@ public class MainApp {
 
 		String naam = vraagNaarNaam();
 		int jaar = vraagNaarGeboortjaar();
+
+		// TODO controleer of de gebruikersnaam al bestaat
+		// in de juiste classe
 
 		dc.registreerSpeler(naam, jaar);
 
