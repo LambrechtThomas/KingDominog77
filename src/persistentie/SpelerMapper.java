@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import domein.Speler;
 
@@ -55,4 +57,36 @@ public class SpelerMapper {
 		return speler;
 	}
 
+	public ArrayList<Speler> geefSpelers() {
+
+		ArrayList<Speler> spelers = new ArrayList<>();
+		Connectie ssh = new Connectie();
+
+		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC)) {
+			
+			Statement smt = (Statement) conn.createStatement();
+
+			String zoek = "SELECT * FROM ID430019_g77.Speler";
+			
+			ResultSet rs = smt.executeQuery(zoek);
+			
+				if (rs.next()) {
+					do {
+						String gebruikersnaam = rs.getString(1);
+						int geboortejaar = rs.getInt(3);
+						int aantalGewonnen = rs.getInt(6);
+						int aantalGespeeld = rs.getInt(7);
+						
+						spelers.add(new Speler(gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld));
+					} while (rs.next());
+				}
+			
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+
+		ssh.closeConnection();
+		return spelers;
+	}
 }

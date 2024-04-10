@@ -12,7 +12,9 @@ public class Spel {
 
 	private ArrayList<Speler> huidigeSpelers;
 	private Speler koning;
-	private Speler spelerAanbeurt;
+	private ArrayList<Speler> spelersAanbeurt;
+	private ArrayList<Speler> aandeBeurtGeweest;
+	private int ronde;
 
 	private SecureRandom sr;
 
@@ -22,10 +24,11 @@ public class Spel {
 		eindKolom = new ArrayList<>();
 		sr = new SecureRandom();
 		huidigeSpelers = new ArrayList<>();
+		spelersAanbeurt = new ArrayList<>();
+		aandeBeurtGeweest = new ArrayList<>();
 		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet overlappen
 
 		kiesKoning();
-		spelerAanbeurt = koning;
 	}
 
 	// Setters
@@ -49,25 +52,18 @@ public class Spel {
 	public Speler getKoning() {
 		return koning;
 	}
-
-	public Speler getSpelerAanbeurt() {
-		return spelerAanbeurt;
+	
+	public int getRonde() {
+		return ronde;
+	}
+	
+	public ArrayList<Speler> getHuidigeSpelers() {
+		return huidigeSpelers;
 	}
 
 	// Plaats DominoTegel bij speler
 	public void plaatsDominoTegel(Speler speler, DominoTegel domino, int rij, int kolom) {
 		speler.plaatsDomino(domino, rij, kolom);
-	}
-
-	// Duidt de volgende speler aan
-	public void duidVolgendeSpelerAan() {
-		int indexOfSpelerAanBeurt = huidigeSpelers.indexOf(spelerAanbeurt);
-
-		if (indexOfSpelerAanBeurt == huidigeSpelers.size() - 1) {
-			spelerAanbeurt = huidigeSpelers.get(0);
-		} else {
-			spelerAanbeurt = huidigeSpelers.get(++indexOfSpelerAanBeurt);
-		}
 	}
 
 	// Schud het deck
@@ -87,9 +83,20 @@ public class Spel {
 		schud();
 	}
 
-	// Kiest een willekeurige koning (wie mag starten)
+	// Kiest een willekeurige koning
 	public void kiesKoning() {
-		koning = huidigeSpelers.get(sr.nextInt(huidigeSpelers.size()));
+		Speler gekozen;
+		
+		if (spelersAanbeurt.isEmpty()) {
+			spelersAanbeurt.addAll(aandeBeurtGeweest);
+			aandeBeurtGeweest.clear();
+			ronde++;
+		}
+
+		gekozen = spelersAanbeurt.get(sr.nextInt(spelersAanbeurt.size()));
+		spelersAanbeurt.remove(gekozen);
+		aandeBeurtGeweest.add(gekozen);
+		koning = gekozen;
 	}
 
 	// bereken van scores van spelers
@@ -122,6 +129,7 @@ public class Spel {
 
 			return nietGebruikteKleuren;
 		}
+
 	
 	/* //Voegt een spelers toe aan het spel
 	public void voegSpelersToe(ArrayList<Speler> spelers) {

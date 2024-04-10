@@ -8,12 +8,16 @@ public class Koninkrijk {
 	private static Tegel[][] bord;
 
 	public Koninkrijk() {
-
+		bord = new Tegel[rij][kolom];
 	}
 
 	// Zet kasteel in de grid
 	public void setKasteel(int rij, int kolom, KasteelTegel kasteel) {
-		bord[rij][kolom] = kasteel;
+		getBord()[rij][kolom] = kasteel;
+	}
+	
+	public static Tegel[][] getBord() {
+		return bord;
 	}
 
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
@@ -31,7 +35,7 @@ public class Koninkrijk {
 
 	// Checkt of er op die plaats een open spot is
 	public boolean isBezet(int rij, int kolom) {
-		return bord[rij][kolom] == null;
+		return getBord()[rij][kolom] == null;
 	}
 
 	// Checkt of het bord volledig vol is
@@ -55,7 +59,7 @@ public class Koninkrijk {
 		
 		for (int i = 0; i < passeerdeTegel.length; i++) {
 			for (int j = 0; j < passeerdeTegel.length; j++) {
-				if (bord[i][j] != null && bord[i][j].getLandschap().equals(landschap)) {
+				if (getBord()[i][j] != null && getBord()[i][j].getLandschap().equals(landschap)) {
 					passeerdeTegel[i][j] = 1;
 					passeerdeTegelVoorKroon[i][j] = 1;
 				} else {
@@ -65,12 +69,12 @@ public class Koninkrijk {
 			}
 		}
 		
-		for (int i = 0; i < bord.length; i++) {
-			for (int j = 0; j < bord.length; j++) {
+		for (int i = 0; i < getBord().length; i++) {
+			for (int j = 0; j < getBord().length; j++) {
 				ArrayList<Integer> tijdelijkeArray = new ArrayList<>();
 				
 				int grootte = berekenHoeveelheidTegels(passeerdeTegel, i, j);
-				int kroontjes = berekenKroontjes(passeerdeTegelVoorKroon, bord, i, j, 0);
+				int kroontjes = berekenKroontjes(passeerdeTegelVoorKroon, getBord(), i, j, 0);
 				
 				if (grootte > 1 || grootte == 1 && kroontjes >= 1) {
 					tijdelijkeArray.add(grootte);
@@ -122,4 +126,6 @@ public class Koninkrijk {
 		
 		return kroontjes;
 	}
+
+
 }
