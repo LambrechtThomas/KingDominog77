@@ -3,10 +3,13 @@ package gui;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MenuStartController {
@@ -16,6 +19,28 @@ public class MenuStartController {
 	private Parent root;
 
 	// INFO: sts____ == switchToScene_____
+
+	@FXML
+	private Label lblOnderTitel;
+
+	@FXML
+	private Label lblTitel;
+
+	@FXML
+	private Button btnInstelling;
+
+	@FXML
+	private Button btnJoinSpel;
+
+	@FXML
+	private Button btnLogin;
+
+	@FXML
+	private Button btnNieuwSpel;
+
+	public MenuStartController() {
+
+	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("menuLogin.fxml"));
