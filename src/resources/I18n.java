@@ -1,0 +1,20 @@
+package resources;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class I18n {
+	private static final String BUNDLE_NAME = "words_en.properties";
+
+	private ResourceBundle bundle;
+
+	public I18n() {
+		Locale locale = Locale.getDefault();
+		bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+	}
+
+	public String get(String key) {
+		return bundle.getString(key);
+	}
+
+}
