@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import domein.Speler;
 
@@ -53,6 +54,19 @@ public class SpelerMapper {
 
 		ssh.closeConnection();
 		return speler;
+	}
+	
+	public ArrayList<Speler> geefSpelers() {
+		Connectie ssh = new Connectie();
+		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC);
+				PreparedStatement query = conn.prepareStatement("SELECT * FROM ID430019_g77.Speler")) {
+			
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+		ssh.closeConnection();
+		return new ArrayList<Speler>();
 	}
 
 }

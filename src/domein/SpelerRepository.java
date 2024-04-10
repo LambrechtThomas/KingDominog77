@@ -1,5 +1,7 @@
 package domein;
 
+import java.util.ArrayList;
+
 import exceptions.GebruikersnaamInGebruikException;
 import persistentie.SpelerMapper;
 
@@ -18,7 +20,11 @@ public class SpelerRepository {
 		mapper.voegToe(speler);
 	}
 
-	private boolean bestaatSpeler(String gebruikersnaam) {
+	public boolean bestaatSpeler(String gebruikersnaam) {
 		return mapper.geefSpeler(gebruikersnaam) != null;
+	}
+
+	public ArrayList<Speler> geefLijstBestaandeSpelers() {
+		return mapper.geefSpelers();
 	}
 }

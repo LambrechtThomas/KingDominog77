@@ -1,5 +1,6 @@
 package domein;
 
+import java.time.Year;
 import java.util.ArrayList;
 
 public class Speler {
@@ -26,6 +27,9 @@ public class Speler {
 	private ArrayList<ArrayList<Integer>> mijnTegelScores = new ArrayList<>();
 	private ArrayList<ArrayList<Integer>> waterTegelScores = new ArrayList<>();
 	private ArrayList<ArrayList<Integer>> graanTegelScores = new ArrayList<>();
+	
+	private static final int MIN_YEAR = Year.now().getValue() - 121;
+	private static final int MAX_YEAR = Year.now().getValue();
 
 	public Speler(String gebruikersnaam, int geboortejaar, int aantalGewonnen, int aantalGespeeld) {
 		setGebruikersnaam(gebruikersnaam);
@@ -54,9 +58,6 @@ public class Speler {
 	}
 
 	private void setGeboortejaar(int geboortejaar) {
-
-		int MIN_YEAR = 1900;
-		int MAX_YEAR = 2024;
 
 		if (geboortejaar < MIN_YEAR || geboortejaar > MAX_YEAR)
 			throw new IllegalArgumentException(
