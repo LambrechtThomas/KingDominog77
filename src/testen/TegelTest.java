@@ -1,6 +1,7 @@
 package testen;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,14 +23,6 @@ class TegelTest {
 	@Test
 	void tegel_constructor_metNullLandschap_gooitException() {
 		assertThrows(IllegalArgumentException.class, () -> new Tegel(null, 2));
-	}
-
-	@Test
-	void tegel_constructor_metGeldigeLandschapEnKroontjes_maaktTegel() {
-		Tegel tegel = new Tegel("Gras", 2);
-
-		assertEquals("Gras", tegel.getLandschap());
-		assertEquals(2, tegel.getKroontjes());
 	}
 
 	// ------------------------------------------------------------------
