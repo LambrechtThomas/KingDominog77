@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,12 +12,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import resources.I18n;
+import resources.ResourceBundleEx;
 
 public class MenuStartController {
 
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+
+	private I18n i18n;
 
 	// INFO: sts____ == switchToScene_____
 
@@ -40,6 +45,12 @@ public class MenuStartController {
 
 	public MenuStartController() {
 
+	}
+
+	@FXML
+	public void initialize() {
+		ResourceBundleEx ex = null;
+		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "VOORBEELD").toString());
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

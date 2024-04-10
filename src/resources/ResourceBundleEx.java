@@ -10,24 +10,9 @@ public class ResourceBundleEx {
 
 		Locale[] locales = { Locale.ENGLISH, new Locale("nl", "NL"), Locale.FRENCH };
 
-		System.out.println("WELKOM:");
-		for (Locale locale : locales) {
-			getWord(locale, "WELKOM");
-		}
-
-		System.out.println("START:");
-		for (Locale locale : locales) {
-			getWord(locale, "START");
-		}
-
-		System.out.println("STOP:");
-		for (Locale locale : locales) {
-			getWord(locale, "STOP");
-		}
-
 	}
 
-	static void getWord(Locale locale, String key) {
+	public static String getWord(Locale locale, String key) {
 		ResourceBundle words = ResourceBundle.getBundle("resources/words", locale);
 		String value;
 		try {
@@ -36,5 +21,6 @@ public class ResourceBundleEx {
 			value = "Key not found: " + key;
 		}
 		System.out.printf("Locale: %s, Value: %s %n", locale, value);
+		return value;
 	}
 }
