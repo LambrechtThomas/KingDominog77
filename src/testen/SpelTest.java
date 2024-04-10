@@ -1,25 +1,21 @@
 package testen;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import domein.DominoTegel;
 import domein.DominoTegelRepository;
-import domein.Kleur;
-import domein.Koninkrijk;
+import domein.Spel;
 import domein.Speler;
 import domein.Tegel;
-import domein.Spel;
 
 class SpelTest {
 
@@ -27,6 +23,9 @@ class SpelTest {
 	private ArrayList<Speler> spelers; // De spelers in het spel
 	private DominoTegelRepository dominoRepo; // De repository met alle dominotegels
 	private SecureRandom sr; // Een random generator
+
+	private Tegel tegel = new Tegel("mijn", 2);
+	private Tegel[] tegels = { tegel };
 
 	@BeforeEach
 	public void setUp() {
@@ -53,7 +52,8 @@ class SpelTest {
 	void spel_constructor_maaktSpel() {
 		// Controleer of het spel correct is geconstrueerd
 		Assertions.assertNotNull(spel); // Het spel mag niet null zijn
-		Assertions.assertEquals(spelers, spel.getHuidigeSpelers()); // De spelers in het spel moeten overeenkomen met de spelers die we hebben meegegeven
+		Assertions.assertEquals(spelers, spel.getHuidigeSpelers()); // De spelers in het spel moeten overeenkomen met de
+																	// spelers die we hebben meegegeven
 		Assertions.assertNotNull(spel.getKoning()); // Er moet een koning zijn
 		Assertions.assertNotNull(spel.getSpelerAanbeurt()); // Er moet een speler aan de beurt zijn
 	}
@@ -72,14 +72,16 @@ class SpelTest {
 	void spel_setStartKolom_metGeldigeLijst_zetStartKolom() {
 		// Nieuwe startkolom initialiseren
 		ArrayList<DominoTegel> startKolom = new ArrayList<>();
-		startKolom.add(new DominoTegel(1, new Tegel[1])); // ==> Nog niet 100% correct ___ MAURO plz kijk
-		startKolom.add(new DominoTegel(2, new Tegel[1])); // ==> Nog niet 100% correct ___ MAURO plz kijk
+
+		startKolom.add(new DominoTegel(1, tegels)); // ==> Nog niet 100% correct ___ MAURO plz kijk
+		startKolom.add(new DominoTegel(2, tegels)); // ==> Nog niet 100% correct ___ MAURO plz kijk
 
 		// De startkolom van het spel instellen
 		spel.setStartKolom(startKolom);
 
 		// Controleren of de startkolom correct is ingesteld
-		Assertions.assertEquals(startKolom, spel.getStartKolom()); // De startkolom van het spel moet overeenkomen met de startkolom die we hebben meegegeven
+		Assertions.assertEquals(startKolom, spel.getStartKolom()); // De startkolom van het spel moet overeenkomen met
+																	// de startkolom die we hebben meegegeven
 	}
 
 	// ------------------------------------------------------------------
@@ -96,7 +98,8 @@ class SpelTest {
 	void spel_setEindKolom_metGeldigeLijst_zetEindKolom() {
 		// Nieuwe eindkolom initialiseren
 		ArrayList<DominoTegel> eindKolom = new ArrayList<>();
-		eindKolom.add(new DominoTegel(3, new Tegel[1])); // ==> ___ MAURO plz kijk
-		eindKolom.add(new DominoTegel(4, new Tegel[1])); // ==> ___ MAURO plz kijk
+
+		eindKolom.add(new DominoTegel(3, tegels)); // ==> ___ MAURO plz kijk
+		eindKolom.add(new DominoTegel(4, tegels)); // ==> ___ MAURO plz kijk
 	}
 }
