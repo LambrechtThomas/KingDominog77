@@ -109,6 +109,7 @@ public class Spel {
 		koning = huidigeSpelers.get(sr.nextInt(huidigeSpelers.size()));
 	}
 
+	// bereken van scores van spelers
 	public void berekenScores() {
 		for (Speler p : huidigeSpelers) {
 
