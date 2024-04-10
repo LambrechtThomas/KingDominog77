@@ -50,7 +50,7 @@ public class MenuStartController {
 	@FXML
 	public void initialize() {
 		ResourceBundleEx ex = null;
-		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "VOORBEELD").toString());
+		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "START_A_NEW_GAME").toString());
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

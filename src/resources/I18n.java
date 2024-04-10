@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class I18n {
-	private static final String BUNDLE_NAME = "words_en.properties";
+	private static final String BUNDLE_NAME = "messages_en_US.properties";
 
 	private ResourceBundle bundle;
 

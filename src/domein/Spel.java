@@ -26,7 +26,8 @@ public class Spel {
 		huidigeSpelers = new ArrayList<>();
 		spelersAanbeurt = new ArrayList<>();
 		aandeBeurtGeweest = new ArrayList<>();
-		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet overlappen
+		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet
+		// overlappen
 
 		kiesKoning();
 	}
@@ -52,11 +53,11 @@ public class Spel {
 	public Speler getKoning() {
 		return koning;
 	}
-	
+
 	public int getRonde() {
 		return ronde;
 	}
-	
+
 	public ArrayList<Speler> getHuidigeSpelers() {
 		return huidigeSpelers;
 	}
@@ -70,23 +71,23 @@ public class Spel {
 	public void schud() {
 		Collections.shuffle(alleDominos);
 	}
-	
+
 	// De tegels die op tafel liggen
 	public void wisselKolomTegel() {
 		eindKolom = startKolom;
-		
+
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
 			startKolom.add(alleDominos.get(0));
 			alleDominos.remove(0);
 		}
-		
+
 		schud();
 	}
 
 	// Kiest een willekeurige koning
 	public void kiesKoning() {
 		Speler gekozen;
-		
+
 		if (spelersAanbeurt.isEmpty()) {
 			spelersAanbeurt.addAll(aandeBeurtGeweest);
 			aandeBeurtGeweest.clear();
@@ -112,29 +113,31 @@ public class Spel {
 			speler.berekenScore();
 		}
 	}
-	
+
 	// Geeft de beschikbare kleuren terug
-		public ArrayList<Kleur> geefBeschikbareKleuren() {
-			ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
-			ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
+	public ArrayList<Kleur> geefBeschikbareKleuren() {
+		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
+		ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
 
-			for (Speler speler : huidigeSpelers) {
-				gebruikteKleuren.add(speler.getKleur());
-			}
-
-			for (Kleur kleur : Kleur.values()) {
-				if (!gebruikteKleuren.contains(kleur))
-					nietGebruikteKleuren.add(kleur);
-			}
-
-			return nietGebruikteKleuren;
+		for (Speler speler : huidigeSpelers) {
+			gebruikteKleuren.add(speler.getKleur());
 		}
 
-	
-	/* //Voegt een spelers toe aan het spel
-	public void voegSpelersToe(ArrayList<Speler> spelers) {
-		if (spelers.size() < 3 || spelers.size() > 4)
-			throw new IllegalArgumentException();
+		for (Kleur kleur : Kleur.values()) {
+			if (!gebruikteKleuren.contains(kleur))
+				nietGebruikteKleuren.add(kleur);
+		}
+
+		return nietGebruikteKleuren;
 	}
-	*/
+
+	public ArrayList<Speler> getSpelerAanbeurt() {
+		return getHuidigeSpelers();
+	}
+
+	/*
+	 * //Voegt een spelers toe aan het spel public void
+	 * voegSpelersToe(ArrayList<Speler> spelers) { if (spelers.size() < 3 ||
+	 * spelers.size() > 4) throw new IllegalArgumentException(); }
+	 */
 }

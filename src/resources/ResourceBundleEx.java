@@ -8,12 +8,11 @@ public class ResourceBundleEx {
 
 	static public void main(String[] args) {
 
-		Locale[] locales = { Locale.ENGLISH, new Locale("nl", "NL"), Locale.FRENCH };
-
 	}
 
 	public static String getWord(Locale locale, String key) {
-		ResourceBundle words = ResourceBundle.getBundle("resources/words", locale);
+		System.out.println(ResourceBundle.getBundle("resources/", locale).toString());
+		ResourceBundle words = ResourceBundle.getBundle("resources/messages", locale);
 		String value;
 		try {
 			value = words.getString(key);
