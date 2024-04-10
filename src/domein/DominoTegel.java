@@ -15,6 +15,10 @@ public class DominoTegel {
 	public int getVolgnummer() {
 		return volgnummer;
 	}
+	
+	public Tegel[] getTegels() {
+		return tegels;
+	}
 
 	public boolean isHorizontaal() {
 		return horizontaal;
@@ -43,4 +47,5 @@ public class DominoTegel {
 		else
 			spiegeld = true;
 	}
+
 }
