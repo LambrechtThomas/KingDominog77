@@ -8,7 +8,7 @@ public class Koninkrijk {
 	private static Tegel[][] bord;
 
 	public Koninkrijk() {
-
+		bord = new Tegel[rij][kolom];
 	}
 
 	// Zet kasteel in de grid
