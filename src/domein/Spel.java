@@ -60,7 +60,7 @@ public class Spel {
 	}
 
 	// Duidt de volgende speler aan
-	public void duidVolgendeSplerAan() {
+	public void duidVolgendeSpelerAan() {
 		int indexOfSpelerAanBeurt = huidigeSpelers.indexOf(spelerAanbeurt);
 
 		if (indexOfSpelerAanBeurt == huidigeSpelers.size() - 1) {
@@ -87,23 +87,6 @@ public class Spel {
 		schud();
 	}
 
-	// Geeft de beschikbare kleuren terug
-	public ArrayList<Kleur> geefBeschikbareKleuren() {
-		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
-		ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
-
-		for (Speler speler : huidigeSpelers) {
-			gebruikteKleuren.add(speler.getKleur());
-		}
-
-		for (Kleur kleur : Kleur.values()) {
-			if (!gebruikteKleuren.contains(kleur))
-				nietGebruikteKleuren.add(kleur);
-		}
-
-		return nietGebruikteKleuren;
-	}
-
 	// Kiest een willekeurige koning (wie mag starten)
 	public void kiesKoning() {
 		koning = huidigeSpelers.get(sr.nextInt(huidigeSpelers.size()));
@@ -111,10 +94,34 @@ public class Spel {
 
 	// bereken van scores van spelers
 	public void berekenScores() {
-		for (Speler p : huidigeSpelers) {
+		for (Speler speler : huidigeSpelers) {
+			speler.setMoerasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("moeras"));
+			speler.setBosTegelScores(speler.getKoninkrijk().berekenOppvervlakte("bos"));
+			speler.setGrasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("gras"));
+			speler.setMijnTegelScores(speler.getKoninkrijk().berekenOppvervlakte("mijn"));
+			speler.setWaterTegelScores(speler.getKoninkrijk().berekenOppvervlakte("water"));
+			speler.setGraanTegelScores(speler.getKoninkrijk().berekenOppvervlakte("graan"));
 
+			speler.berekenScore();
 		}
 	}
+	
+	// Geeft de beschikbare kleuren terug
+		public ArrayList<Kleur> geefBeschikbareKleuren() {
+			ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
+			ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
+
+			for (Speler speler : huidigeSpelers) {
+				gebruikteKleuren.add(speler.getKleur());
+			}
+
+			for (Kleur kleur : Kleur.values()) {
+				if (!gebruikteKleuren.contains(kleur))
+					nietGebruikteKleuren.add(kleur);
+			}
+
+			return nietGebruikteKleuren;
+		}
 	
 	/* //Voegt een spelers toe aan het spel
 	public void voegSpelersToe(ArrayList<Speler> spelers) {
