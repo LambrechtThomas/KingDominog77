@@ -8,7 +8,10 @@ public class Koninkrijk {
 	private static Tegel[][] bord;
 
 	public Koninkrijk() {
+<<<<<<< Updated upstream
 		bord = new Tegel[rij][kolom];
+=======
+>>>>>>> Stashed changes
 	}
 
 	// Zet kasteel in de grid
