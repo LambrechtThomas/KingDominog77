@@ -63,9 +63,11 @@ public class DomeinController {
 
 			if (keuze == 2) {
 				System.out.println("\n==Speel Spel==");
-				System.out.printf("Er zijn volgende spelers beschikbaar: %s",
-						spelerRepository.geefLijstBestaandeSpelers());
-
+				//System.out.printf("Er zijn volgende spelers beschikbaar: %s",
+				//		spelerRepository.geefLijstBestaandeSpelers());
+				Speler thomas = spelerRepository.geefSpeler("ThomasLambrecht");
+				System.out.printf("%d", thomas.getGeboortejaar());
+				
 				keuze = keuzeMenu();
 			}
 		}
