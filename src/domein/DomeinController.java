@@ -28,7 +28,7 @@ public class DomeinController {
 
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) {
 		// Checken of alles ok is?
-		
+		// TODO
 	}
 
 	public void startSpel() {
