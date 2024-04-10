@@ -103,15 +103,17 @@ class KoninkrijkTest {
 		assertFalse(koninkrijk.isBezet(0, 0));
 	}
 
-	// ------------------------------------------------------------------
+	/// ------------------------------------------------------------------
 	// Tests voor isBordVolzet. --------------------------------------
 
 	@Test
 	void koninkrijk_isBordVolzet_metVolledigBord_isTrue() {
 		for (int i = 0; i < koninkrijk.getBord().length; i++) {
 			for (int j = 0; j < koninkrijk.getBord().length; j++) {
-				koninkrijk.getBord()[i][j];
-			}
+				koninkrijk.getBord()[i][j] = new Tegel("mijn", 1);
 			}
 		}
+
+		assertTrue(koninkrijk.isBordVolzet());
 	}
+}
