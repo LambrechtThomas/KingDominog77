@@ -1,8 +1,6 @@
 package domein;
 
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import DTO.spelerDTO;
 
@@ -14,11 +12,10 @@ public class DomeinController {
 	private ArrayList<Speler> deelnemendeSpelers;
 	private ArrayList<Speler> beschikbareSpelers;
 
-	private Scanner input;
+	
 
 	public DomeinController() {
 		spelerRepository = new SpelerRepository();
-		input = new Scanner(System.in);
 	}
 
 	public void registreerSpeler(String gebruikersnaam, int geboortejaar) {
@@ -27,8 +24,14 @@ public class DomeinController {
 	}
 
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) {
-		// Checken of alles ok is?
-		// TODO
+		if (spelerRepository.bestaatSpeler(speler.gebruikersnaam())) {
+			Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
+			deelNemendeSpeler.setKleur(kleur);
+			
+			deelnemendeSpelers.add(deelNemendeSpeler);
+		} else {
+			//throw new IllegalArgumentException();
+		}
 	}
 
 	public void startSpel() {
@@ -37,98 +40,51 @@ public class DomeinController {
 		huidigSpel = new Spel(deelnemendeSpelers);
 	}
 
-//	public ArrayList<SpelerDTO> geefBeschikbareSpelers() {
-//
-//	}
-
-	public ArrayList<Kleur> geefBeschikbareKleuren() {
-		return huidigSpel.geefBeschikbareKleuren();
+	// Geeft een lijst van spelerDTO's terug
+	public ArrayList<spelerDTO> geefBeschikbareSpelers() {
+		ArrayList<spelerDTO> beschikbareSpelersDTO = new ArrayList<>();
+		ArrayList<Speler> beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
+		
+		if (!deelnemendeSpelers.isEmpty())
+			beschikbareSpelers.removeAll(deelnemendeSpelers);
+		
+		for (Speler speler : beschikbareSpelers) {
+			beschikbareSpelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+		}
+		
+		return beschikbareSpelersDTO;
 	}
 
-	// public SpelerDTO geefSpelerAanbeurt() {}
+	// Geeft de beschikbare kleuren terug
+		public ArrayList<Kleur> geefBeschikbareKleuren() {
+			ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
+			ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
 
-	public void startConsoleGame() {
-		System.out.print("Welkom bij KINGDOMINO !! \n");
-		int keuze = keuzeMenu();
-
-		while (keuze != 3) {
-			if (keuze == 1) {
-				System.out.println("\n==Registeer een Speler==");
-				String gebruikersnaam = vraagGebruikersnaam();
-				int gebrootedatum = vraagGebrooteDatum();
-				spelerRepository.voegToe(new Speler(gebruikersnaam, gebrootedatum, 0, 0));
-
-				keuze = keuzeMenu();
+			for (Speler speler : deelnemendeSpelers) {
+				gebruikteKleuren.add(speler.getKleur());
 			}
 
-			if (keuze == 2) {
-				System.out.println("\n==Speel Spel==");
-				//System.out.printf("Er zijn volgende spelers beschikbaar: %s",
-				//		spelerRepository.geefLijstBestaandeSpelers());
-				Speler thomas = spelerRepository.geefSpeler("ThomasLambrecht");
-				System.out.printf("%d", thomas.getGeboortejaar());
-				
-				keuze = keuzeMenu();
+			for (Kleur kleur : Kleur.values()) {
+				if (!gebruikteKleuren.contains(kleur))
+					nietGebruikteKleuren.add(kleur);
 			}
+
+			return nietGebruikteKleuren;
 		}
 
-		System.out.printf("%n%n==Stopping==");
-
+	public boolean bestaatSpeler(String gebruikersnaam) {
+		return spelerRepository.bestaatSpeler(gebruikersnaam);
 	}
 
-	public int keuzeMenu() {
-		int keuze;
-		boolean fout = false;
-
-		do {
-			if (fout)
-				System.out.println("\nGelieve een geldige nummer in tegeven");
-
-			System.out.print("\n==Menu==\n");
-			System.out.printf("1: Registeer Speler %n2: Speel spel %n3: Stop %n%n");
-			System.out.printf("welke keuze?? ");
-			keuze = input.nextInt();
-
-			fout = true;
-		} while (keuze < 1 || keuze > 3);
-
-		return keuze;
+	public spelerDTO geefSpelerAanbeurt() {
+		if (huidigSpel == null) {
+			// throw new IllegalArgumentException();
+		}
+		Speler koning = huidigSpel.getKoning();
+		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(), koning.getAantalGespeeld());
 	}
-
-	private String vraagGebruikersnaam() {
-		String gebruikersnaam;
-		boolean fout = false;
-		input.nextLine();
-		boolean correct = false;
-
-		do {
-			if (fout)
-				System.out.println("\nGelieve een geldige naam in te geven");
-
-			System.out.printf("%nGeef je gebruikersnaam in: ");
-			gebruikersnaam = input.nextLine();
-
-			fout = true;
-		} while (gebruikersnaam == null || gebruikersnaam.isBlank() || spelerRepository.bestaatSpeler(gebruikersnaam));
-
-		return gebruikersnaam;
+	
+	private void haalSpelersOp() {
+		
 	}
-
-	private int vraagGebrooteDatum() {
-		int gebrootedatum;
-		boolean fout = false;
-
-		do {
-			if (fout)
-				System.out.println("\nGelieve een geldige datum in te geven");
-
-			System.out.printf("%nGeef je geboortedatum: ");
-			gebrootedatum = input.nextInt();
-
-			fout = true;
-		} while (gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue());
-
-		return gebrootedatum;
-	}
-
 }

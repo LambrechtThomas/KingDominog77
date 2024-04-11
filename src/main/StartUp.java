@@ -11,7 +11,7 @@ public class StartUp extends Application {
 
 	public static void main(String[] args) {
 		// new MainApp(new DomeinController()).start();
-		launch(args);
+		//launch(args);
 		// new DomeinController().startConsoleGame();
 
 	}
