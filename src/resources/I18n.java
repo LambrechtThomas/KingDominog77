@@ -4,11 +4,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class I18n {
-<<<<<<< Updated upstream
-	private static final String BUNDLE_NAME = "messages_en_US.properties";
-=======
+
 	private static final String BUNDLE_NAME = "messages_en_GB.properties";
->>>>>>> Stashed changes
 
 	private ResourceBundle bundle;
 

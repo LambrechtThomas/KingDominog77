@@ -22,4 +22,9 @@ public class ResourceBundlex {
 		System.out.printf("Locale: %s, Value: %s %n", locale, value);
 		return value;
 	}
+
+	public Object getMessage(Locale locale, String string) {
+
+		return null;
+	}
 }

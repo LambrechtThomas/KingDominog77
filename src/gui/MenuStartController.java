@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import resources.I18n;
-import resources.ResourceBundle;
+import resources.TaalManager;
 
 public class MenuStartController {
 
@@ -44,12 +44,25 @@ public class MenuStartController {
 	private Button btnNieuwSpel;
 
 	@FXML
+	/*
+	 * public void initialize() { ResourceBundlex ex = null;
+	 * 
+	 * lblTitel.setText(ex.getWord(new Locale("nl", "NL"),
+	 * "START_A_NEW_GAME").toString());
+	 * 
+	 * lblTitel.setText(ex.getMessage(new Locale("en", "GB"), "LOGIN").toString());
+	 * }
+	 */
 	public void initialize() {
-		ResourceBundle ex = null;
+		taalManager = new TaalManager(); // Initialize TaalManager
+		updateLabels(); // Update labels based on current language
+	}
 
-		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "START_A_NEW_GAME").toString());
-
-		lblTitel.setText(ex.getMessage(new Locale("en", "GB"), "LOGIN").toString());
+	private void updateLabels() {
+		Locale locale = taalManager.getLocale(); // Get current locale
+		lblTitel.setText(taalManager.getText("START_A_NEW_GAME", locale));
+		lblOnderTitel.setText(taalManager.getText("LOGIN", locale));
+		// Update other labels based on the current locale
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
