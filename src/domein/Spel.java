@@ -33,11 +33,11 @@ public class Spel {
 	}
 
 	// Setters
-	private void setStartKolom(ArrayList<DominoTegel> startKolom) {
+	public void setStartKolom(ArrayList<DominoTegel> startKolom) {
 		this.startKolom = startKolom;
 	}
 
-	private void setEindKolom(ArrayList<DominoTegel> eindKolom) {
+	public void setEindKolom(ArrayList<DominoTegel> eindKolom) {
 		this.eindKolom = eindKolom;
 	}
 

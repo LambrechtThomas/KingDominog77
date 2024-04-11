@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import resources.I18n;
 import resources.TaalManager;
+
 
 public class MenuStartController {
 
