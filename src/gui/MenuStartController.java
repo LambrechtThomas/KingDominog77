@@ -43,14 +43,14 @@ public class MenuStartController {
 	@FXML
 	private Button btnNieuwSpel;
 
-	public MenuStartController() {
-
-	}
-
 	@FXML
 	public void initialize() {
 		ResourceBundleEx ex = null;
+<<<<<<< Updated upstream
 		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "START_A_NEW_GAME").toString());
+=======
+		lblTitel.setText(ex.getMessage(new Locale("en", "GB"), "LOGIN").toString());
+>>>>>>> Stashed changes
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

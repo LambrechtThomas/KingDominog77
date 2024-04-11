@@ -10,12 +10,17 @@ public class ResourceBundleEx {
 
 	}
 
+<<<<<<< Updated upstream
 	public static String getWord(Locale locale, String key) {
 		System.out.println(ResourceBundle.getBundle("resources/", locale).toString());
 		ResourceBundle words = ResourceBundle.getBundle("resources/messages", locale);
+=======
+	public static String getMessage(Locale locale, String key) {
+		ResourceBundle messages = ResourceBundle.getBundle("resources/messages", locale);
+>>>>>>> Stashed changes
 		String value;
 		try {
-			value = words.getString(key);
+			value = messages.getString(key);
 		} catch (MissingResourceException e) {
 			value = "Key not found: " + key;
 		}
