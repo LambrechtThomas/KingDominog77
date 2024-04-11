@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import resources.TaalManager;
 
 public class MainController implements Initializable {
 
@@ -32,9 +34,4 @@ public class MainController implements Initializable {
 		}
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
-	}
 }

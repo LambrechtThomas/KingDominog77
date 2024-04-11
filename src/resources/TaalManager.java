@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class LanguageManager {
+public class TaalManager {
 
 	private final Map<String, ResourceBundle> bundles;
 	private String currentLanguage;
 
-	public LanguageManager() {
+	public TaalManager() {
 		bundles = new HashMap<>();
 		bundles.put("nl", ResourceBundle.getBundle("nl"));
 		bundles.put("en", ResourceBundle.getBundle("en"));
