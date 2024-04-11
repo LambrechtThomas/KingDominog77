@@ -16,7 +16,7 @@ public class Koninkrijk {
 		getBord()[rij][kolom] = kasteel;
 	}
 	
-	public static Tegel[][] getBord() {
+	public Tegel[][] getBord() {
 		return bord;
 	}
 
