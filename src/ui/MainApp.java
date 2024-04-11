@@ -1,148 +1,104 @@
 package ui;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import domein.DomeinController;
 import domein.Kleur;
+import domein.Speler;
 
 public class MainApp {
 
 	private Scanner invoer = new Scanner(System.in);
 	DomeinController dc;
+	private Scanner input;
 
 	public MainApp(DomeinController dc) {
 		this.dc = dc;
+		input = new Scanner(System.in);
 	}
 
-	private int aantalMenuOpties = 0;
+	public void startConsoleGame() {
+		System.out.print("Welkom bij KINGDOMINO !! \n");
+		int keuze = keuzeMenu();
 
-	private void krijgOpties() {
-		// MENU HIER AANPASSEN
-		String[] options = { //
-				"Speler toevoegen", //
-				"Spel starten", //
-				"stoppen" //
-		};
-		for (int i = 0; i < options.length; i++) {
-			System.out.println((i + 1) + ". " + options[i]);
-		}
-		aantalMenuOpties = options.length;
-	}
+		while (keuze != 3) {
+			if (keuze == 1) {
+				System.out.println("\n==Registeer een Speler==");
+				String gebruikersnaam = vraagGebruikersnaam();
+				int gebrootedatum = vraagGebrooteDatum();
+				dc.registreerSpeler(gebruikersnaam, keuze);
 
-	public void start() {
-
-		int menuGetal = geefGetal();
-		while (menuGetal != aantalMenuOpties) {
-
-			switch (menuGetal) {
-			case 1 -> startRegistratie();
-			case 2 -> startSpel();
+				keuze = keuzeMenu();
 			}
 
-			menuGetal = geefGetal();
+			if (keuze == 2) {
+				System.out.println("\n==Speel Spel==");
+				System.out.printf("Er zijn volgende spelers beschikbaar: %s", dc.geefBeschikbareSpelers());
+				
+				keuze = keuzeMenu();
+			}
 		}
-		System.out.println("Done: Applicatie sluit af.");
+
+		System.out.printf("%n%n==Stopping==");
 
 	}
 
-	private void startSpel() {
-		System.out.println("Het spel start nu");
+	public int keuzeMenu() {
+		int keuze;
+		boolean fout = false;
 
-		String naam = vraagNaarNaam();
-		int geboortejaar = vraagNaarGeboortjaar();
-
-		// TODO Valideer toevoegen aan vraagNaarNaam() en vraagNaarGeboortjaar()
-		// TODO Gepaste melding weergeven als het fout is.
-		// TODO anders is er geen probleem en gaat het spel verder
-
-		System.out.printf("Welkom %s!%nJe kan nu je kleur kiezen in de beschikbare opties.", naam);
-
-		// TODO: Het spel moet starten
-		dc.startSpel();
-		ArrayList<Kleur> kleuren = dc.geefBeschikbareKleuren();
-
-		for (int i = 0; i < kleuren.size(); i++) {
-			System.out.print(kleuren.get(i));
-		}
-
-	}
-
-	private int geefGetal() {
-		int getal = 0;
 		do {
-			krijgOpties();
-			System.out.printf("Geef een optie tussen %d en %d: ", 1, aantalMenuOpties);
-			getal = invoer.nextInt();
-		} while (getal <= 0 || getal > aantalMenuOpties);
-		return getal;
+			if (fout)
+				System.out.println("\nGelieve een geldige nummer in tegeven");
+
+			System.out.print("\n==Menu==\n");
+			System.out.printf("1: Registeer Speler %n2: Speel spel %n3: Stop %n%n");
+			System.out.printf("welke keuze?? ");
+			keuze = input.nextInt();
+
+			fout = true;
+		} while (keuze < 1 || keuze > 3);
+
+		return keuze;
 	}
 
-	public void startRegistratie() {
-
-		String naam = vraagNaarNaam();
-		int jaar = vraagNaarGeboortjaar();
-
-		// TODO controleer of de gebruikersnaam al bestaat
-		// in de juiste classe
-
-		dc.registreerSpeler(naam, jaar);
-
-	}
-
-	// Methodes
-
-	private String vraagNaarNaam() {
-		String naam;
+	private String vraagGebruikersnaam() {
+		String gebruikersnaam;
+		boolean fout = false;
+		input.nextLine();
 		boolean correct = false;
-		do {// probeerd blok of invulling naam voldoet aan parrameters in if blok zo niet
-			// throw passende melding
-			try {
-				System.out.print("Naam speler: ");
 
-				naam = invoer.nextLine();
-				naam = invoer.nextLine();
-
-				if (naam == null || naam.isBlank()) {
-					throw new IllegalArgumentException("naam kan enkel letters bevatten.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("geen geldige String ingevuld. Porbeer opnieuw.");
-				return vraagNaarNaam();
-			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
-				return vraagNaarNaam();
-			}
-			correct = true;
-		} while (!correct);
-		return naam;
-	}
-
-	private int vraagNaarGeboortjaar() {
-		int jaar = 0;
-		boolean correct = false;
 		do {
-			try {
-				// probeerd blok of invulling jaar voldoet aan parrameters in if blok zo niet
-				// throw passende melding
-				System.out.print("Geboortejaar: ");
-				jaar = invoer.nextInt();
-				if (jaar < 1900 || jaar > 2024) {
-					throw new IllegalArgumentException("Geboortejaar moet tussen 1900 en 2024 liggen.");
-				}
-			} catch (InputMismatchException e) {
+			if (fout)
+				System.out.println("\nGelieve een geldige naam in te geven");
 
-				System.err.println("Geen geldig getal ingevoerd. Probeer opnieuw.");
+			System.out.printf("%nGeef je gebruikersnaam in: ");
+			gebruikersnaam = input.nextLine();
 
-			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
+			fout = true;
+		} while (gebruikersnaam == null || gebruikersnaam.isBlank() || dc.bestaatSpeler(gebruikersnaam));
 
-			}
-			correct = true;
-		} while (!correct);
-		return jaar;
+		return gebruikersnaam;
+	}
 
+	private int vraagGebrooteDatum() {
+		int gebrootedatum;
+		boolean fout = false;
+
+		do {
+			if (fout)
+				System.out.println("\nGelieve een geldige datum in te geven");
+
+			System.out.printf("%nGeef je geboortedatum: ");
+			gebrootedatum = input.nextInt();
+
+			fout = true;
+		} while (gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue());
+
+		return gebrootedatum;
 	}
 
 }

@@ -64,21 +64,17 @@ public class SpelerMapper {
 
 		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC)) {
 			
-			Statement smt = (Statement) conn.createStatement();
-
+			Statement stmt = (Statement) conn.createStatement();
 			String zoek = "SELECT * FROM ID430019_g77.Speler";
+			ResultSet rs = stmt.executeQuery(zoek);
 			
-			ResultSet rs = smt.executeQuery(zoek);
-			
-				if (rs.next()) {
-					do {
-						String gebruikersnaam = rs.getString(1);
-						int geboortejaar = rs.getInt(3);
-						int aantalGewonnen = rs.getInt(6);
-						int aantalGespeeld = rs.getInt(7);
+				while (rs.next()) {
+						String gebruikersnaam = rs.getString("gebruikersnaam");
+						int geboortejaar = rs.getInt("geboortejaar");
+						int aantalGewonnen = rs.getInt("aantalGewonnen");
+						int aantalGespeeld = rs.getInt("aantalGespeeld");
 						
 						spelers.add(new Speler(gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld));
-					} while (rs.next());
 				}
 			
 
