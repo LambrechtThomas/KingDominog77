@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import resources.I18n;
-import resources.ResourceBundleEx;
+import resources.ResourceBundle;
 
 public class MenuStartController {
 
@@ -45,12 +45,11 @@ public class MenuStartController {
 
 	@FXML
 	public void initialize() {
-		ResourceBundleEx ex = null;
-<<<<<<< Updated upstream
+		ResourceBundle ex = null;
+
 		lblTitel.setText(ex.getWord(new Locale("nl", "NL"), "START_A_NEW_GAME").toString());
-=======
+
 		lblTitel.setText(ex.getMessage(new Locale("en", "GB"), "LOGIN").toString());
->>>>>>> Stashed changes
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

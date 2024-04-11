@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class ResourceBundle {
+public class ResourceBundlex {
 
 	static public void main(String[] args) {
 
@@ -12,11 +12,7 @@ public class ResourceBundle {
 
 	public static String getWord(Locale locale, String key) {
 		System.out.println(ResourceBundle.getBundle("resources/", locale).toString());
-		ResourceBundle words = ResourceBundle.getBundle("resources/messages", locale);
-
-	public static String getMessage(Locale locale, String key) {
 		ResourceBundle messages = ResourceBundle.getBundle("resources/messages", locale);
-
 		String value;
 		try {
 			value = messages.getString(key);
