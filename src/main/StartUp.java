@@ -12,8 +12,8 @@ import ui.MainApp;
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
-		//launch(args);
-		new MainApp(new DomeinController()).startConsoleGame();;
+		launch(args);
+		// new MainApp(new DomeinController()).startConsoleGame();;
 
 
 	}

@@ -101,6 +101,7 @@ public class MainApp {
 			System.out.printf("Het is aan %s: %n", koning.gebruikersnaam());
 
 			int keuze = printDominos(startKolom);
+			dc.kiesNieuweKoning();
 		}
 
 	}
