@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Spel {
-	private DominoTegelRepository DominoRepo;
 	private ArrayList<DominoTegel> startKolom;
 	private ArrayList<DominoTegel> eindKolom;
 	private ArrayList<DominoTegel> alleDominos;
@@ -18,19 +17,40 @@ public class Spel {
 
 	private SecureRandom sr;
 
+<<<<<<< Updated upstream
 	// Nieuw spel starten => variabelen instellen die later nodig zijn in het spel
 	public Spel(ArrayList<Speler> huidigeSpelers) {
 		DominoRepo = new DominoTegelRepository();
+=======
+	public Spel(ArrayList<Speler> huidigeSpelers, ArrayList<DominoTegel> alleDominos) {
+		this.alleDominos = alleDominos;
+>>>>>>> Stashed changes
 		startKolom = new ArrayList<>();
 		eindKolom = new ArrayList<>();
+		
 		sr = new SecureRandom();
-		huidigeSpelers = new ArrayList<>();
+		
+		this.huidigeSpelers = huidigeSpelers;
 		spelersAanbeurtTeKomen = new ArrayList<>();
 		aandeBeurtGeweest = new ArrayList<>();
+<<<<<<< Updated upstream
 		// Moet nog gechecked worden als er 3-4 mensen spelen / en als kleuren niet
+=======
+		spelersAanbeurtTeKomen.addAll(this.huidigeSpelers);
+		ronde = 1;
+		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet
+>>>>>>> Stashed changes
 		// overlappen
 
 		kiesKoning();
+		schud();
+		
+		for (int i = 0; i < huidigeSpelers.size(); i++) {
+			int randomGetal = sr.nextInt(alleDominos.size());
+			DominoTegel domino = alleDominos.get(randomGetal);
+			startKolom.add(domino);
+			alleDominos.remove(domino);
+		}
 	}
 
 	// Setters
@@ -75,7 +95,10 @@ public class Spel {
 
 	// De tegels die op tafel liggen (start/eindkolom)
 	public void wisselKolomTegel() {
-		eindKolom = startKolom;
+		eindKolom.clear();
+		eindKolom.addAll(alleDominos);
+		
+		startKolom.clear();
 
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
 			startKolom.add(alleDominos.get(0));
@@ -93,6 +116,8 @@ public class Spel {
 			spelersAanbeurtTeKomen.addAll(aandeBeurtGeweest);
 			aandeBeurtGeweest.clear();
 			ronde++;
+			
+			wisselKolomTegel();
 		}
 
 		gekozen = spelersAanbeurtTeKomen.get(sr.nextInt(spelersAanbeurtTeKomen.size()));

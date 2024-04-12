@@ -1,24 +1,40 @@
 package domein;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class DominoTegelRepository {
-	private ArrayList<DominoTegel> alleDominos;
+	private ArrayList<DominoTegel> dominos;
+	private SecureRandom rs;
 
 	public DominoTegelRepository() {
+		dominos = new ArrayList<DominoTegel>();
+		rs = new SecureRandom();
+		
+		genereerDominos();
 	}
 
 	// Returnt de eerste domino op het deck
 	public DominoTegel geefDomino() {
-		DominoTegel eersteTegel = alleDominos.get(0);
-		alleDominos.remove(0);
+		DominoTegel eersteTegel = dominos.get(0);
+		dominos.remove(0);
 
 		return eersteTegel;
 	}
 
+<<<<<<< Updated upstream
 	// Returnt volledige lijst van de domino's
 	public ArrayList<DominoTegel> geefLijstDominos() {
 		// TODO
+=======
+	// Returnt volledige lijst van dominos
+	public ArrayList<DominoTegel> geefLijstDominos(int aantalSpelers) {
+		ArrayList<DominoTegel> alleDominos = new ArrayList<>();
+		alleDominos.addAll(dominos);
+		for (int i = 0; i < 48 - aantalSpelers * 12; i++) {
+			alleDominos.remove(rs.nextInt(alleDominos.size()));
+		}
+>>>>>>> Stashed changes
 		return alleDominos;
 	}
 
@@ -34,7 +50,11 @@ public class DominoTegelRepository {
 	// Hardcoded methode die alle 48 unieke dominotegels + tegels (landschap, aantal
 	// kroontjes) aanmaakt
 	private void genereerDominos() {
+<<<<<<< Updated upstream
 		ArrayList<DominoTegel> dominos = new ArrayList<DominoTegel>();
+=======
+		dominos.clear();
+>>>>>>> Stashed changes
 		dominos.add(new DominoTegel(1, new Tegel[] { new Tegel("graan", 0), new Tegel("graan", 0) }));
 		dominos.add(new DominoTegel(2, new Tegel[] { new Tegel("graan", 0), new Tegel("graan", 0) }));
 		dominos.add(new DominoTegel(3, new Tegel[] { new Tegel("bos", 0), new Tegel("bos", 0) }));

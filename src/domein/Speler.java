@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class Speler {
 	private String gebruikersnaam;
 	private int geboortejaar;
-	private int aantalGewonnen, aantalGespeeld;
+	private int aantalGewonnen;
+	private int aantalGespeeld;
 	private Kleur kleur;
 
 	private Koninkrijk koninkrijk;

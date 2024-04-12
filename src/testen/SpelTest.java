@@ -42,7 +42,8 @@ class SpelTest {
 		sr = new SecureRandom();
 
 		// Spel initialiseren met de spelers
-		spel = new Spel(spelers);
+		ArrayList<DominoTegel> lijstDomino = new ArrayList<>();
+		spel = new Spel(spelers, lijstDomino);
 	}
 
 	// ------------------------------------------------------------------

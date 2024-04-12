@@ -6,11 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ui.MainApp;
 
 // StartUp class om de GUI op te stellen via FXML
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
+<<<<<<< Updated upstream
 		// new MainApp(new DomeinController()).start();
 
 		launch(args);
@@ -18,6 +20,10 @@ public class StartUp extends Application {
 		// launch(args);
 
 		// new DomeinController().startConsoleGame();
+=======
+		//launch(args);
+		new MainApp(new DomeinController()).startConsoleGame();;
+>>>>>>> Stashed changes
 
 	}
 
