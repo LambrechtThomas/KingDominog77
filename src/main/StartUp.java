@@ -12,18 +12,9 @@ import ui.MainApp;
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
-<<<<<<< Updated upstream
-		// new MainApp(new DomeinController()).start();
-
-		launch(args);
-
-		// launch(args);
-
-		// new DomeinController().startConsoleGame();
-=======
 		//launch(args);
 		new MainApp(new DomeinController()).startConsoleGame();;
->>>>>>> Stashed changes
+
 
 	}
 

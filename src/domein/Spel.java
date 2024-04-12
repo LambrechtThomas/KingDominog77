@@ -17,14 +17,10 @@ public class Spel {
 
 	private SecureRandom sr;
 
-<<<<<<< Updated upstream
+
 	// Nieuw spel starten => variabelen instellen die later nodig zijn in het spel
-	public Spel(ArrayList<Speler> huidigeSpelers) {
-		DominoRepo = new DominoTegelRepository();
-=======
 	public Spel(ArrayList<Speler> huidigeSpelers, ArrayList<DominoTegel> alleDominos) {
 		this.alleDominos = alleDominos;
->>>>>>> Stashed changes
 		startKolom = new ArrayList<>();
 		eindKolom = new ArrayList<>();
 		
@@ -33,15 +29,10 @@ public class Spel {
 		this.huidigeSpelers = huidigeSpelers;
 		spelersAanbeurtTeKomen = new ArrayList<>();
 		aandeBeurtGeweest = new ArrayList<>();
-<<<<<<< Updated upstream
-		// Moet nog gechecked worden als er 3-4 mensen spelen / en als kleuren niet
-=======
 		spelersAanbeurtTeKomen.addAll(this.huidigeSpelers);
 		ronde = 1;
-		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet
->>>>>>> Stashed changes
-		// overlappen
-
+		
+		// Moet nog gechecked worden als er 3-4 mensen spelen / en als kleuren niet
 		kiesKoning();
 		schud();
 		

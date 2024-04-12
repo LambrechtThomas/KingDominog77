@@ -22,11 +22,7 @@ public class DominoTegelRepository {
 		return eersteTegel;
 	}
 
-<<<<<<< Updated upstream
-	// Returnt volledige lijst van de domino's
-	public ArrayList<DominoTegel> geefLijstDominos() {
-		// TODO
-=======
+
 	// Returnt volledige lijst van dominos
 	public ArrayList<DominoTegel> geefLijstDominos(int aantalSpelers) {
 		ArrayList<DominoTegel> alleDominos = new ArrayList<>();
@@ -34,7 +30,6 @@ public class DominoTegelRepository {
 		for (int i = 0; i < 48 - aantalSpelers * 12; i++) {
 			alleDominos.remove(rs.nextInt(alleDominos.size()));
 		}
->>>>>>> Stashed changes
 		return alleDominos;
 	}
 
@@ -50,11 +45,8 @@ public class DominoTegelRepository {
 	// Hardcoded methode die alle 48 unieke dominotegels + tegels (landschap, aantal
 	// kroontjes) aanmaakt
 	private void genereerDominos() {
-<<<<<<< Updated upstream
-		ArrayList<DominoTegel> dominos = new ArrayList<DominoTegel>();
-=======
 		dominos.clear();
->>>>>>> Stashed changes
+
 		dominos.add(new DominoTegel(1, new Tegel[] { new Tegel("graan", 0), new Tegel("graan", 0) }));
 		dominos.add(new DominoTegel(2, new Tegel[] { new Tegel("graan", 0), new Tegel("graan", 0) }));
 		dominos.add(new DominoTegel(3, new Tegel[] { new Tegel("bos", 0), new Tegel("bos", 0) }));
