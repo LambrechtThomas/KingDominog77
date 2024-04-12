@@ -1,8 +1,9 @@
 package testen;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,13 +11,12 @@ import org.junit.jupiter.api.Test;
 import domein.DominoTegel;
 import domein.KasteelTegel;
 import domein.Koninkrijk;
-import domein.Kleur;
 import domein.Tegel;
 
 class KoninkrijkTest {
 
 	private Koninkrijk koninkrijk;
-	
+
 	private Tegel tegel = new Tegel("mijn", 2);
 	private Tegel[] tegels = { tegel };
 

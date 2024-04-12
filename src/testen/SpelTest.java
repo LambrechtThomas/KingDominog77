@@ -55,7 +55,7 @@ class SpelTest {
 		Assertions.assertEquals(spelers, spel.getHuidigeSpelers()); // De spelers in het spel moeten overeenkomen met de
 																	// spelers die we hebben meegegeven
 		Assertions.assertNotNull(spel.getKoning()); // Er moet een koning zijn
-		
+
 	}
 
 	// ------------------------------------------------------------------

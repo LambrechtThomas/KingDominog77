@@ -11,20 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import resources.I18n;
 import resources.ResourceBundleEx;
-import resources.TaalManager;
-
 
 public class MenuStartController {
-
 
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	ResourceBundleEx ex;
-
-	private I18n i18n;
 
 	// INFO: sts____ == switchToScene_____
 
