@@ -3,6 +3,10 @@ package domein;
 import java.time.Year;
 import java.util.ArrayList;
 
+// Speler aanmaken met attributen: 
+// gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld, kleur
+// Scores van aparte landschappen wordt bijgehouden
+
 public class Speler {
 	private String gebruikersnaam;
 	private int geboortejaar;
@@ -27,7 +31,7 @@ public class Speler {
 	private ArrayList<ArrayList<Integer>> mijnTegelScores = new ArrayList<>();
 	private ArrayList<ArrayList<Integer>> waterTegelScores = new ArrayList<>();
 	private ArrayList<ArrayList<Integer>> graanTegelScores = new ArrayList<>();
-	
+
 	private static final int MIN_YEAR = Year.now().getValue() - 121;
 	private static final int MAX_YEAR = Year.now().getValue();
 
@@ -49,6 +53,8 @@ public class Speler {
 	}
 
 	// Setters
+
+	// Check gebruikersnaam: mag enkel letters bevatten
 	private void setGebruikersnaam(String gebruikersnaam) {
 
 		if (gebruikersnaam == null || gebruikersnaam.isBlank())
@@ -57,6 +63,7 @@ public class Speler {
 		this.gebruikersnaam = gebruikersnaam;
 	}
 
+	// Check geboortejaar: moet tussen (Huidig jaar - 121 en Huidig jaar) liggen
 	private void setGeboortejaar(int geboortejaar) {
 
 		if (geboortejaar < MIN_YEAR || geboortejaar > MAX_YEAR)
@@ -66,6 +73,7 @@ public class Speler {
 		this.geboortejaar = geboortejaar;
 	}
 
+	// Check aantalGewonnen: niet negatief
 	private void setAantalGewonnen(int aantalGewonnen) {
 
 		if (aantalGewonnen < 0)
@@ -74,6 +82,7 @@ public class Speler {
 		this.aantalGewonnen = aantalGewonnen;
 	}
 
+	// Check aantalGespeeld: niet negatief
 	private void setAantalGespeeld(int aantalGespeeld) {
 
 		if (aantalGespeeld < 0)
@@ -82,6 +91,8 @@ public class Speler {
 		this.aantalGespeeld = aantalGespeeld;
 	}
 
+	// Check kleur: kleur geselecteerd
+	// wat als kleur overlapt met kleur van andere speler?
 	public void setKleur(Kleur kleur) {
 
 		if (kleur == null)
@@ -172,17 +183,18 @@ public class Speler {
 		return graanTegelScores;
 	}
 
-	// plaatst het kasteel in het koningrijk
+	// plaatst het kasteel in het koninkrijk
 	public void plaatsKasteel(int x, int y) {
 		koninkrijk.setKasteel(x, y, kasteel);
 	}
 
-	// plaatst de domino in koningrijk
+	// plaatst de domino in koninkrijk
 	public void plaatsDomino(DominoTegel domino, int rij, int kolom) {
 		koninkrijk.plaatsDomino(domino, rij, kolom);
 	}
 
-	// bereken score van elk type landschap
+	// Bereken de scores van de aparte landschappen en voeg ze samen voor de
+	// eindscore
 	public void berekenScore() {
 		totaleScore = 0;
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import domein.Speler;
 
+// Verschillende tests of de speler juiste parameters geeft
 class SpelerTest {
 	private Speler speler;
 

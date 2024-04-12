@@ -15,7 +15,7 @@ public class DominoTegel {
 	public int getVolgnummer() {
 		return volgnummer;
 	}
-	
+
 	public Tegel[] getTegels() {
 		return tegels;
 	}
@@ -28,10 +28,7 @@ public class DominoTegel {
 		return spiegeld;
 	}
 
-	// Draai de domino
-	// Horizontaal of verticaal
-	// De domino draait met de klok mee
-	// En tegenkloks terug
+	// Draai de domino horizontaal of verticaal met de klok mee of tegenkloks terug
 	public void draai() {
 		if (horizontaal)
 			horizontaal = false;
@@ -39,8 +36,7 @@ public class DominoTegel {
 			horizontaal = true;
 	}
 
-	// Spiegel de domino
-	// Draait de domino 180°
+	// Spiegel de domino door deze 180° te draaien
 	public void spiegel() {
 		if (spiegeld)
 			spiegeld = false;
