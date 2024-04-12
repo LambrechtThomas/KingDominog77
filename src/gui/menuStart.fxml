@@ -9,6 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MenuStartController">
    <children>
+   
       <Button fx:id="btnLogin" layoutX="59.0" layoutY="257.0" mnemonicParsing="false" onAction="#switchToSceneLogin" text="Login" />
       <ImageView fitHeight="174.0" fitWidth="379.0" layoutX="111.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
          <image>
