@@ -11,24 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-<<<<<<< Updated upstream
-import resources.I18n;
 import resources.ResourceBundleEx;
-import resources.TaalManager;
-
-=======
-import resources.I18N;
->>>>>>> Stashed changes
 
 public class MenuStartController {
-
 
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	ResourceBundleEx ex;
-
-	private I18N i18n;
 
 	// INFO: sts____ == switchToScene_____
 

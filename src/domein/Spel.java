@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Spel {
-	private DominoTegelRepository DominoRepo;
 	private ArrayList<DominoTegel> startKolom;
 	private ArrayList<DominoTegel> eindKolom;
 	private ArrayList<DominoTegel> alleDominos;
@@ -18,18 +17,31 @@ public class Spel {
 
 	private SecureRandom sr;
 
-	public Spel(ArrayList<Speler> huidigeSpelers) {
-		DominoRepo = new DominoTegelRepository();
+
+	// Nieuw spel starten => variabelen instellen die later nodig zijn in het spel
+	public Spel(ArrayList<Speler> huidigeSpelers, ArrayList<DominoTegel> alleDominos) {
+		this.alleDominos = alleDominos;
 		startKolom = new ArrayList<>();
 		eindKolom = new ArrayList<>();
+		
 		sr = new SecureRandom();
-		huidigeSpelers = new ArrayList<>();
+		
+		this.huidigeSpelers = huidigeSpelers;
 		spelersAanbeurtTeKomen = new ArrayList<>();
 		aandeBeurtGeweest = new ArrayList<>();
-		// Moet nog gechecked worden als er 3 tot 4 mensen spelen / en als kleueren niet
-		// overlappen
-
+		spelersAanbeurtTeKomen.addAll(this.huidigeSpelers);
+		ronde = 1;
+		
+		// Moet nog gechecked worden als er 3-4 mensen spelen / en als kleuren niet
 		kiesKoning();
+		schud();
+		
+		for (int i = 0; i < huidigeSpelers.size(); i++) {
+			int randomGetal = sr.nextInt(alleDominos.size());
+			DominoTegel domino = alleDominos.get(randomGetal);
+			startKolom.add(domino);
+			alleDominos.remove(domino);
+		}
 	}
 
 	// Setters
@@ -62,7 +74,7 @@ public class Spel {
 		return huidigeSpelers;
 	}
 
-	// Plaats DominoTegel bij speler
+	// Plaats DominoTegel in de grid van een bepaalde speler
 	public void plaatsDominoTegel(Speler speler, DominoTegel domino, int rij, int kolom) {
 		speler.plaatsDomino(domino, rij, kolom);
 	}
@@ -72,9 +84,12 @@ public class Spel {
 		Collections.shuffle(alleDominos);
 	}
 
-	// De tegels die op tafel liggen
+	// De tegels die op tafel liggen (start/eindkolom)
 	public void wisselKolomTegel() {
-		eindKolom = startKolom;
+		eindKolom.clear();
+		eindKolom.addAll(alleDominos);
+		
+		startKolom.clear();
 
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
 			startKolom.add(alleDominos.get(0));
@@ -84,7 +99,7 @@ public class Spel {
 		schud();
 	}
 
-	// Kiest een willekeurige koning
+	// Kiest een willekeurige koning uit het spel
 	public void kiesKoning() {
 		Speler gekozen;
 
@@ -92,6 +107,8 @@ public class Spel {
 			spelersAanbeurtTeKomen.addAll(aandeBeurtGeweest);
 			aandeBeurtGeweest.clear();
 			ronde++;
+			
+			wisselKolomTegel();
 		}
 
 		gekozen = spelersAanbeurtTeKomen.get(sr.nextInt(spelersAanbeurtTeKomen.size()));
@@ -100,7 +117,8 @@ public class Spel {
 		koning = gekozen;
 	}
 
-	// bereken van scores van spelers
+	// Berekenen van de scores van aparte landschappen om deze daarna via
+	// "berekenScore" op te tellen
 	public void berekenScores() {
 		for (Speler speler : huidigeSpelers) {
 			speler.setMoerasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("moeras"));

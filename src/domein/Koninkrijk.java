@@ -7,6 +7,7 @@ public class Koninkrijk {
 	private static final int kolom = 5;
 	private static Tegel[][] bord;
 
+	// Een array voor de grid aanmaken
 	public Koninkrijk() {
 		bord = new Tegel[rij][kolom];
 	}
@@ -15,17 +16,19 @@ public class Koninkrijk {
 	public void setKasteel(int rij, int kolom, KasteelTegel kasteel) {
 		getBord()[rij][kolom] = kasteel;
 	}
-	
+
 	public Tegel[][] getBord() {
 		return bord;
 	}
 
+	// Dominotegel op de grid plaatsen volgens xy coördinaten
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
 		// TODO
 	}
 
-	// Checkt of het landschap hetzelfde is
-	// Juist tegel1 checken voor null want null.getLandschap() geeft fout
+	// Checkt of het landschap hetzelfde is, zoniet dan kan de tegel niet geplaatst
+	// worden
+	// Juist de tegel1 checken voor null want null.getLandschap() geeft fout
 	public boolean isZelfdeTegel(Tegel tegel1, Tegel tegel2) {
 		if (tegel1 != null)
 			return tegel1.getLandschap().equals(tegel2);
@@ -38,7 +41,8 @@ public class Koninkrijk {
 		return getBord()[rij][kolom] == null;
 	}
 
-	// Checkt of het bord volledig vol is
+	// Checkt of het bord volledig vol is door gebruik te maken van de methode
+	// "isBezet" en elke rij en kolom af te gaan
 	public boolean isBordVolzet() {
 		for (int i = 0; i < rij; i++) {
 			for (int j = 0; j < kolom; j++) {
@@ -50,13 +54,15 @@ public class Koninkrijk {
 		return true;
 	}
 
-	// geeft een raster terug met oppervlakte en kronen
+	// Geeft een arraylist terug die de grootte van de landschappen(oppervlakte) en
+	// het aantal kroontjes per landschap bevat
+	// Dit wordt gebruikt om de punten te berekenen
 	public ArrayList<ArrayList<Integer>> berekenOppvervlakte(String landschap) {
-		ArrayList<ArrayList<Integer>> oppervlakte =  new ArrayList<>();
-		
+		ArrayList<ArrayList<Integer>> oppervlakte = new ArrayList<>();
+
 		int[][] passeerdeTegel = new int[rij][kolom];
 		int[][] passeerdeTegelVoorKroon = new int[rij][kolom];
-		
+
 		for (int i = 0; i < passeerdeTegel.length; i++) {
 			for (int j = 0; j < passeerdeTegel.length; j++) {
 				if (getBord()[i][j] != null && getBord()[i][j].getLandschap().equals(landschap)) {
@@ -68,64 +74,64 @@ public class Koninkrijk {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < getBord().length; i++) {
 			for (int j = 0; j < getBord().length; j++) {
 				ArrayList<Integer> tijdelijkeArray = new ArrayList<>();
-				
+
 				int grootte = berekenHoeveelheidTegels(passeerdeTegel, i, j);
 				int kroontjes = berekenKroontjes(passeerdeTegelVoorKroon, getBord(), i, j, 0);
-				
+
 				if (grootte > 1 || grootte == 1 && kroontjes >= 1) {
 					tijdelijkeArray.add(grootte);
 					tijdelijkeArray.add(kroontjes);
-					
+
 				} else if (tijdelijkeArray.size() > 0) {
 					oppervlakte.add(tijdelijkeArray);
 				}
 			}
 		}
-		
+
 		return oppervlakte;
 	}
 
 	// bereken hoeveel 1tjes in het grid zitten
+	// hoeveel eentjes in vlak???
 	private int berekenHoeveelheidTegels(int[][] grid, int i, int j) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)
 			throw new IllegalArgumentException();
 		// Nakijken of input klopt
-		
+
 		if (grid[i][j] == 0)
 			return 0;
-		
+
 		grid[i][j] = 0;
 		int teller = 1;
 		teller += berekenHoeveelheidTegels(grid, i + 1, j);
 		teller += berekenHoeveelheidTegels(grid, i - 1, j);
 		teller += berekenHoeveelheidTegels(grid, i, j + 1);
 		teller += berekenHoeveelheidTegels(grid, i, j - 1);
-		
+
 		return teller;
 	}
 
-	// Berekent de som van kroontjes van het opppervlakte
+	// Berekent de som van kroontjes van de opppervlakte
 	public int berekenKroontjes(int[][] grid, Tegel[][] bord, int i, int j, int kroontjes) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)
 			throw new IllegalArgumentException();
 		// Nakijken of input klopt
-		
+
 		if (grid[i][j] == 0)
 			return 0;
-		
+
 		grid[i][j] = 0;
 		kroontjes = bord[i][j].getKroontjes();
 		kroontjes += berekenKroontjes(grid, bord, i + 1, j, bord[i][j].getKroontjes());
 		kroontjes += berekenKroontjes(grid, bord, i - 1, j, bord[i][j].getKroontjes());
 		kroontjes += berekenKroontjes(grid, bord, i, j + 1, bord[i][j].getKroontjes());
 		kroontjes += berekenKroontjes(grid, bord, i, j - 1, bord[i][j].getKroontjes());
-		
+
 		return kroontjes;
 	}
-
 
 }
