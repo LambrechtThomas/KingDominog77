@@ -10,7 +10,6 @@ public class Tegel {
 
 	public Tegel(String landschap, int kroontjes) {
 
-		// Check Tegel: kroontjes tussen 0 en 3
 		if (kroontjes < MIN_AANTAL_KROONTJES || kroontjes > MAX_AANTAL_KROONTJES)
 			throw new IllegalArgumentException(String.format("Een tegel moet tussen %d en %d kroontjes hebben",
 					MIN_AANTAL_KROONTJES, MAX_AANTAL_KROONTJES));

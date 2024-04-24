@@ -13,7 +13,6 @@ public class SpelerRepository {
 		mapper = new SpelerMapper();
 	}
 
-	// Check bestaatSpeler: kijkt of de speler al bestaat, zoja throw exception
 	public void voegToe(Speler speler) {
 		if (bestaatSpeler(speler.getGebruikersnaam()))
 			throw new GebruikersnaamInGebruikException();
@@ -24,7 +23,7 @@ public class SpelerRepository {
 	public boolean bestaatSpeler(String gebruikersnaam) {
 		return mapper.geefSpeler(gebruikersnaam) != null;
 	}
-
+	
 	public Speler geefSpeler(String gebruikersnaam) {
 		return mapper.geefSpeler(gebruikersnaam);
 	}
