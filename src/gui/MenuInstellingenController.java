@@ -51,6 +51,7 @@ public class MenuInstellingenController {
 		btnEnglish.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent event) {
 		        vertaal.veranderTaal("en");
+		        switchToSceneStart(stage);
 		    }
 		});
 	}
