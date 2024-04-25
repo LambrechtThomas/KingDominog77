@@ -25,9 +25,6 @@ public class MenuStartController {
 	private Label lblOnderTitel;
 
 	@FXML
-	private Label lblTitel;
-
-	@FXML
 	private Button btnInstelling;
 
 	@FXML
@@ -44,7 +41,7 @@ public class MenuStartController {
 
 		btnLogin.setText(vertaal.geefWoord("LOGIN"));
 
-		btnInstelling.setText(vertaal.geefWoord("INSTELLINGEN"));
+		btnInstelling.setText(vertaal.geefWoord("SETTINGS"));
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

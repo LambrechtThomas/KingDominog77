@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
+import taalmanager.vertaal;
 
 public class gameBordController {
 	private Stage stage;
@@ -119,6 +120,24 @@ public class gameBordController {
 
 	@FXML
 	private ProgressBar pbProgressie;
+
+	public void initialize() {
+
+		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
+
+		btnRoteer.setText(vertaal.geefWoord("MIRROR"));
+
+		btnSpeelveldSpelerDrie.setText(vertaal.geefWoord("PLAYER_3"));
+
+		btnSpeelveldSpelerEen.setText(vertaal.geefWoord("PLAYER_1"));
+
+		btnSpeelveldSpelerTwee.setText(vertaal.geefWoord("PLAYER_2"));
+
+		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
+
+		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
+
+	}
 
 	@FXML
 	public void switchToSceneStart(ActionEvent event) throws IOException {
