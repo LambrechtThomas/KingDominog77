@@ -10,6 +10,7 @@ import taalmanager.vertaal;
 import ui.MainApp;
 
 public class StartUp extends Application {
+	private DomeinController dc;
 
 	public static void main(String[] args) {
 
@@ -19,12 +20,10 @@ public class StartUp extends Application {
 		vertaal.veranderTaal("en");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
-		new MainApp(new DomeinController()).startConsoleGame();
+		// new MainApp(new DomeinController()).startConsoleGame();
 		launch(args);
 
 	}
-
-	private DomeinController dc;
 
 	@Override
 	public void start(Stage primaryStage) {
