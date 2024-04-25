@@ -8,6 +8,12 @@ public class Tegel {
 	private final String landschap;
 	private final int kroontjes;
 
+	/**
+	 * Maak een tegel aan met daarbij het landschap en het aantal kroontjes
+	 * 
+	 * @param landschap
+	 * @param kroontjes
+	 */
 	public Tegel(String landschap, int kroontjes) {
 
 		// Check Tegel: kroontjes tussen 0 en 3

@@ -8,7 +8,6 @@ import DTO.spelerDTO;
 import exceptions.GebruikersnaamInGebruikException;
 import exceptions.SpelBestaatNietException;
 import exceptions.SpelerDoetAlMeeException;
-import persistentie.SpelerMapper;
 
 public class DomeinController {
 
@@ -27,7 +26,14 @@ public class DomeinController {
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
 	}
 
-	// registeert een speler in de databank
+	/**
+	 * Speler registreren door new Speler en dan parmeters (naam, geboortejaar) mee
+	 * te geven. Daarna toevoegen aan spelerRepository
+	 * 
+	 * @param gebruikersnaam naam speler
+	 * @param geboortejaar   geboortejaar speler
+	 */
+
 	public void registreerSpeler(String gebruikersnaam, int geboortejaar) {
 		checkVoorGebruikersNaam(gebruikersnaam);
 		checkAlsSpelerAlMeeDoet(gebruikersnaam);
@@ -37,7 +43,14 @@ public class DomeinController {
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
 	}
 
-	// Voeg een speler toe aan de huidige deelname lijst (spel is nog niet gemaakt)
+	/**
+	 * Speler uit de repository halen als deze meedoet aan het spel. Daarna speler
+	 * een kleur toewijzen
+	 * 
+	 * @param speler (gebruikersnaam, geboortejaar) van de gebruiker
+	 * @param kleur  Kleur van de Koning
+	 */
+
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) {
 		checkOfSpelerNietBestaat(speler);
 
@@ -55,6 +68,9 @@ public class DomeinController {
 	}
 
 	// Checked of spel gedaan is (spel kan nooit verder dan ronde 13 gaan)
+
+	// check of er 13 rondes gespeeld zijn en eindig dan het spel
+
 	public boolean isSpelTenEinde() {
 		checkVoorHuidigSpel();
 
@@ -65,6 +81,7 @@ public class DomeinController {
 	}
 
 	// Geeft weer hoeveel spelers er spelen
+
 	public int geefAantalSpelers() {
 		checkVoorHuidigSpel();
 
@@ -72,6 +89,14 @@ public class DomeinController {
 	}
 
 	// Deze geeft een lijst terug van spelerDTO, deze spelers zitten in spel
+
+	/**
+	 * Maak een spelerDTO aan voor elke speler. Voeg deze spelerDTO toe aan
+	 * spelersDTO
+	 * 
+	 * @return een arraylist spelersDTO
+	 */
+
 	public ArrayList<spelerDTO> geefDeelnemendeSpelers() {
 		checkVoorHuidigSpel();
 
@@ -86,7 +111,13 @@ public class DomeinController {
 		return spelersDTO;
 	}
 
-	// Geeft een lijst van spelerDTO's terug
+	/**
+	 * Als er beschikbare spelers zijn, verwijder dan alle deelnemende spelers uit
+	 * beschikbare spelers Maak een spelerDTO aan voor elke speler in het actief
+	 * spel. Voeg deze spelerDTO toe aan beschikbareSpelersDTO
+	 * 
+	 * @return Geeft een lijst van spelerDTO's terug
+	 */
 	public ArrayList<spelerDTO> geefBeschikbareSpelers() {
 		ArrayList<spelerDTO> beschikbareSpelersDTO = new ArrayList<>();
 
@@ -101,7 +132,12 @@ public class DomeinController {
 		return beschikbareSpelersDTO;
 	}
 
-	// Geeft de beschikbare kleuren terug
+	/**
+	 * Voeg elke gebruikte kleur toe aan een arraylist Voeg elke niet gebruikte
+	 * kleur toe aan een arraylist afhv gebruikteKleuren
+	 * 
+	 * @return Geeft de niet gebruikte kleuren terug
+	 */
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
 		ArrayList<Kleur> nietGebruikteKleuren = new ArrayList<>();
@@ -118,12 +154,16 @@ public class DomeinController {
 		return nietGebruikteKleuren;
 	}
 
-	// Checked of speler bestaat
+	// Checked of de gebruikersnaam al bestaat in de spelerRepository
 	public boolean bestaatSpeler(String gebruikersnaam) {
 		return spelerRepository.bestaatSpeler(gebruikersnaam);
 	}
 
-	// Geeft het eerste kolom terug
+	/**
+	 * Zet de startkolom om in een arraylist van dominotegelDTO's
+	 * 
+	 * @return geeft de startkolom
+	 */
 	public ArrayList<dominoTegelDTO> geefStartKolom() {
 		checkVoorHuidigSpel();
 
@@ -154,6 +194,7 @@ public class DomeinController {
 	}
 
 	// Vraagt aan spel welke ronde we zitten
+
 	public int getRonde() {
 		checkVoorHuidigSpel();
 
@@ -175,20 +216,22 @@ public class DomeinController {
 		if (!spelerRepository.bestaatSpeler(speler.gebruikersnaam()))
 			throw new SpelBestaatNietException();
 	}
-	
+
 	private void checkAlsSpelerAlMeeDoet(String gebruikersnaam) {
-		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam()).collect(Collectors.toList());
+		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam())
+				.collect(Collectors.toList());
 		if (deelname.contains(gebruikersnaam))
 			throw new SpelerDoetAlMeeException();
-		
+
 	}
-	
+
 	private void CheckOfSpelKlaarIsGezet() {
 		if (deelnemendeSpelers.size() < 3 || deelnemendeSpelers.size() > 4)
 			throw new IllegalArgumentException();
-		
-		ArrayList<Kleur> kleuren = (ArrayList<Kleur>) deelnemendeSpelers.stream().map(v -> v.getKleur()).distinct().collect(Collectors.toList());
-		
+
+		ArrayList<Kleur> kleuren = (ArrayList<Kleur>) deelnemendeSpelers.stream().map(v -> v.getKleur()).distinct()
+				.collect(Collectors.toList());
+
 		if (kleuren.size() != deelnemendeSpelers.size())
 			throw new IllegalArgumentException();
 	}

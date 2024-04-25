@@ -26,9 +26,14 @@ public class Koninkrijk {
 		// TODO
 	}
 
-	// Checkt of het landschap hetzelfde is, zoniet dan kan de tegel niet geplaatst
-	// worden
-	// Juist de tegel1 checken voor null want null.getLandschap() geeft fout
+	/**
+	 * Kijk na of tegel1 hetzelfde landschap heeft als tegel2 Gebruikt voor het
+	 * plaatsen van een domino naast een andere domino
+	 * 
+	 * @param tegel1
+	 * @param tegel2
+	 * @return true als de tegels een gelijk landschap hebben
+	 */
 	public boolean isZelfdeTegel(Tegel tegel1, Tegel tegel2) {
 		if (tegel1 != null)
 			return tegel1.getLandschap().equals(tegel2);
@@ -41,8 +46,11 @@ public class Koninkrijk {
 		return getBord()[rij][kolom] == null;
 	}
 
-	// Checkt of het bord volledig vol is door gebruik te maken van de methode
-	// "isBezet" en elke rij en kolom af te gaan
+	/**
+	 * Kijkt na of het bord volzet is
+	 * 
+	 * @return false als het bord niet volzet is
+	 */
 	public boolean isBordVolzet() {
 		for (int i = 0; i < rij; i++) {
 			for (int j = 0; j < kolom; j++) {
@@ -54,9 +62,14 @@ public class Koninkrijk {
 		return true;
 	}
 
-	// Geeft een arraylist terug die de grootte van de landschappen(oppervlakte) en
-	// het aantal kroontjes per landschap bevat
-	// Dit wordt gebruikt om de punten te berekenen
+	/**
+	 * Berekent de grootte van de oppervlakte van een bepaald landschap + bereken
+	 * het aantal kroontjes Zet deze in een tijdelijke array Voeg deze tijdelijke
+	 * array van grootte, aantal kroontjes toe in oppervlakte
+	 * 
+	 * @param landschap bevat het landschap van de tegel en aantal kroontjes
+	 * @return de totale oppervlakte van elk landschap
+	 */
 	public ArrayList<ArrayList<Integer>> berekenOppvervlakte(String landschap) {
 		ArrayList<ArrayList<Integer>> oppervlakte = new ArrayList<>();
 
@@ -95,8 +108,16 @@ public class Koninkrijk {
 		return oppervlakte;
 	}
 
-	// bereken hoeveel 1tjes in het grid zitten
-	// hoeveel eentjes in vlak???
+	// =============================================================
+	// Thomas please maak hier de comments
+	// =============================================================
+	/**
+	 * 
+	 * @param grid
+	 * @param i
+	 * @param j
+	 * @return
+	 */
 	private int berekenHoeveelheidTegels(int[][] grid, int i, int j) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)
 			throw new IllegalArgumentException();
@@ -115,7 +136,21 @@ public class Koninkrijk {
 		return teller;
 	}
 
-	// Berekent de som van kroontjes van de opppervlakte
+	// ===============================================================
+	// Hoe wordt hier gezocht op landschap? Nergens terug te vinden
+	// ===============================================================
+
+	/**
+	 * Bereken het aantal kroontjes door het bord af te gaan, zoekende naar een
+	 * specifiek landschap
+	 * 
+	 * @param grid      de 5x5 van een specifiek landschap
+	 * @param bord      de hele 5x5 van het spel
+	 * @param i         de x coördinaten van het bord
+	 * @param j         de y coördinaten van het bord
+	 * @param kroontjes
+	 * @return het aantal kroontjes
+	 */
 	public int berekenKroontjes(int[][] grid, Tegel[][] bord, int i, int j, int kroontjes) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)
 			throw new IllegalArgumentException();
