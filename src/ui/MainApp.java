@@ -37,7 +37,7 @@ public class MainApp {
 		System.out.print("\n\n== " + vertaal.geefWoord("WELCOME_BACK") + " == \n");
 		int keuze = keuzeMenu();
 
-		while (keuze != 3) {
+		while (keuze != 4) {
 			if (keuze == 1) {
 				startRegistratie();
 			}
@@ -54,11 +54,6 @@ public class MainApp {
 		}
 
 		System.out.print("\n\n== " + vertaal.geefWoord("STOP") + " == \n");
-	}
-
-	private void startTaalVerandering() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public int keuzeMenu() {
@@ -101,9 +96,7 @@ public class MainApp {
 			System.out.printf("%n%s %d%n", vertaal.geefWoord("ROUND"), dc.getRonde());
 
 			speelRonde();
-
 		}
-
 	}
 
 	private void speelRonde() {
@@ -197,8 +190,6 @@ public class MainApp {
 		int teller = 1;
 		for (Kleur kleur : beschikbareKleueren) {
 			System.out.printf("%d: %s %n", teller++, kleur);
-			// vertalen???
-
 		}
 
 		int gekozenKleur = vraagEenGetal(1, beschikbareKleueren.size());
@@ -257,6 +248,22 @@ public class MainApp {
 		return gebrootedatum;
 	}
 
+	private void startTaalVerandering() {
+		System.out.printf("%s %n1: %s %n2: %s %n3: %s%n", vertaal.geefWoord("TALEN"), "English", "Nederlands", "Français");
+		int gekozenGetal = vraagEenGetal(1, 3);
+		switch(gekozenGetal) {
+		case 1:
+			vertaal.veranderTaal("en");
+			break;
+		case 2:
+			vertaal.veranderTaal("nl");
+			break;
+		case 3:
+			vertaal.veranderTaal("fr");
+			break;
+		}
+	}
+	
 	public int vraagEenGetal(int ondergrens, int bovengrens) {
 		int getal;
 		boolean fout = false;
