@@ -2,7 +2,7 @@ package domein;
 
 public class KasteelTegel extends Tegel {
 
-	// KasteelTegel is gewoon een Tegel maar heeft de attributen niet
+	// KasteelTegel is een tegel zonder de attributen(landschap,kronen) van één
 	// Dit representeert de tegel waar het kasteel staat
 
 	public KasteelTegel() {

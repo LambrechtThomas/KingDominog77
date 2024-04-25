@@ -10,7 +10,7 @@ public class DominoTegelRepository {
 	public DominoTegelRepository() {
 		dominos = new ArrayList<DominoTegel>();
 		rs = new SecureRandom();
-
+		
 		genereerDominos();
 	}
 
@@ -21,6 +21,7 @@ public class DominoTegelRepository {
 
 		return eersteTegel;
 	}
+
 
 	// Returnt volledige lijst van dominos
 	public ArrayList<DominoTegel> geefLijstDominos(int aantalSpelers) {

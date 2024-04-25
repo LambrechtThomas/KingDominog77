@@ -44,27 +44,26 @@ public class DomeinController {
 
 		huidigSpel = new Spel(deelnemendeSpelers, dominoRepo.geefLijstDominos(deelnemendeSpelers.size()));
 	}
-
+	
 	public boolean isSpelTenEinde() {
 		if (huidigSpel.getRonde() == 13)
 			return true;
-
+		
 		return false;
 	}
-
+	
 	public int geefAantalSpelers() {
 		return huidigSpel.getHuidigeSpelers().size();
 	}
-
+	
 	public ArrayList<spelerDTO> geefDeelnemendeSpelers() {
 		ArrayList<Speler> spelers = huidigSpel.getHuidigeSpelers();
 		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
-
+		
 		for (Speler speler : spelers) {
-			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
-					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
 		}
-
+		
 		return spelersDTO;
 	}
 
@@ -109,11 +108,11 @@ public class DomeinController {
 	public ArrayList<dominoTegelDTO> geefStartKolom() {
 		ArrayList<dominoTegelDTO> startKolom = new ArrayList<>();
 		ArrayList<DominoTegel> startKolomDomino = huidigSpel.getStartKolom();
-
-		for (DominoTegel d : startKolomDomino) {
+		
+		for(DominoTegel d : startKolomDomino) {
 			startKolom.add(new dominoTegelDTO(d.getVolgnummer(), d.getTegels(), d.isHorizontaal(), d.isSpiegeld()));
 		}
-
+		
 		return startKolom;
 	}
 
@@ -126,12 +125,12 @@ public class DomeinController {
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
 				koning.getAantalGespeeld());
 	}
-
+	
 	// Kiest een nieuwe koning
 	public void kiesNieuweKoning() {
 		huidigSpel.kiesKoning();
 	}
-
+	
 	public int getRonde() {
 		return huidigSpel.getRonde();
 	}
