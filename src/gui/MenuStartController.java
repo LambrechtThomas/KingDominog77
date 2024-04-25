@@ -31,9 +31,6 @@ public class MenuStartController {
 	private Button btnInstelling;
 
 	@FXML
-	private Button btnJoinSpel;
-
-	@FXML
 	private Button btnLogin;
 
 	@FXML
@@ -43,9 +40,11 @@ public class MenuStartController {
 
 	public void initialize() {
 
-		lblTitel.setText(vertaal.geefWoord("START_A_NEW_GAME"));
+		btnNieuwSpel.setText(vertaal.geefWoord("START_A_NEW_GAME"));
 
-		lblTitel.setText(vertaal.geefWoord("LOGIjN"));
+		btnLogin.setText(vertaal.geefWoord("LOGIN"));
+
+		btnInstelling.setText(vertaal.geefWoord("INSTELLINGEN"));
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
