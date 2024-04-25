@@ -1,0 +1,17 @@
+.root{
+    -fx-background-color: black;
+}
+
+.button{
+    -fx-text-fill: white;
+    -fx-background-color: #fcbe00;
+    -fx-border-radius: 5;
+    -fx-border-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+.button:hover {
+  -fx-background-color: #d3aa00;  /* Change background color on hover /
+  -fx-cursor: hand;  / Change cursor to hand on hover */
+}
