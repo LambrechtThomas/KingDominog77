@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
@@ -28,6 +29,9 @@ public class MenuInstellingenController {
 	    
 	    @FXML
 	    private Button btnTerugNaarStart;
+
+	    @FXML
+	    private Label lbInstellingen;
 	
 	public void initialize() {
 
@@ -39,6 +43,8 @@ public class MenuInstellingenController {
 		
 		
 		btnTerugNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
+		
+		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
 	}
 
 	public void switchToSceneStart(ActionEvent event) throws IOException {

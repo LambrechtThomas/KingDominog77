@@ -18,7 +18,7 @@
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font></Button>
-      <Label layoutX="309.0" layoutY="25.0" text="Instellingen" textFill="WHITE">
+      <Label fx:id="lbInstellingen" layoutX="216.0" layoutY="22.0" prefHeight="39.0" prefWidth="363.0" text="Instellingen" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="216.0">
          <font>
             <Font name="Franklin Gothic Demi" size="34.0" />
          </font>
