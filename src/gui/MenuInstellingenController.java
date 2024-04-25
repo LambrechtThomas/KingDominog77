@@ -19,40 +19,59 @@ public class MenuInstellingenController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	  	@FXML
-	    private Button btnEnglish;
+	@FXML
+	private Button btnEnglish;
 
-	    @FXML
-	    private Button btnFrancais;
+	@FXML
+	private Button btnFrancais;
 
-	    @FXML
-	    private Button btnNederlands;
-	    
-	    @FXML
-	    private Button btnTerugNaarStart;
+	@FXML
+	private Button btnNederlands;
 
-	    @FXML
-	    private Label lbInstellingen;
-	
+	@FXML
+	private Button btnTerugNaarStart;
+
+	@FXML
+	private Label lbInstellingen;
+
 	public void initialize() {
 
-		btnEnglish.setText(vertaal.geefWoord("ENGLISH"));
+		updateLabels();
 
-		btnNederlands.setText(vertaal.geefWoord("NEDERLANDS"));
-
-		btnFrancais.setText(vertaal.geefWoord("FRANCAIS"));
-		
-		
-		btnTerugNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
-		
-		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
-		
 		// TAAL NAAR ENGELS
 		btnEnglish.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent event) {
-		        vertaal.veranderTaal("en");
-		    }
+			public void handle(ActionEvent event) {
+				vertaal.veranderTaal("en");
+				updateLabels();
+			}
 		});
+
+		// TAAL NAAR NEDERLANDS
+		btnNederlands.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				vertaal.veranderTaal("nl");
+				updateLabels();
+			}
+		});
+
+		// TAAL NAAR FRANS
+		btnFrancais.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				vertaal.veranderTaal("fr");
+				updateLabels();
+			}
+		});
+	}
+
+	private void updateLabels() {
+		btnEnglish.setText(vertaal.geefWoord("ENGLISH"));
+		btnNederlands.setText(vertaal.geefWoord("NEDERLANDS"));
+		btnFrancais.setText(vertaal.geefWoord("FRANCAIS"));
+
+		btnTerugNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
+
+		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
+
 	}
 
 	public void switchToSceneStart(ActionEvent event) throws IOException {
@@ -62,5 +81,5 @@ public class MenuInstellingenController {
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
 }
