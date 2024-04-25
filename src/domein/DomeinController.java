@@ -1,9 +1,14 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import DTO.dominoTegelDTO;
 import DTO.spelerDTO;
+import exceptions.GebruikersnaamInGebruikException;
+import exceptions.SpelBestaatNietException;
+import exceptions.SpelerDoetAlMeeException;
+import persistentie.SpelerMapper;
 
 public class DomeinController {
 
@@ -22,48 +27,62 @@ public class DomeinController {
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
 	}
 
+	// registeert een speler in de databank
 	public void registreerSpeler(String gebruikersnaam, int geboortejaar) {
+		checkVoorGebruikersNaam(gebruikersnaam);
+		checkAlsSpelerAlMeeDoet(gebruikersnaam);
+
 		Speler nieuweSpeler = new Speler(gebruikersnaam, geboortejaar);
 		spelerRepository.voegToe(nieuweSpeler);
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
 	}
 
+	// Voeg een speler toe aan de huidige deelname lijst (spel is nog niet gemaakt)
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) {
-		if (spelerRepository.bestaatSpeler(speler.gebruikersnaam())) {
-			Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
-			deelNemendeSpeler.setKleur(kleur);
+		checkOfSpelerNietBestaat(speler);
 
-			deelnemendeSpelers.add(deelNemendeSpeler);
-		} else {
-			// throw new IllegalArgumentException();
-		}
+		Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
+		deelNemendeSpeler.setKleur(kleur);
+
+		deelnemendeSpelers.add(deelNemendeSpeler);
+
 	}
 
 	public void startSpel() {
-		// Nakijken of deelnemendeSpelers 3 of 4 zijn en of ze kleuren hebben
+		CheckOfSpelKlaarIsGezet();
 
 		huidigSpel = new Spel(deelnemendeSpelers, dominoRepo.geefLijstDominos(deelnemendeSpelers.size()));
 	}
-	
+
+	// Checked of spel gedaan is (spel kan nooit verder dan ronde 13 gaan)
 	public boolean isSpelTenEinde() {
+		checkVoorHuidigSpel();
+
 		if (huidigSpel.getRonde() == 13)
 			return true;
-		
+
 		return false;
 	}
-	
+
+	// Geeft weer hoeveel spelers er spelen
 	public int geefAantalSpelers() {
+		checkVoorHuidigSpel();
+
 		return huidigSpel.getHuidigeSpelers().size();
 	}
-	
+
+	// Deze geeft een lijst terug van spelerDTO, deze spelers zitten in spel
 	public ArrayList<spelerDTO> geefDeelnemendeSpelers() {
+		checkVoorHuidigSpel();
+
 		ArrayList<Speler> spelers = huidigSpel.getHuidigeSpelers();
 		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
-		
+
 		for (Speler speler : spelers) {
-			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
+					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
 		}
-		
+
 		return spelersDTO;
 	}
 
@@ -106,32 +125,71 @@ public class DomeinController {
 
 	// Geeft het eerste kolom terug
 	public ArrayList<dominoTegelDTO> geefStartKolom() {
+		checkVoorHuidigSpel();
+
 		ArrayList<dominoTegelDTO> startKolom = new ArrayList<>();
 		ArrayList<DominoTegel> startKolomDomino = huidigSpel.getStartKolom();
-		
-		for(DominoTegel d : startKolomDomino) {
+
+		for (DominoTegel d : startKolomDomino) {
 			startKolom.add(new dominoTegelDTO(d.getVolgnummer(), d.getTegels(), d.isHorizontaal(), d.isSpiegeld()));
 		}
-		
+
 		return startKolom;
 	}
 
 	// Geeft de speler terug die aan de beurt is
 	public spelerDTO geefKoning() {
-		if (huidigSpel == null) {
-			// throw new IllegalArgumentException();
-		}
+		checkVoorHuidigSpel();
+
 		Speler koning = huidigSpel.getKoning();
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
 				koning.getAantalGespeeld());
 	}
-	
+
 	// Kiest een nieuwe koning
 	public void kiesNieuweKoning() {
+		checkVoorHuidigSpel();
+
 		huidigSpel.kiesKoning();
 	}
-	
+
+	// Vraagt aan spel welke ronde we zitten
 	public int getRonde() {
+		checkVoorHuidigSpel();
+
 		return huidigSpel.getRonde();
+	}
+
+	// === Checks ===
+	private void checkVoorHuidigSpel() {
+		if (huidigSpel == null)
+			throw new SpelBestaatNietException();
+	}
+
+	private void checkVoorGebruikersNaam(String naam) {
+		if (spelerRepository.bestaatSpeler(naam))
+			throw new GebruikersnaamInGebruikException();
+	}
+
+	private void checkOfSpelerNietBestaat(spelerDTO speler) {
+		if (!spelerRepository.bestaatSpeler(speler.gebruikersnaam()))
+			throw new SpelBestaatNietException();
+	}
+	
+	private void checkAlsSpelerAlMeeDoet(String gebruikersnaam) {
+		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam()).collect(Collectors.toList());
+		if (deelname.contains(gebruikersnaam))
+			throw new SpelerDoetAlMeeException();
+		
+	}
+	
+	private void CheckOfSpelKlaarIsGezet() {
+		if (deelnemendeSpelers.size() < 3 || deelnemendeSpelers.size() > 4)
+			throw new IllegalArgumentException();
+		
+		ArrayList<Kleur> kleuren = (ArrayList<Kleur>) deelnemendeSpelers.stream().map(v -> v.getKleur()).distinct().collect(Collectors.toList());
+		
+		if (kleuren.size() != deelnemendeSpelers.size())
+			throw new IllegalArgumentException();
 	}
 }
