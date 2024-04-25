@@ -6,12 +6,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import taalmanager.vertaal;
 
 public class StartUp extends Application {
 
 	public static void main(String[] args) {
+
+		vertaal.veranderTaal("resources/messages_en");
+		System.out.println(vertaal.geefWoord("CREATE_USER"));
+
+		vertaal.veranderTaal("resources/messages_en");
+		System.out.println(vertaal.geefWoord("CREATE_USER"));
+
 		// new MainApp(new DomeinController()).start();
-		//launch(args);
+		launch(args);
 		// new DomeinController().startConsoleGame();
 
 	}
