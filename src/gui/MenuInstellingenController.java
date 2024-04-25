@@ -19,11 +19,11 @@ public class MenuInstellingenController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	  	@FXML
-	    private Button btnEnglish;
+	@FXML
+	private Button btnEnglish;
 
-	    @FXML
-	    private Button btnFrancais;
+	@FXML
+	private Button btnFrancais;
 
 	    @FXML
 	    private Button btnNederlands;
@@ -37,12 +37,9 @@ public class MenuInstellingenController {
 	public void initialize() {
 
 		btnEnglish.setText(vertaal.geefWoord("ENGLISH"));
-
 		btnNederlands.setText(vertaal.geefWoord("NEDERLANDS"));
-
 		btnFrancais.setText(vertaal.geefWoord("FRANCAIS"));
-		
-		
+
 		btnTerugNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
 		
 		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
