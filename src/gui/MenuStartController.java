@@ -43,13 +43,13 @@ public class MenuStartController {
 
 	public void initialize() {
 
-		vertaal.veranderTaal("resources/messages_en");
+		vertaal.veranderTaal("en");
 
 		lblTitel.setText(vertaal.geefWoord("START_A_NEW_GAME").toString());
 
-		vertaal.veranderTaal("resources/messages_nl");
+		vertaal.veranderTaal("nl");
 
-		lblTitel.setText(vertaal.geefWoord("LOGIN").toString());
+		lblTitel.setText(vertaal.geefWoord("LOGIjN").toString());
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {

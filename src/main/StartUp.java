@@ -12,10 +12,10 @@ public class StartUp extends Application {
 
 	public static void main(String[] args) {
 
-		vertaal.veranderTaal("resources/messages_en");
+		vertaal.veranderTaal("en");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
-		vertaal.veranderTaal("resources/messages_en");
+		vertaal.veranderTaal("en");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
 		// new MainApp(new DomeinController()).start();
