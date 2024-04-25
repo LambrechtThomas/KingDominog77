@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -45,6 +46,13 @@ public class MenuInstellingenController {
 		btnTerugNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
 		
 		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
+		
+		// TAAL NAAR ENGELS
+		btnEnglish.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent event) {
+		        vertaal.veranderTaal("en");
+		    }
+		});
 	}
 
 	public void switchToSceneStart(ActionEvent event) throws IOException {
@@ -54,4 +62,5 @@ public class MenuInstellingenController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
 }

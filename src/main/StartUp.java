@@ -17,8 +17,8 @@ public class StartUp extends Application {
 		vertaal.veranderTaal("nl");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
-		vertaal.veranderTaal("en");
-		System.out.println(vertaal.geefWoord("CREATE_USER"));
+//		vertaal.veranderTaal("en");
+//		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
 		// new MainApp(new DomeinController()).startConsoleGame();
 		launch(args);
