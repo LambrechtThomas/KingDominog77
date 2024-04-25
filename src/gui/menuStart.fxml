@@ -51,17 +51,17 @@
             </DropShadow>
          </effect>
       </Label>
-      <Button fx:id="btnLogin" layoutX="375.0" layoutY="278.0" mnemonicParsing="false" onAction="#switchToSceneLogin" stylesheets="@../css/style.css" text="Login">
+      <Button fx:id="btnLogin" layoutX="375.0" layoutY="278.0" mnemonicParsing="false" onAction="#switchToSceneLogin" stylesheets="@../css/style.css" text="Login" textAlignment="CENTER" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="370.0">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btnInstelling" layoutX="358.0" layoutY="310.0" mnemonicParsing="false" onAction="#switchToSceneInstellingen" stylesheets="@../css/style.css" text="Instellingen">
+      <Button fx:id="btnInstelling" layoutX="358.0" layoutY="310.0" mnemonicParsing="false" onAction="#switchToSceneInstellingen" stylesheets="@../css/style.css" text="Settings" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btnNieuwSpel" layoutX="335.0" layoutY="358.0" mnemonicParsing="false" onAction="#switchToSceneGameBord" stylesheets="@../css/style.css" text="Start een nieuw spel">
+      <Button fx:id="btnNieuwSpel" layoutX="335.0" layoutY="358.0" mnemonicParsing="false" onAction="#switchToSceneGameBord" stylesheets="@../css/style.css" text="Start a new game" textAlignment="CENTER" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="330.0">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font>
