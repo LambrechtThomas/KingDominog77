@@ -137,8 +137,8 @@ public class MainApp {
 		for (dominoTegelDTO domino : startKolom) {
 			mogelijkeKeuzes.add(domino.volgnummer());
 			System.out.printf("%-2d: ╔═══════╦═══════╗ %n     %-7d %-7d  %n     %-7s %-7s  %n    ╚═══════╩═══════╝ %n",
-					domino.volgnummer(), domino.tegels()[0].getKroontjes(), domino.tegels()[1].getKroontjes(),
-					domino.tegels()[0].getLandschap(), domino.tegels()[1].getLandschap());
+					domino.volgnummer(), domino.tegels()[0].kroontjes(), domino.tegels()[1].kroontjes(),
+					domino.tegels()[0].landschap(), domino.tegels()[1].landschap());
 		}
 
 		int getal;

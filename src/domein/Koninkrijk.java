@@ -23,7 +23,27 @@ public class Koninkrijk {
 
 	// Dominotegel op de grid plaatsen volgens xy coördinaten
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
-		// TODO
+		
+	}
+	
+	public boolean isPlaatsVrij(int x, int y) {
+		int coordinaatX = x;
+		int coordinaatY = y;
+		
+		if (coordinaatX < 0)
+			coordinaatX = 0;
+		else if (coordinaatY < 0)
+			coordinaatY = 0;
+		else if (coordinaatX > this.rij)
+			coordinaatX = rij - 1;
+		else if (coordinaatY > this.kolom)
+			coordinaatY = kolom -1;
+		
+		return bord[coordinaatX][kolom] == null;
+	}
+	
+	public boolean isKasteelHier(int x, int y) {
+		return bord[Math.min(Math.max(x, 0), rij - 1)][Math.min(Math.max(y, 0), kolom - 1)] instanceof KasteelTegel;
 	}
 
 	/**

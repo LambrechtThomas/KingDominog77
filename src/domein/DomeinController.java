@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import DTO.dominoTegelDTO;
 import DTO.spelerDTO;
+import DTO.tegelDTO;
 import exceptions.GebruikersnaamInGebruikException;
 import exceptions.SpelBestaatNietException;
 import exceptions.SpelerDoetAlMeeException;
@@ -171,7 +172,14 @@ public class DomeinController {
 		ArrayList<DominoTegel> startKolomDomino = huidigSpel.getStartKolom();
 
 		for (DominoTegel d : startKolomDomino) {
-			startKolom.add(new dominoTegelDTO(d.getVolgnummer(), d.getTegels(), d.isHorizontaal(), d.isSpiegeld()));
+			tegelDTO[] tegels = new tegelDTO[2];
+			
+			for (int i = 0; i < d.getTegels().length; i++) {
+				Tegel t = d.getTegels()[i];
+				tegels[i] = new tegelDTO(t.getLandschap(), t.getKroontjes());
+			}
+			
+			startKolom.add(new dominoTegelDTO(d.getVolgnummer(), tegels, d.isHorizontaal(), d.isSpiegeld()));
 		}
 
 		return startKolom;
