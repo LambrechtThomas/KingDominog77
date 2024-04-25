@@ -15,6 +15,14 @@ public class SpelerMapper {
 	private static final String INSERT_SPELER = "INSERT INTO ID430019_g77.Speler (gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld)"
 			+ "VALUES (?, ?, ?, ?)";
 
+	/**
+	 * Maake een connectie aan met de databank en voer een query uit om te vragen
+	 * voor de gebruikersnaam, geboortejaar, aantal gewonnen en aantal gespeeld van
+	 * de speler
+	 * 
+	 * @param speler
+	 */
+
 	public void voegToe(Speler speler) {
 		Connectie ssh = new Connectie();
 		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC);
@@ -31,6 +39,15 @@ public class SpelerMapper {
 		}
 		ssh.closeConnection();
 	}
+
+	/**
+	 * Maake een connectie aan met de databank en voer een query uit om te vragen
+	 * voor het geboortejaar, aantal gewonnen en aantal gespeeld van een
+	 * gebruikersnaam en maak hier een speler van
+	 * 
+	 * @param gebruikersnaam van de gebruiker
+	 * @return speler met daarin de gebruikersnaam van de speler
+	 */
 
 	public Speler geefSpeler(String gebruikersnaam) {
 		Connectie ssh = new Connectie();
@@ -57,26 +74,31 @@ public class SpelerMapper {
 		return speler;
 	}
 
+	/**
+	 * Haal de hele spelerslijst uit de databank
+	 * 
+	 * @return de lijst van spelers
+	 */
+
 	public ArrayList<Speler> geefSpelers() {
 
 		ArrayList<Speler> spelers = new ArrayList<>();
 		Connectie ssh = new Connectie();
 
 		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC)) {
-			
+
 			Statement stmt = (Statement) conn.createStatement();
 			String zoek = "SELECT * FROM ID430019_g77.Speler";
 			ResultSet rs = stmt.executeQuery(zoek);
-			
-				while (rs.next()) {
-						String gebruikersnaam = rs.getString("gebruikersnaam");
-						int geboortejaar = rs.getInt("geboortejaar");
-						int aantalGewonnen = rs.getInt("aantalGewonnen");
-						int aantalGespeeld = rs.getInt("aantalGespeeld");
-						
-						spelers.add(new Speler(gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld));
-				}
-			
+
+			while (rs.next()) {
+				String gebruikersnaam = rs.getString("gebruikersnaam");
+				int geboortejaar = rs.getInt("geboortejaar");
+				int aantalGewonnen = rs.getInt("aantalGewonnen");
+				int aantalGespeeld = rs.getInt("aantalGespeeld");
+
+				spelers.add(new Speler(gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld));
+			}
 
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);

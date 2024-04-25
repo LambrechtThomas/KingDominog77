@@ -17,25 +17,29 @@ public class Spel {
 
 	private SecureRandom sr;
 
-
-	// Nieuw spel starten => variabelen instellen die later nodig zijn in het spel
+	/**
+	 * Nieuw spel starten => variabelen instellen die later nodig zijn in het spel
+	 * 
+	 * @param huidigeSpelers is een array van de spelers die mee doen met het huidig
+	 *                       spel
+	 * @param alleDominos    eerder gegenereerde lijst van alle domino's
+	 */
 	public Spel(ArrayList<Speler> huidigeSpelers, ArrayList<DominoTegel> alleDominos) {
 		this.alleDominos = alleDominos;
 		startKolom = new ArrayList<>();
 		eindKolom = new ArrayList<>();
-		
+
 		sr = new SecureRandom();
-		
+
 		this.huidigeSpelers = huidigeSpelers;
 		spelersAanbeurtTeKomen = new ArrayList<>();
 		aandeBeurtGeweest = new ArrayList<>();
 		spelersAanbeurtTeKomen.addAll(this.huidigeSpelers);
 		ronde = 1;
-		
-		// Moet nog gechecked worden als er 3-4 mensen spelen / en als kleuren niet
+
 		kiesKoning();
 		schud();
-		
+
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
 			int randomGetal = sr.nextInt(alleDominos.size());
 			DominoTegel domino = alleDominos.get(randomGetal);
@@ -74,7 +78,14 @@ public class Spel {
 		return huidigeSpelers;
 	}
 
-	// Plaats DominoTegel in de grid van een bepaalde speler
+	/**
+	 * Plaats een bepaalde DominoTegel in de grid(rij,kolom) van een bepaalde speler
+	 * 
+	 * @param speler speler waarvan we de grid gaan bewerken
+	 * @param domino
+	 * @param rij    het x coördinaat van het bord
+	 * @param kolom  het y coördinaat van het bord
+	 */
 	public void plaatsDominoTegel(Speler speler, DominoTegel domino, int rij, int kolom) {
 		speler.plaatsDomino(domino, rij, kolom);
 	}
@@ -88,7 +99,7 @@ public class Spel {
 	public void wisselKolomTegel() {
 		eindKolom.clear();
 		eindKolom.addAll(alleDominos);
-		
+
 		startKolom.clear();
 
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
@@ -107,7 +118,7 @@ public class Spel {
 			spelersAanbeurtTeKomen.addAll(aandeBeurtGeweest);
 			aandeBeurtGeweest.clear();
 			ronde++;
-			
+
 			wisselKolomTegel();
 		}
 
@@ -117,8 +128,10 @@ public class Spel {
 		koning = gekozen;
 	}
 
-	// Berekenen van de scores van aparte landschappen om deze daarna via
-	// "berekenScore" op te tellen
+	/**
+	 * Berekenen van de scores van aparte landschappen om deze daarna via
+	 * "berekenScore" op te tellen
+	 */
 	public void berekenScores() {
 		for (Speler speler : huidigeSpelers) {
 			speler.setMoerasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("moeras"));

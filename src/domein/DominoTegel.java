@@ -6,6 +6,12 @@ public class DominoTegel {
 	private boolean horizontaal;
 	private boolean spiegeld;
 
+	/**
+	 * Dominotegel bestaat uit:
+	 * 
+	 * @param volgnummer
+	 * @param tegels     (de 2 landschappen van de onderlinge tegels)
+	 */
 	public DominoTegel(int volgnummer, Tegel[] tegels) {
 		this.volgnummer = volgnummer;
 		this.tegels = tegels;

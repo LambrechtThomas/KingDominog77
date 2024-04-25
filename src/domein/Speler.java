@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 // Speler aanmaken met attributen: 
 // gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld, kleur
-// Scores van aparte landschappen wordt bijgehouden
+// Scores van aparte landschappen wordt bijgehouden (default 0, ergens anders berekent)
 
 public class Speler {
 	private String gebruikersnaam;
@@ -184,18 +184,32 @@ public class Speler {
 		return graanTegelScores;
 	}
 
-	// plaatst het kasteel in het koninkrijk
+	/**
+	 * plaatst het kasteel in het koninkrijk
+	 * 
+	 * @param x coördinaat
+	 * @param y coördinaat
+	 */
 	public void plaatsKasteel(int x, int y) {
 		koninkrijk.setKasteel(x, y, kasteel);
 	}
 
-	// plaatst de domino in koninkrijk
+	/**
+	 * plaatst de domino in het koninkrijk
+	 * 
+	 * @param domino
+	 * @param rij    x coördinaat
+	 * @param kolom  y coördinaat
+	 */
 	public void plaatsDomino(DominoTegel domino, int rij, int kolom) {
 		koninkrijk.plaatsDomino(domino, rij, kolom);
 	}
 
-	// Bereken de scores van de aparte landschappen en voeg ze samen voor de
-	// eindscore
+	/**
+	 * Bereken de scores van de aparte landschappen door de grootte van de
+	 * oppervlakken maal het aantal kroontjes te doen en voeg ze samen voor
+	 * deeindscore
+	 */
 	public void berekenScore() {
 		totaleScore = 0;
 

@@ -7,14 +7,20 @@ public class DominoTegelRepository {
 	private ArrayList<DominoTegel> dominos;
 	private SecureRandom rs;
 
+	// Genereer alle domino's via genereerDominos()(hardcoded lijst domino's) en zet
+	// deze in de repository
 	public DominoTegelRepository() {
 		dominos = new ArrayList<DominoTegel>();
 		rs = new SecureRandom();
-		
+
 		genereerDominos();
 	}
 
-	// Returnt de eerste domino op het deck
+	/**
+	 * Zoek de eerste dominotegel
+	 * 
+	 * @return de eerste domino op het deck
+	 */
 	public DominoTegel geefDomino() {
 		DominoTegel eersteTegel = dominos.get(0);
 		dominos.remove(0);
@@ -22,8 +28,15 @@ public class DominoTegelRepository {
 		return eersteTegel;
 	}
 
-
-	// Returnt volledige lijst van dominos
+	/**
+	 * Maak een deck van domino's aan afhankelijk van het aantal spelers
+	 * ================================================================= Niet zeker
+	 * of da juist is => PLS KIJK NA
+	 * =================================================================
+	 * 
+	 * @param aantalSpelers in het actief spel
+	 * @return volledige lijst van domino's in het deck
+	 */
 	public ArrayList<DominoTegel> geefLijstDominos(int aantalSpelers) {
 		ArrayList<DominoTegel> alleDominos = new ArrayList<>();
 		alleDominos.addAll(dominos);
@@ -33,7 +46,14 @@ public class DominoTegelRepository {
 		return alleDominos;
 	}
 
-	// Geeft een lijst van domino's terug (aan de hand van de aantal spelers)
+	// Geeft een lijst van domino's terug (aan de hand van het aantal spelers)
+	/**
+	 * Geeft een kolom van random domino's afhv aantal spelers
+	 * 
+	 * @param aantalSpelers in het actief spel
+	 * @return een arraylist dominos van 3 of 4 domino's afhv het aantal spelers,
+	 *         dit is de kolom
+	 */
 	public ArrayList<DominoTegel> geefKolom(int aantalSpelers) {
 		ArrayList<DominoTegel> dominos = new ArrayList<DominoTegel>();
 		for (int i = 0; i < aantalSpelers; i++) {
@@ -43,7 +63,8 @@ public class DominoTegelRepository {
 	}
 
 	// Hardcoded methode die alle 48 unieke dominotegels + tegels (landschap, aantal
-	// kroontjes) aanmaakt
+	// kroontjes) aanmaakt. Wordt gebruikt voor de DominoTegelRepository aan te
+	// maken
 	private void genereerDominos() {
 		dominos.clear();
 
