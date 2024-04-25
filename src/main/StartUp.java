@@ -12,7 +12,7 @@ public class StartUp extends Application {
 
 	public static void main(String[] args) {
 
-		vertaal.veranderTaal("en");
+		vertaal.veranderTaal("nl");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
 		vertaal.veranderTaal("en");

@@ -9,7 +9,6 @@ public class vertaal {
 
 	public static void veranderTaal(String deTaal) {
 		taal = ResourceBundle.getBundle("taalmanager/" + deTaal);
-
 	}
 
 	public static String geefWoord(String woord) {
@@ -21,7 +20,7 @@ public class vertaal {
 		} catch (MissingResourceException e) {
 			value = "Key not found: " + woord;
 		}
-		System.out.printf("Locale: %s, Value: %s %n", taal, value);
+//		System.out.printf("Locale: %s, Value: %s %n", taal, value);
 
 		return value;
 	}
