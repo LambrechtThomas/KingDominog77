@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
+import ui.MainApp;
 
 public class StartUp extends Application {
 
@@ -18,9 +19,8 @@ public class StartUp extends Application {
 		vertaal.veranderTaal("en");
 		System.out.println(vertaal.geefWoord("CREATE_USER"));
 
-		// new MainApp(new DomeinController()).start();
+		new MainApp(new DomeinController()).startConsoleGame();
 		launch(args);
-		// new DomeinController().startConsoleGame();
 
 	}
 

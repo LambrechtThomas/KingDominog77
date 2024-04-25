@@ -7,41 +7,43 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import DTO.dominoTegelDTO;
 import DTO.spelerDTO;
+import comparator.dominoTegelComparator;
 import domein.DomeinController;
 import domein.Kleur;
 
 public class MainApp {
+	private DomeinController dc;
 
-	private Scanner invoer = new Scanner(System.in);
-	DomeinController dc;
+	private ArrayList<spelerDTO> beschikbareSpelers;
+	private ArrayList<Kleur> beschikbareKleueren;
+
 	private Scanner input;
 
 	public MainApp(DomeinController dc) {
 		this.dc = dc;
+
+		beschikbareSpelers = dc.geefBeschikbareSpelers();
+		beschikbareKleueren = dc.geefBeschikbareKleuren();
+
 		input = new Scanner(System.in);
 	}
 
 	public void startConsoleGame() {
-		System.out.print("Welkom bij KINGDOMINO !! \n");
+		System.out.print("\n\n==Welkom bij KINGDOMINO !!== \n");
 		int keuze = keuzeMenu();
 
 		while (keuze != 3) {
 			if (keuze == 1) {
-				System.out.println("\n==Registeer een Speler==");
-				String gebruikersnaam = vraagGebruikersnaam();
-				int gebrootedatum = vraagGebrooteDatum();
-				dc.registreerSpeler(gebruikersnaam, keuze);
-
-				keuze = keuzeMenu();
+				startRegistratie();
 			}
 
 			if (keuze == 2) {
-				System.out.println("\n==Speel Spel==");
-				System.out.printf("Er zijn volgende spelers beschikbaar: %s", dc.geefBeschikbareSpelers());
-
-				keuze = keuzeMenu();
+				startSpel();
 			}
+
+			keuze = keuzeMenu();
 		}
 
 		System.out.printf("%n%n==Stopping==");
@@ -100,16 +102,15 @@ public class MainApp {
 			spelerDTO koning = dc.geefKoning();
 
 			System.out.printf("Het is aan %s: %n", koning.gebruikersnaam());
+
 			int keuze = printDominos(startKolom);
 
 			keuzes.put(koning, startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
 			startKolom.remove(startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
-
 			dc.kiesNieuweKoning();
 		}
-
+		
 		bevestiging(keuzes);
-
 	}
 
 	private void bevestiging(HashMap<spelerDTO, dominoTegelDTO> keuzes) {
@@ -233,7 +234,7 @@ public class MainApp {
 
 		return gebrootedatum;
 	}
-	
+
 	public int vraagEenGetal(int ondergrens, int bovengrens) {
 		int getal;
 		boolean fout = false;
