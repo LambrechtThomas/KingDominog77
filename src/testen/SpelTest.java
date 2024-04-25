@@ -42,7 +42,8 @@ class SpelTest {
 		sr = new SecureRandom();
 
 		// Spel initialiseren met de spelers
-		spel = new Spel(spelers);
+		ArrayList<DominoTegel> lijstDomino = new ArrayList<>();
+		spel = new Spel(spelers, lijstDomino);
 	}
 
 	// ------------------------------------------------------------------
@@ -55,7 +56,7 @@ class SpelTest {
 		Assertions.assertEquals(spelers, spel.getHuidigeSpelers()); // De spelers in het spel moeten overeenkomen met de
 																	// spelers die we hebben meegegeven
 		Assertions.assertNotNull(spel.getKoning()); // Er moet een koning zijn
-		
+
 	}
 
 	// ------------------------------------------------------------------
