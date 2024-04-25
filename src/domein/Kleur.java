@@ -1,35 +1,18 @@
 package domein;
 
-// Enumeration kleuren
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import taalmanager.vertaal;
 
 public enum Kleur {
-	ROZE {
-		@Override
-		public String toString() {
-			return "Roze";
-		}
-	},
-	
-	BLAUW {
-		@Override
-		public String toString() {
-			return "Blauw";
-		}
-	},
-	
-	GEEL {
-		@Override
-		public String toString() {
-			return "Geel";
-		}
-	},
-	
-	GROEN {
-		@Override
-		public String toString() {
-			return "Groen";
-		}
+    ROZE,
+    BLAUW,
+    GEEL,
+    GROEN;
 
-	}
-
+    @Override
+    public String toString() {
+        return vertaal.geefWoord(this.name());
+    }
 }

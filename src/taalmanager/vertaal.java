@@ -24,4 +24,6 @@ public class vertaal {
 
 		return value;
 	}
+	
+	
 }

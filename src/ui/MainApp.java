@@ -29,11 +29,12 @@ public class MainApp {
 		beschikbareKleueren = dc.geefBeschikbareKleuren();
 
 		input = new Scanner(System.in);
+		vertaal.veranderTaal("en");
 	}
 
 	public void startConsoleGame() {
 
-		System.out.printf("%n%n== " + vertaal.geefWoord("WELCOME_BACK") + " == %n");
+		System.out.print("\n\n== " + vertaal.geefWoord("WELCOME_BACK") + " == \n");
 		int keuze = keuzeMenu();
 
 		while (keuze != 3) {
@@ -45,10 +46,19 @@ public class MainApp {
 				startSpel();
 			}
 
+			if (keuze == 3) {
+				startTaalVerandering();
+			}
+
 			keuze = keuzeMenu();
 		}
 
-		System.out.printf("%n%n== " + vertaal.geefWoord("STOP") + " == %n");
+		System.out.print("\n\n== " + vertaal.geefWoord("STOP") + " == \n");
+	}
+
+	private void startTaalVerandering() {
+		// TODO Auto-generated method stub
+
 	}
 
 	public int keuzeMenu() {
@@ -57,41 +67,29 @@ public class MainApp {
 
 		do {
 			if (fout)
-				// System.out.println("\nGelieve een geldige nummer in tegeven");
-				System.out.printf("%n" + vertaal.geefWoord("VALID_NUM "));
+				System.out.printf("%s %n", vertaal.geefWoord("VALID_NUM"));
 
-			// System.out.print("\n==Menu==\n");
-			System.out.printf("%n== " + vertaal.geefWoord("MENU") + " == %n");
-
-			// System.out.printf("1: Registeer Speler %n2: Speel spel %n3: Stop %n%n");
-			System.out.printf("1: " + vertaal.geefWoord("REGISTER_PLAYER") //
-					+ "%n2: " + vertaal.geefWoord("PLAY_GAME") //
-					+ "%n3: " + vertaal.geefWoord("STOP") + " %n");
-
-			// System.out.printf("welke keuze?? ");
-			System.out.println(vertaal.geefWoord("CHOICE"));
+			System.out.printf("%n== %s ==%n", vertaal.geefWoord("MENU"));
+			System.out.printf("1: %s %n2: %s %n3: %s %n4: %s %n%n", vertaal.geefWoord("REGISTER_PLAYER"),
+					vertaal.geefWoord("PLAY_GAME"), vertaal.geefWoord("LANGUAGE"), vertaal.geefWoord("STOP"));
+			System.out.printf("%s ", vertaal.geefWoord("CHOICE"));
 
 			keuze = input.nextInt();
 
 			fout = true;
-		} while (keuze < 1 || keuze > 3);
+		} while (keuze < 1 || keuze > 4);
 
 		return keuze;
 	}
 
 	private void startSpel() {
-		// System.out.println("\n==Speel Spel==");
-		System.out.print("\n== " + vertaal.geefWoord("PLAY_GAME") + " ==");
+		System.out.printf("%n== %s == %n", vertaal.geefWoord("PLAY_GAME"));
 
-		// System.out.print("Met hoeveel wenst u te spelen? ");
-		System.out.printf("%n" + vertaal.geefWoord("HOW_MUCH_PLAYER"));
-
+		System.out.printf("%s%n", vertaal.geefWoord("HOW_MUCH_PLAYER"));
 		int hoeveelSpelers = vraagEenGetal(3, 4);
 
 		for (int i = 0; i < hoeveelSpelers; i++) {
-			// System.out.printf("Speler +%d", i + 1);
-			System.out.printf(vertaal.geefWoord("PLAYER") + "%d", i + 1);
-
+			System.out.printf("%n%s %d: %n", vertaal.geefWoord("PLAYER"), i + 1);
 			dc.spelerDoetMee(kiesEenSpeler(), kiesEenKleur());
 		}
 
@@ -100,8 +98,7 @@ public class MainApp {
 		System.out.println(dc.geefDeelnemendeSpelers());
 
 		while (!dc.isSpelTenEinde()) {
-			// System.out.printf("%nHet is ronde %d%n", dc.getRonde());
-			System.out.printf("%n" + vertaal.geefWoord("ROUND") + "%d%n" + dc.getRonde());
+			System.out.printf("%n%s %d%n", vertaal.geefWoord("ROUND"), dc.getRonde());
 
 			speelRonde();
 
@@ -117,8 +114,7 @@ public class MainApp {
 		for (int i = 0; i < aantalSpelers; i++) {
 			spelerDTO koning = dc.geefKoning();
 
-			// System.out.printf("Het is aan %s: %n", koning.gebruikersnaam());
-			System.out.printf(vertaal.geefWoord("IS_PLAYING") + "%s: %n", koning.gebruikersnaam());
+			System.out.printf("%s %s: %n", vertaal.geefWoord("IS_PLAYING"), koning.gebruikersnaam());
 
 			int keuze = printDominos(startKolom);
 
@@ -131,14 +127,11 @@ public class MainApp {
 	}
 
 	private void bevestiging(HashMap<spelerDTO, dominoTegelDTO> keuzes) {
-		// System.out.printf("%n%n%nDit is een bevestiging:%n");
-		System.out.print("%n%n%n" + vertaal.geefWoord("CONFIRMATION") + ":%n");
+		System.out.printf("%n%s: %n", vertaal.geefWoord("CONFIRMATION"));
 
 		for (Map.Entry<spelerDTO, dominoTegelDTO> entry : keuzes.entrySet()) {
-			// System.out.printf("Voor %s is het %s%n", entry.getKey().gebruikersnaam(),
-			// entry.getValue().volgnummer());
-			System.out.printf(vertaal.geefWoord("FOR") + "%s" + vertaal.geefWoord("IS_IT") + "%s%n"
-					+ entry.getKey().gebruikersnaam(), entry.getValue().volgnummer());
+			System.out.printf("%s %s %s %s%n", vertaal.geefWoord("FOR"), entry.getKey().gebruikersnaam(),
+					vertaal.geefWoord("IS_IT"), entry.getValue().volgnummer());
 
 		}
 
@@ -160,11 +153,9 @@ public class MainApp {
 
 		do {
 			if (fout)
-				// System.out.println("\nGelieve een geldige getal in te geven");
-				System.out.print("\\n" + vertaal.geefWoord("VALID_NUM"));
+				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_NUM"));
 
-			// System.out.printf("Maak uw keuze: ");
-			System.out.print(vertaal.geefWoord("MAKE_YOUR_CHOICE"));
+			System.out.printf("%s: ", vertaal.geefWoord("MAKE_YOUR_CHOICE"));
 
 			getal = input.nextInt();
 
@@ -176,19 +167,14 @@ public class MainApp {
 	}
 
 	private spelerDTO kiesEenSpeler() {
-		// System.out.printf("\nDe volgende spelers zijn beschikbaar: \n");
-		System.out.printf("%n" + vertaal.geefWoord("AVAILABLE_PLAYERS") + "%n");
+		System.out.printf("%s %n", vertaal.geefWoord("AVAILABLE_PLAYERS"));
 
-		// System.out.println("0: Registreer nieuwe speler");
-		System.out.println("0:" + vertaal.geefWoord("REGISTER_PLAYER"));
+		System.out.printf("0 : %s %n", vertaal.geefWoord("REGISTER_PLAYER"));
 
 		int teller = 1;
 		for (spelerDTO speler : beschikbareSpelers) {
-			// System.out.printf("%d: Naam: %-18s Geboortedatum: %d %n", teller++,
-			// speler.gebruikersnaam(),
-			// speler.geboortejaar());
-			System.out.printf("%d:" + vertaal.geefWoord("NAME") + ": %-18s" + vertaal.geefWoord("BIRTHDAY") + ": %d %n",
-					teller++, speler.gebruikersnaam(), speler.geboortejaar());
+			System.out.printf("%-2d: %s: %-18s %s: %d %n", teller++, vertaal.geefWoord("NAME"),
+					speler.gebruikersnaam(), vertaal.geefWoord("BIRTHDAY"), speler.geboortejaar());
 
 		}
 
@@ -206,15 +192,13 @@ public class MainApp {
 	}
 
 	private Kleur kiesEenKleur() {
-
-		// System.out.printf("%nDe volgende kleuren zijn beschikbaar: %n");
-		System.out.printf("%n" + vertaal.geefWoord("AVAILABLE_COLOURS") + "%n");
+		System.out.printf("%n%s%n", vertaal.geefWoord("AVAILABLE_COLOURS"));
 
 		int teller = 1;
 		for (Kleur kleur : beschikbareKleueren) {
+			System.out.printf("%d: %s %n", teller++, kleur);
+			// vertalen???
 
-			String kleurWoord = kleur.toString().toUpperCase();
-			System.out.printf("%d: %s %n", teller++, vertaal.geefWoord(kleurWoord));
 		}
 
 		int gekozenKleur = vraagEenGetal(1, beschikbareKleueren.size());
@@ -225,16 +209,14 @@ public class MainApp {
 	}
 
 	private void startRegistratie() {
-		// System.out.println("\n==Registeer een Speler==");
-		System.out.printf("%n== " + vertaal.geefWoord("REGISTER_PLAYER") + " ==");
+		System.out.printf("%n== %s == %n", vertaal.geefWoord("REGISTER_PLAYER"));
 
 		String gebruikersnaam = vraagGebruikersnaam();
 		int geboortedatum = vraagGebrooteDatum();
 
 		dc.registreerSpeler(gebruikersnaam, geboortedatum);
 
-		// System.out.println("\n\nGelukt");
-		System.out.printf("%n%n" + vertaal.geefWoord("CONFIRMED"));
+		System.out.printf("%n%s%n", vertaal.geefWoord("CONFIRMED"));
 
 		beschikbareSpelers = dc.geefBeschikbareSpelers();
 	}
@@ -247,12 +229,9 @@ public class MainApp {
 
 		do {
 			if (fout)
-				// System.out.println("\nGelieve een geldige naam in te geven");
-				System.out.print("\n" + vertaal.geefWoord("VALID_USER_ID"));
+				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_USER_ID"));
 
-			// System.out.printf("%nGeef je gebruikersnaam in: ");
-			System.out.printf("%n" + vertaal.geefWoord("ENTER_USER_ID"));
-
+			System.out.printf("%s ", vertaal.geefWoord("ENTER_USER_ID"));
 			gebruikersnaam = input.nextLine();
 
 			fout = true;
@@ -267,12 +246,9 @@ public class MainApp {
 
 		do {
 			if (fout)
-				// System.out.println("\nGelieve een geldige datum in te geven");
-				System.out.printf("%n" + vertaal.geefWoord("VALID_DATE"));
+				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_DATE"));
 
-			// System.out.printf("%nGeef je geboortedatum: ");
-			System.out.printf("%n" + vertaal.geefWoord("ENTER_BIRTHDAY"));
-
+			System.out.printf("%s ", vertaal.geefWoord("ENTER_BIRTHDAY"));
 			gebrootedatum = input.nextInt();
 
 			fout = true;
@@ -287,12 +263,9 @@ public class MainApp {
 
 		do {
 			if (fout)
-				// System.out.println("\nGelieve een geldige getal in te geven");
-				System.out.printf("%n" + vertaal.geefWoord("VALID_NUM") + "%n");
+				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_NUM"));
 
-			// System.out.printf("Maak uw keuze: ");
-			System.out.printf("%n" + vertaal.geefWoord("MAKE_UR_CHOICE"));
-
+			System.out.printf("%s ", vertaal.geefWoord("MAKE_UR_CHOICE"));
 			getal = input.nextInt();
 
 			fout = true;
