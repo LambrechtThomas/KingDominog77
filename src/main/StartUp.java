@@ -13,20 +13,13 @@ public class StartUp extends Application {
 	private DomeinController dc;
 
 	public static void main(String[] args) {
-
-		vertaal.veranderTaal("nl");
-		System.out.println(vertaal.geefWoord("CREATE_USER"));
-
-		vertaal.veranderTaal("en");
-//		System.out.println(vertaal.geefWoord("CREATE_USER"));
-
 		new MainApp(new DomeinController()).startConsoleGame();
 //		launch(args);
-
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
+		vertaal.veranderTaal("en");
 
 		try {
 			this.dc = new DomeinController();

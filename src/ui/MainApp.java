@@ -54,6 +54,7 @@ public class MainApp {
 		}
 
 		System.out.print("\n\n== " + vertaal.geefWoord("STOP") + " == \n");
+		System.exit(0);
 	}
 
 	public int keuzeMenu() {
@@ -166,8 +167,8 @@ public class MainApp {
 
 		int teller = 1;
 		for (spelerDTO speler : beschikbareSpelers) {
-			System.out.printf("%-2d: %s: %-18s %s: %d %n", teller++, vertaal.geefWoord("NAME"),
-					speler.gebruikersnaam(), vertaal.geefWoord("BIRTHDAY"), speler.geboortejaar());
+			System.out.printf("%-2d: %s: %-18s %s: %d %n", teller++, vertaal.geefWoord("NAME"), speler.gebruikersnaam(),
+					vertaal.geefWoord("BIRTHDAY"), speler.geboortejaar());
 
 		}
 
@@ -249,9 +250,10 @@ public class MainApp {
 	}
 
 	private void startTaalVerandering() {
-		System.out.printf("%s %n1: %s %n2: %s %n3: %s%n", vertaal.geefWoord("TALEN"), "English", "Nederlands", "Français");
+		System.out.printf("%s %n1: %s %n2: %s %n3: %s%n", vertaal.geefWoord("TALEN"), "English", "Nederlands",
+				"Français");
 		int gekozenGetal = vraagEenGetal(1, 3);
-		switch(gekozenGetal) {
+		switch (gekozenGetal) {
 		case 1:
 			vertaal.veranderTaal("en");
 			break;
@@ -263,7 +265,7 @@ public class MainApp {
 			break;
 		}
 	}
-	
+
 	public int vraagEenGetal(int ondergrens, int bovengrens) {
 		int getal;
 		boolean fout = false;
