@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,22 +16,25 @@
             <Image url="@../../assets/background.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnNaarStart" layoutX="356.0" layoutY="193.0" mnemonicParsing="false" onAction="#switchToSceneStart" text="Terug naar START">
+      <Button fx:id="btnNaarStart" layoutX="355.0" layoutY="147.0" mnemonicParsing="false" onAction="#switchToSceneStart" text="Terug naar START">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font></Button>
-      <Label fx:id="lblWelkcomTerug" layoutX="304.0" layoutY="125.0" text="Welkom terug" textFill="WHITE">
+      <Label fx:id="lblWelkcomTerug" layoutX="302.0" layoutY="82.0" prefHeight="39.0" prefWidth="216.0" text="Configuratie" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Demi" size="34.0" />
          </font>
       </Label>
-      <Label fx:id="lblLogInOfMaakAccountAan" layoutX="281.0" layoutY="164.0" text="Log in of maak een account aan." textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lblLogInOfMaakAccountAan" layoutX="211.0" layoutY="121.0" text="Maak een gebruiker aan of configureer de spelers" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Demi" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="fldGebruikersnaam" layoutX="59.0" layoutY="287.0" prefHeight="25.0" prefWidth="230.0" />
-      <Button fx:id="btnLogin" layoutX="58.0" layoutY="371.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" text="Login" />
+      <Button fx:id="btnLogin" layoutX="58.0" layoutY="371.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" text="Maak speler aan">
+         <font>
+            <Font name="Franklin Gothic Demi" size="12.0" />
+         </font></Button>
       <Label fx:id="lblGebruikersnaam" layoutX="56.0" layoutY="270.0" text="Gebruikersnaam" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
@@ -39,11 +43,23 @@
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font></Label>
-      <ImageView fitHeight="144.0" fitWidth="327.0" layoutX="246.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="144.0" fitWidth="327.0" layoutX="230.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../assets/Kingdomino-Logo-Transparant.png" />
          </image>
       </ImageView>
       <TextField fx:id="fldGeboortedatum" layoutX="58.0" layoutY="333.0" prefHeight="25.0" prefWidth="230.0" />
+      <ListView fx:id="lvGebruikers" layoutX="433.0" layoutY="213.0" prefHeight="174.0" prefWidth="139.0" />
+      <ListView fx:id="lvSpelers" layoutX="627.0" layoutY="212.0" prefHeight="174.0" prefWidth="139.0" />
+      <Button fx:id="btnAddAanSpelers" layoutX="461.0" layoutY="398.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="82.0" text="Voeg toe">
+         <font>
+            <Font name="Franklin Gothic Demi" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRemoveVanSpelers" layoutX="655.0" layoutY="398.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="82.0" text="Verwijder">
+         <font>
+            <Font name="Franklin Gothic Demi" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
