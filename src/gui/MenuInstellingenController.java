@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 
+import domein.DomeinController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,13 @@ public class MenuInstellingenController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	
+	private DomeinController dc;
+	
+	public void setDc(DomeinController dc) {
+		this.dc = dc;
+	}
+	
 	@FXML
 	private Button btnEnglish;
 
@@ -75,7 +83,13 @@ public class MenuInstellingenController {
 	}
 
 	public void switchToSceneStart(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("menuStart.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuStart.fxml"));
+		Parent root = loader.load();
+		
+		MenuStartController controller = loader.getController();
+		controller.setDc(dc);
+		
+		
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
