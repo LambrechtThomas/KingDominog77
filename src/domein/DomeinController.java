@@ -35,7 +35,7 @@ public class DomeinController {
 	 * @param geboortejaar   geboortejaar speler
 	 */
 
-	public void registreerSpeler(String gebruikersnaam, int geboortejaar) {
+	public void registreerSpeler(String gebruikersnaam, int geboortejaar) throws Exception {
 		checkVoorGebruikersNaam(gebruikersnaam);
 		checkAlsSpelerAlMeeDoet(gebruikersnaam);
 
@@ -52,7 +52,7 @@ public class DomeinController {
 	 * @param kleur  Kleur van de Koning
 	 */
 
-	public void spelerDoetMee(spelerDTO speler, Kleur kleur) {
+	public void spelerDoetMee(spelerDTO speler, Kleur kleur) throws Exception {
 		checkOfSpelerNietBestaat(speler);
 
 		Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
@@ -61,8 +61,12 @@ public class DomeinController {
 		deelnemendeSpelers.add(deelNemendeSpeler);
 
 	}
+	
+	public void clearDeelnemedeSpeler() {
+		deelnemendeSpelers.clear();
+	}
 
-	public void startSpel() {
+	public void startSpel() throws Exception {
 		CheckOfSpelKlaarIsGezet();
 
 		huidigSpel = new Spel(deelnemendeSpelers, dominoRepo.geefLijstDominos(deelnemendeSpelers.size()));
@@ -72,7 +76,7 @@ public class DomeinController {
 
 	// check of er 13 rondes gespeeld zijn en eindig dan het spel
 
-	public boolean isSpelTenEinde() {
+	public boolean isSpelTenEinde() throws Exception {
 		checkVoorHuidigSpel();
 
 		if (huidigSpel.getRonde() == 13)
@@ -83,7 +87,7 @@ public class DomeinController {
 
 	// Geeft weer hoeveel spelers er spelen
 
-	public int geefAantalSpelers() {
+	public int geefAantalSpelers() throws Exception {
 		checkVoorHuidigSpel();
 
 		return huidigSpel.getHuidigeSpelers().size();
@@ -98,7 +102,7 @@ public class DomeinController {
 	 * @return een arraylist spelersDTO
 	 */
 
-	public ArrayList<spelerDTO> geefDeelnemendeSpelers() {
+	public ArrayList<spelerDTO> geefDeelnemendeSpelers() throws Exception {
 		checkVoorHuidigSpel();
 
 		ArrayList<Speler> spelers = huidigSpel.getHuidigeSpelers();
@@ -165,7 +169,7 @@ public class DomeinController {
 	 * 
 	 * @return geeft de startkolom
 	 */
-	public ArrayList<dominoTegelDTO> geefStartKolom() {
+	public ArrayList<dominoTegelDTO> geefStartKolom() throws Exception {
 		checkVoorHuidigSpel();
 
 		ArrayList<dominoTegelDTO> startKolom = new ArrayList<>();
@@ -184,9 +188,18 @@ public class DomeinController {
 
 		return startKolom;
 	}
+	
+	// plaats domino bij koning
+	public void plaatsDomino(dominoTegelDTO dominoDTO, spelerDTO speler, int rij, int kolom) throws Exception {
+		DominoTegel domino = huidigSpel.getStartKolom().stream().filter(v -> v.getVolgnummer() == dominoDTO.volgnummer()).findFirst().get();
+		if (speler.gebruikersnaam().equals(huidigSpel.getKoning().getGebruikersnaam())) {
+			huidigSpel.plaatsDominoTegel(domino, rij, kolom);
+		} else 
+			throw new IllegalArgumentException("spelers komen niet overeen!!");
+	}
 
 	// Geeft de speler terug die aan de beurt is
-	public spelerDTO geefKoning() {
+	public spelerDTO geefKoning() throws Exception {
 		checkVoorHuidigSpel();
 
 		Speler koning = huidigSpel.getKoning();
@@ -195,7 +208,7 @@ public class DomeinController {
 	}
 
 	// Kiest een nieuwe koning
-	public void kiesNieuweKoning() {
+	public void kiesNieuweKoning() throws Exception {
 		checkVoorHuidigSpel();
 
 		huidigSpel.kiesKoning();
@@ -203,29 +216,29 @@ public class DomeinController {
 
 	// Vraagt aan spel welke ronde we zitten
 
-	public int getRonde() {
+	public int getRonde() throws Exception {
 		checkVoorHuidigSpel();
 
 		return huidigSpel.getRonde();
 	}
 
 	// === Checks ===
-	private void checkVoorHuidigSpel() {
+	private void checkVoorHuidigSpel() throws Exception {
 		if (huidigSpel == null)
 			throw new SpelBestaatNietException();
 	}
 
-	private void checkVoorGebruikersNaam(String naam) {
+	private void checkVoorGebruikersNaam(String naam) throws Exception {
 		if (spelerRepository.bestaatSpeler(naam))
 			throw new GebruikersnaamInGebruikException();
 	}
 
-	private void checkOfSpelerNietBestaat(spelerDTO speler) {
+	private void checkOfSpelerNietBestaat(spelerDTO speler) throws Exception {
 		if (!spelerRepository.bestaatSpeler(speler.gebruikersnaam()))
 			throw new SpelBestaatNietException();
 	}
 
-	private void checkAlsSpelerAlMeeDoet(String gebruikersnaam) {
+	private void checkAlsSpelerAlMeeDoet(String gebruikersnaam) throws Exception {
 		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam())
 				.collect(Collectors.toList());
 		if (deelname.contains(gebruikersnaam))
@@ -233,7 +246,7 @@ public class DomeinController {
 
 	}
 
-	private void CheckOfSpelKlaarIsGezet() {
+	private void CheckOfSpelKlaarIsGezet() throws Exception {
 		if (deelnemendeSpelers.size() < 3 || deelnemendeSpelers.size() > 4)
 			throw new IllegalArgumentException();
 

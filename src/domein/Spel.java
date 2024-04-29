@@ -79,15 +79,14 @@ public class Spel {
 	}
 
 	/**
-	 * Plaats een bepaalde DominoTegel in de grid(rij,kolom) van een bepaalde speler
+	 * Plaats een bepaalde DominoTegel in de grid(rij,kolom) van koning
 	 * 
-	 * @param speler speler waarvan we de grid gaan bewerken
 	 * @param domino
 	 * @param rij    het x coördinaat van het bord
 	 * @param kolom  het y coördinaat van het bord
 	 */
-	public void plaatsDominoTegel(Speler speler, DominoTegel domino, int rij, int kolom) {
-		speler.plaatsDomino(domino, rij, kolom);
+	public void plaatsDominoTegel(DominoTegel domino, int rij, int kolom) {
+		koning.plaatsDomino(domino, rij, kolom);
 	}
 
 	// Schud het deck

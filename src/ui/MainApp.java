@@ -79,45 +79,67 @@ public class MainApp {
 	}
 
 	private void startSpel() {
+
 		System.out.printf("%n== %s == %n", vertaal.geefWoord("PLAY_GAME"));
 
 		System.out.printf("%s%n", vertaal.geefWoord("HOW_MUCH_PLAYER"));
+		dc.clearDeelnemedeSpeler();
 		int hoeveelSpelers = vraagEenGetal(3, 4);
 
 		for (int i = 0; i < hoeveelSpelers; i++) {
 			System.out.printf("%n%s %d: %n", vertaal.geefWoord("PLAYER"), i + 1);
-			dc.spelerDoetMee(kiesEenSpeler(), kiesEenKleur());
+			try {
+				dc.spelerDoetMee(kiesEenSpeler(), kiesEenKleur()); // hier
+			} catch (Exception e) {
+				// FIX
+			}
 		}
 
-		dc.startSpel();
+		try {
+			dc.startSpel(); // hier
+		} catch (Exception e) {
+			// TODO
+		}
 
-		System.out.println(dc.geefDeelnemendeSpelers());
+		try {
+			System.out.println(dc.geefDeelnemendeSpelers()); // hier
+		} catch (Exception e) {
+			// TODO
+		}
 
-		while (!dc.isSpelTenEinde()) {
-			System.out.printf("%n%s %d%n", vertaal.geefWoord("ROUND"), dc.getRonde());
+		try {
+			while (!dc.isSpelTenEinde()) { // hier
+				System.out.printf("%n%s %d%n", vertaal.geefWoord("ROUND"), dc.getRonde()); // hier
 
-			speelRonde();
+				speelRonde();
+			}
+		} catch (Exception e) {
+			// TODO
 		}
 	}
 
 	private void speelRonde() {
-		ArrayList<dominoTegelDTO> startKolom = dc.geefStartKolom();
-		HashMap<spelerDTO, dominoTegelDTO> keuzes = new HashMap<>();
-		int aantalSpelers = dc.geefAantalSpelers();
+		try {
+			ArrayList<dominoTegelDTO> startKolom = dc.geefStartKolom();
+			HashMap<spelerDTO, dominoTegelDTO> keuzes = new HashMap<>();
+			int aantalSpelers = dc.geefAantalSpelers();
 
-		for (int i = 0; i < aantalSpelers; i++) {
-			spelerDTO koning = dc.geefKoning();
+			for (int i = 0; i < aantalSpelers; i++) {
+				spelerDTO koning = dc.geefKoning();
 
-			System.out.printf("%s %s: %n", vertaal.geefWoord("IS_PLAYING"), koning.gebruikersnaam());
+				System.out.printf("%s %s: %n", vertaal.geefWoord("IS_PLAYING"), koning.gebruikersnaam());
 
-			int keuze = printDominos(startKolom);
+				int keuze = printDominos(startKolom);
 
-			keuzes.put(koning, startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
-			startKolom.remove(startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
-			dc.kiesNieuweKoning();
+				keuzes.put(koning, startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
+				startKolom.remove(startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
+				dc.kiesNieuweKoning();
+			}
+
+			bevestiging(keuzes);
+		} catch (Exception e) {
+			// HIER
 		}
-
-		bevestiging(keuzes);
 	}
 
 	private void bevestiging(HashMap<spelerDTO, dominoTegelDTO> keuzes) {
@@ -201,16 +223,20 @@ public class MainApp {
 	}
 
 	private void startRegistratie() {
-		System.out.printf("%n== %s == %n", vertaal.geefWoord("REGISTER_PLAYER"));
+		try {
+			System.out.printf("%n== %s == %n", vertaal.geefWoord("REGISTER_PLAYER"));
 
-		String gebruikersnaam = vraagGebruikersnaam();
-		int geboortedatum = vraagGebrooteDatum();
+			String gebruikersnaam = vraagGebruikersnaam();
+			int geboortedatum = vraagGebrooteDatum();
 
-		dc.registreerSpeler(gebruikersnaam, geboortedatum);
+			dc.registreerSpeler(gebruikersnaam, geboortedatum);
 
-		System.out.printf("%n%s%n", vertaal.geefWoord("CONFIRMED"));
+			System.out.printf("%n%s%n", vertaal.geefWoord("CONFIRMED"));
 
-		beschikbareSpelers = dc.geefBeschikbareSpelers();
+			beschikbareSpelers = dc.geefBeschikbareSpelers();
+		} catch (Exception e) {
+			// HIER
+		}
 	}
 
 	private String vraagGebruikersnaam() {
