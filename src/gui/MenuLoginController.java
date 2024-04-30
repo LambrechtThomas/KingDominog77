@@ -75,6 +75,8 @@ public class MenuLoginController {
 		btnRemoveVanSpelers.setText(vertaal.geefWoord("REMOVE"));
 		lblConfiguratie.setText(vertaal.geefWoord("CONFIGURATION_GAME"));
 		lblOnderConfiguratie.setText(vertaal.geefWoord("CONFIGURATION_SUBTXT"));
+		lblGebruikersnaam.setText(vertaal.geefWoord("USERNAME"));
+		lblGeboortedatum.setText(vertaal.geefWoord("DATE_OF_BIRTH"));
 		
     }
     
