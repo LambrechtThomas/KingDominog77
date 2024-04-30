@@ -11,8 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import taalmanager.vertaal;
 
 public class MenuLoginController {
 
@@ -26,30 +28,56 @@ public class MenuLoginController {
 		this.dc = dc;
 	}
 
-	@FXML
-	private Button btnLogin;
+    @FXML
+    private Button btnAddAanSpelers;
 
-	@FXML
-	private Button btnNaarStart;
+    @FXML
+    private Button btnMaakGebruiker;
 
-	@FXML
-	private TextField fldGeboortedatum;
+    @FXML
+    private Button btnNaarStart;
 
-	@FXML
-	private TextField fldGebruikersnaam;
+    @FXML
+    private Button btnRemoveVanSpelers;
 
-	@FXML
-	private Label lblGeboortedatum;
+    @FXML
+    private TextField fldGeboortedatum;
 
-	@FXML
-	private Label lblGebruikersnaam;
+    @FXML
+    private TextField fldGebruikersnaam;
 
-	@FXML
-	private Label lblLogInOfMaakAccountAan;
+    @FXML
+    private Label lblConfiguratie;
 
-	@FXML
-	private Label lblWelkcomTerug;
+    @FXML
+    private Label lblGeboortedatum;
 
+    @FXML
+    private Label lblGebruikersnaam;
+
+    @FXML
+    private Label lblOnderConfiguratie;
+
+    @FXML
+    private ListView<?> lvGebruikers;
+
+    @FXML
+    private ListView<?> lvSpelers;
+
+    public void initialize(){
+    	updateLabels();
+    }
+
+    private void updateLabels() {
+		btnAddAanSpelers.setText(vertaal.geefWoord("ADD"));
+		btnMaakGebruiker.setText(vertaal.geefWoord("CREATE_USER"));
+		btnNaarStart.setText(vertaal.geefWoord("BACK_TO_START"));
+		btnRemoveVanSpelers.setText(vertaal.geefWoord("REMOVE"));
+		lblConfiguratie.setText(vertaal.geefWoord("CONFIGURATION_GAME"));
+		lblOnderConfiguratie.setText(vertaal.geefWoord("CONFIGURATION_SUBTXT"));
+		
+    }
+    
 	public void switchToSceneStart(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuStart.fxml"));
 		Parent root = loader.load();

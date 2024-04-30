@@ -16,22 +16,22 @@
             <Image url="@../../assets/background.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnNaarStart" layoutX="355.0" layoutY="147.0" mnemonicParsing="false" onAction="#switchToSceneStart" text="Terug naar START">
+      <Button fx:id="btnNaarStart" layoutX="346.0" layoutY="143.0" mnemonicParsing="false" onAction="#switchToSceneStart" text="&lt;&lt;&lt; Terug naar Start">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font></Button>
-      <Label fx:id="lblWelkcomTerug" layoutX="302.0" layoutY="82.0" prefHeight="39.0" prefWidth="216.0" text="Configuratie" textFill="WHITE">
+      <Label fx:id="lblConfiguratie" layoutX="302.0" layoutY="82.0" prefHeight="39.0" prefWidth="216.0" text="Configuratie" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Demi" size="34.0" />
          </font>
       </Label>
-      <Label fx:id="lblLogInOfMaakAccountAan" layoutX="211.0" layoutY="121.0" text="Maak een gebruiker aan of configureer de spelers" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lblOnderConfiguratie" layoutX="211.0" layoutY="121.0" text="Maak een gebruiker aan of configureer de spelers" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Demi" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="fldGebruikersnaam" layoutX="59.0" layoutY="287.0" prefHeight="25.0" prefWidth="230.0" />
-      <Button fx:id="btnLogin" layoutX="58.0" layoutY="371.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" text="Maak speler aan">
+      <Button fx:id="btnMaakGebruiker" layoutX="58.0" layoutY="371.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" text="Maak gebruiker aan">
          <font>
             <Font name="Franklin Gothic Demi" size="12.0" />
          </font></Button>
