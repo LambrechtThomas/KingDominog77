@@ -272,9 +272,18 @@ public class DomeinController {
 	}
 	
 	// GUI - Alertbox oproepen
-	public static void infoBox(String infoMessage, String titleBar, String headerMessage)
+	public static void errorBox(String infoMessage, String titleBar, String headerMessage)
     {
         Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle(titleBar);
+        alert.setHeaderText(headerMessage);
+        alert.setContentText(infoMessage);
+        alert.showAndWait();
+    }
+	
+	public static void doneBox(String infoMessage, String titleBar, String headerMessage)
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(titleBar);
         alert.setHeaderText(headerMessage);
         alert.setContentText(infoMessage);

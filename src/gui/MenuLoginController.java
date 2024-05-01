@@ -78,18 +78,19 @@ public class MenuLoginController {
 				
 				// Checken of de velden daadwerkelijk ingevuld zijn
 				if(gebruikersnaam.isEmpty() || geboortedatum.isEmpty()) {
-					dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+					dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 				}
 				else {
 					try {
 						dc.registreerSpeler(gebruikersnaam, Integer.parseInt(geboortedatum));
+						dc.doneBox(vertaal.geefWoord("CREATION_SUCCEED_MESSAGE"), vertaal.geefWoord("CREATION_SUCCEED_TITLE"), vertaal.geefWoord("CREATION_SUCCEED_HEADER"));
 					} catch (NumberFormatException e) {
 						System.err.print(e);
-						dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 						
 					} catch (Exception e) {
 						System.err.print(e);
-						dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 					}
 				}
 			}
