@@ -25,6 +25,13 @@ public class MenuStartController {
 
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
+		
+		try {
+			if (!dc.isSpelKlaarGezet())
+				btnNieuwSpel.setDisable(true);
+		} catch (Exception e) {
+			System.err.print(e);
+		}
 	}
 
 	// INFO: sts____ == switchToScene_____
@@ -79,29 +86,16 @@ public class MenuStartController {
 	}
 
 	public void switchToSceneGameBord(ActionEvent event) throws IOException {
-		boolean correct = false;
-		
-		try {
-			correct = dc.isSpelKlaarGezet();
-		} catch (Exception e) {
-			
-		}
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("gameBord.fxml"));
+		Parent root = loader.load();
 
-		if (correct) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("gameBord.fxml"));
-			Parent root = loader.load();
-			
-			gameBordController controller = loader.getController();
-			controller.setDc(dc);
-			
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-			
-		} else {
-			// Alert
-		}
+		gameBordController controller = loader.getController();
+		controller.setDc(dc);
+
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 
 	}
 

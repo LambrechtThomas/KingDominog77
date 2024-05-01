@@ -20,7 +20,7 @@ public class DomeinController {
 
 	private ArrayList<Speler> deelnemendeSpelers;
 	private ArrayList<Speler> beschikbareSpelers;
-	
+
 	private static final int MIN_AANTAL_SPELERS = 3;
 	private static final int MAX_AANTAL_SPELERS = 4;
 
@@ -66,7 +66,7 @@ public class DomeinController {
 		deelnemendeSpelers.add(deelNemendeSpeler);
 
 	}
-	
+
 	public void clearDeelnemedeSpeler() {
 		deelnemendeSpelers.clear();
 	}
@@ -182,24 +182,25 @@ public class DomeinController {
 
 		for (DominoTegel d : startKolomDomino) {
 			tegelDTO[] tegels = new tegelDTO[2];
-			
+
 			for (int i = 0; i < d.getTegels().length; i++) {
 				Tegel t = d.getTegels()[i];
 				tegels[i] = new tegelDTO(t.getLandschap(), t.getKroontjes());
 			}
-			
+
 			startKolom.add(new dominoTegelDTO(d.getVolgnummer(), tegels, d.isHorizontaal(), d.isSpiegeld()));
 		}
 
 		return startKolom;
 	}
-	
+
 	// plaats domino bij koning
 	public void plaatsDomino(dominoTegelDTO dominoDTO, spelerDTO speler, int rij, int kolom) throws Exception {
-		DominoTegel domino = huidigSpel.getStartKolom().stream().filter(v -> v.getVolgnummer() == dominoDTO.volgnummer()).findFirst().get();
+		DominoTegel domino = huidigSpel.getStartKolom().stream()
+				.filter(v -> v.getVolgnummer() == dominoDTO.volgnummer()).findFirst().get();
 		if (speler.gebruikersnaam().equals(huidigSpel.getKoning().getGebruikersnaam())) {
 			huidigSpel.plaatsDominoTegel(domino, rij, kolom);
-		} else 
+		} else
 			throw new IllegalArgumentException("spelers komen niet overeen!!");
 	}
 
@@ -226,13 +227,14 @@ public class DomeinController {
 
 		return huidigSpel.getRonde();
 	}
-	
+
 	// Deze methode zeg of het spel correct is klaar gezet (spel bestaat nog niet)
 	public boolean isSpelKlaarGezet() {
-		if (deelnemendeSpelers.size() >= MIN_AANTAL_SPELERS && deelnemendeSpelers.size() <= MAX_AANTAL_SPELERS && huidigSpel == null) {
-				return true;
+		if (deelnemendeSpelers.size() >= MIN_AANTAL_SPELERS && deelnemendeSpelers.size() <= MAX_AANTAL_SPELERS
+				&& huidigSpel == null) {
+			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -270,23 +272,30 @@ public class DomeinController {
 		if (kleuren.size() != deelnemendeSpelers.size())
 			throw new IllegalArgumentException();
 	}
-	
+
 	// GUI - Alertbox oproepen
-	public static void errorBox(String infoMessage, String titleBar, String headerMessage)
-    {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle(titleBar);
-        alert.setHeaderText(headerMessage);
-        alert.setContentText(infoMessage);
-        alert.showAndWait();
-    }
-	
-	public static void doneBox(String infoMessage, String titleBar, String headerMessage)
-    {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(titleBar);
-        alert.setHeaderText(headerMessage);
-        alert.setContentText(infoMessage);
-        alert.showAndWait();
-    }
+	public static void errorBox(String infoMessage, String titleBar, String headerMessage) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle(titleBar);
+		alert.setHeaderText(headerMessage);
+		alert.setContentText(infoMessage);
+		alert.showAndWait();
+	}
+
+	public static void doneBox(String infoMessage, String titleBar, String headerMessage) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(titleBar);
+		alert.setHeaderText(headerMessage);
+		alert.setContentText(infoMessage);
+		alert.showAndWait();
+	}
+
+	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle(titleBar);
+		alert.setHeaderText(headerMessage);
+		alert.setContentText(infoMessage);
+		alert.showAndWait();
+	}
+
 }
