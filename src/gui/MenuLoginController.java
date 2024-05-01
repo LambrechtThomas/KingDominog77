@@ -4,11 +4,14 @@ import java.io.IOException;
 
 import domein.DomeinController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -66,6 +69,31 @@ public class MenuLoginController {
 
     public void initialize(){
     	updateLabels();
+    	
+    	btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
+    		public void handle(ActionEvent event) {
+				// Data uit fields ophalen
+    			String gebruikersnaam = fldGebruikersnaam.getText();
+				String geboortedatum = fldGeboortedatum.getText();
+				
+				// Checken of de velden daadwerkelijk ingevuld zijn
+				if(gebruikersnaam.isEmpty() || geboortedatum.isEmpty()) {
+					dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+				}
+				else {
+					try {
+						dc.registreerSpeler(gebruikersnaam, Integer.parseInt(geboortedatum));
+					} catch (NumberFormatException e) {
+						System.err.print(e);
+						dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+						
+					} catch (Exception e) {
+						System.err.print(e);
+						dc.infoBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+					}
+				}
+			}
+    	});
     }
 
     private void updateLabels() {
@@ -91,5 +119,6 @@ public class MenuLoginController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-	}
+	}	
+	
 }

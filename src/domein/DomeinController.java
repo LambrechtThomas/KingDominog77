@@ -9,6 +9,8 @@ import DTO.tegelDTO;
 import exceptions.GebruikersnaamInGebruikException;
 import exceptions.SpelBestaatNietException;
 import exceptions.SpelerDoetAlMeeException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class DomeinController {
 
@@ -256,4 +258,14 @@ public class DomeinController {
 		if (kleuren.size() != deelnemendeSpelers.size())
 			throw new IllegalArgumentException();
 	}
+	
+	// GUI - Alertbox oproepen
+	public static void infoBox(String infoMessage, String titleBar, String headerMessage)
+    {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle(titleBar);
+        alert.setHeaderText(headerMessage);
+        alert.setContentText(infoMessage);
+        alert.showAndWait();
+    }
 }
