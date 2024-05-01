@@ -88,23 +88,30 @@ public class MainApp {
 
 		for (int i = 0; i < hoeveelSpelers; i++) {
 			System.out.printf("%n%s %d: %n", vertaal.geefWoord("PLAYER"), i + 1);
+			
 			try {
 				dc.spelerDoetMee(kiesEenSpeler(), kiesEenKleur()); // hier
+				
 			} catch (Exception e) {
-				// FIX
+				System.err.println(e);
+				startConsoleGame();
 			}
 		}
 
 		try {
 			dc.startSpel(); // hier
+			
 		} catch (Exception e) {
-			// TODO
+			System.err.println(e);
+			startConsoleGame();
 		}
 
 		try {
 			System.out.println(dc.geefDeelnemendeSpelers()); // hier
+			
 		} catch (Exception e) {
-			// TODO
+			System.err.println(e);
+			startConsoleGame();
 		}
 
 		try {
@@ -113,8 +120,10 @@ public class MainApp {
 
 				speelRonde();
 			}
+			
 		} catch (Exception e) {
-			// TODO
+			System.err.println(e);
+			startConsoleGame();
 		}
 	}
 
@@ -122,10 +131,10 @@ public class MainApp {
 		try {
 			ArrayList<dominoTegelDTO> startKolom = dc.geefStartKolom();
 			HashMap<spelerDTO, dominoTegelDTO> keuzes = new HashMap<>();
-			int aantalSpelers = dc.geefAantalSpelers();
+			int aantalSpelers = dc.geefAantalSpelers();	//Hier
 
 			for (int i = 0; i < aantalSpelers; i++) {
-				spelerDTO koning = dc.geefKoning();
+				spelerDTO koning = dc.geefKoning();	//Hier
 
 				System.out.printf("%s %s: %n", vertaal.geefWoord("IS_PLAYING"), koning.gebruikersnaam());
 
@@ -133,12 +142,14 @@ public class MainApp {
 
 				keuzes.put(koning, startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
 				startKolom.remove(startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
-				dc.kiesNieuweKoning();
+				dc.kiesNieuweKoning(); //Hier
 			}
 
 			bevestiging(keuzes);
+			
 		} catch (Exception e) {
-			// HIER
+			System.err.println(e);
+			startConsoleGame();
 		}
 	}
 
@@ -229,48 +240,60 @@ public class MainApp {
 			String gebruikersnaam = vraagGebruikersnaam();
 			int geboortedatum = vraagGebrooteDatum();
 
-			dc.registreerSpeler(gebruikersnaam, geboortedatum);
+			dc.registreerSpeler(gebruikersnaam, geboortedatum); // Hier
 
 			System.out.printf("%n%s%n", vertaal.geefWoord("CONFIRMED"));
 
 			beschikbareSpelers = dc.geefBeschikbareSpelers();
 		} catch (Exception e) {
-			// HIER
+			System.err.println(e);
+			startConsoleGame();
 		}
 	}
 
 	private String vraagGebruikersnaam() {
-		String gebruikersnaam;
-		boolean fout = false;
-		input.nextLine();
+		String gebruikersnaam = "";
 		boolean correct = false;
+		input.nextLine();
 
 		do {
-			if (fout)
-				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_USER_ID"));
+			try {
+				System.out.printf("%s ", vertaal.geefWoord("ENTER_USER_ID"));
+				gebruikersnaam = input.nextLine();
 
-			System.out.printf("%s ", vertaal.geefWoord("ENTER_USER_ID"));
-			gebruikersnaam = input.nextLine();
-
-			fout = true;
-		} while (gebruikersnaam == null || gebruikersnaam.isBlank() || dc.bestaatSpeler(gebruikersnaam));
+				correct = gebruikersnaam == null || gebruikersnaam.isBlank() || dc.bestaatSpeler(gebruikersnaam);
+				if (!correct)
+					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_USER_ID"));
+				
+			} catch (Exception e) {
+				System.err.print(e);
+				input.nextLine();
+			}
+			
+		} while (!correct);
 
 		return gebruikersnaam;
 	}
 
 	private int vraagGebrooteDatum() {
-		int gebrootedatum;
-		boolean fout = false;
+		int gebrootedatum = 0;
+		boolean correct = false;
 
 		do {
-			if (fout)
-				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_DATE"));
+			try {
+				System.out.printf("%s ", vertaal.geefWoord("ENTER_BIRTHDAY"));
+				gebrootedatum = input.nextInt();
 
-			System.out.printf("%s ", vertaal.geefWoord("ENTER_BIRTHDAY"));
-			gebrootedatum = input.nextInt();
-
-			fout = true;
-		} while (gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue());
+				correct = gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue();
+				if (!correct)
+					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_DATE"));
+				
+			} catch (Exception e) {
+				System.err.print(e);
+				input.nextLine();
+			}
+			
+		} while (!correct);
 
 		return gebrootedatum;
 	}
@@ -293,18 +316,23 @@ public class MainApp {
 	}
 
 	public int vraagEenGetal(int ondergrens, int bovengrens) {
-		int getal;
-		boolean fout = false;
+		int getal = 0;
+		boolean correct = false;
 
 		do {
-			if (fout)
-				System.out.printf("%s%n%n", vertaal.geefWoord("VALID_NUM"));
+			try {
+				System.out.printf("%s ", vertaal.geefWoord("MAKE_UR_CHOICE"));
+				getal = input.nextInt();
 
-			System.out.printf("%s ", vertaal.geefWoord("MAKE_UR_CHOICE"));
-			getal = input.nextInt();
-
-			fout = true;
-		} while (getal < ondergrens || getal > bovengrens);
+				correct = getal < ondergrens || getal > bovengrens;
+				if (!correct)
+					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_NUM"));
+				
+			} catch (Exception e) {
+				System.err.print(e);
+				input.nextLine();
+			}
+		} while (!correct);
 
 		return getal;
 	}
