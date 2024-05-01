@@ -70,6 +70,7 @@ public class MenuLoginController {
     public void initialize(){
     	updateLabels();
     	
+    	// Gebruiker aanmaken
     	btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
 				// Data uit fields ophalen
@@ -81,20 +82,30 @@ public class MenuLoginController {
 					dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 				}
 				else {
+					// Try catch om na te gaan of de gebruiker in de database zit/geboortejaar een cijfer is
 					try {
 						dc.registreerSpeler(gebruikersnaam, Integer.parseInt(geboortedatum));
+						
+						// Gelukt alert
 						dc.doneBox(vertaal.geefWoord("CREATION_SUCCEED_MESSAGE"), vertaal.geefWoord("CREATION_SUCCEED_TITLE"), vertaal.geefWoord("CREATION_SUCCEED_HEADER"));
 					} catch (NumberFormatException e) {
 						System.err.print(e);
+						
+						// Niet gelukt cijfer alert
 						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 						
 					} catch (Exception e) {
 						System.err.print(e);
+						
+						// Niet gelukt bestaand alert
 						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"), vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 					}
 				}
 			}
     	});
+    	
+    	
+    	
     }
 
     private void updateLabels() {
