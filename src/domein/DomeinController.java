@@ -20,6 +20,9 @@ public class DomeinController {
 
 	private ArrayList<Speler> deelnemendeSpelers;
 	private ArrayList<Speler> beschikbareSpelers;
+	
+	private static final int MIN_AANTAL_SPELERS = 3;
+	private static final int MAX_AANTAL_SPELERS = 4;
 
 	public DomeinController() {
 		spelerRepository = new SpelerRepository();
@@ -39,7 +42,6 @@ public class DomeinController {
 
 	public void registreerSpeler(String gebruikersnaam, int geboortejaar) throws Exception {
 		checkVoorGebruikersNaam(gebruikersnaam);
-		checkAlsSpelerAlMeeDoet(gebruikersnaam);
 
 		Speler nieuweSpeler = new Speler(gebruikersnaam, geboortejaar);
 		spelerRepository.voegToe(nieuweSpeler);
@@ -56,6 +58,7 @@ public class DomeinController {
 
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) throws Exception {
 		checkOfSpelerNietBestaat(speler);
+		checkAlsSpelerAlMeeDoet(speler);
 
 		Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
 		deelNemendeSpeler.setKleur(kleur);
@@ -104,7 +107,7 @@ public class DomeinController {
 	 * @return een arraylist spelersDTO
 	 */
 
-	public ArrayList<spelerDTO> geefDeelnemendeSpelers() throws Exception {
+	public ArrayList<spelerDTO> geefDeelnemendeSpelersInSpel() throws Exception {
 		checkVoorHuidigSpel();
 
 		ArrayList<Speler> spelers = huidigSpel.getHuidigeSpelers();
@@ -223,6 +226,15 @@ public class DomeinController {
 
 		return huidigSpel.getRonde();
 	}
+	
+	// Deze methode zeg of het spel correct is klaar gezet (spel bestaat nog niet)
+	public boolean isSpelKlaarGezet() {
+		if (deelnemendeSpelers.size() >= MIN_AANTAL_SPELERS && deelnemendeSpelers.size() <= MAX_AANTAL_SPELERS && huidigSpel == null) {
+				return true;
+		}
+		
+		return false;
+	}
 
 	// === Checks ===
 	private void checkVoorHuidigSpel() throws Exception {
@@ -240,16 +252,16 @@ public class DomeinController {
 			throw new SpelBestaatNietException();
 	}
 
-	private void checkAlsSpelerAlMeeDoet(String gebruikersnaam) throws Exception {
+	private void checkAlsSpelerAlMeeDoet(spelerDTO speler) throws Exception {
 		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam())
 				.collect(Collectors.toList());
-		if (deelname.contains(gebruikersnaam))
+		if (deelname.contains(speler.gebruikersnaam()))
 			throw new SpelerDoetAlMeeException();
 
 	}
 
 	private void CheckOfSpelKlaarIsGezet() throws Exception {
-		if (deelnemendeSpelers.size() < 3 || deelnemendeSpelers.size() > 4)
+		if (deelnemendeSpelers.size() < MIN_AANTAL_SPELERS || deelnemendeSpelers.size() > MAX_AANTAL_SPELERS)
 			throw new IllegalArgumentException();
 
 		ArrayList<Kleur> kleuren = (ArrayList<Kleur>) deelnemendeSpelers.stream().map(v -> v.getKleur()).distinct()

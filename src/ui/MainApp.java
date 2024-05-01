@@ -107,7 +107,7 @@ public class MainApp {
 		}
 
 		try {
-			System.out.println(dc.geefDeelnemendeSpelers()); // hier
+			System.out.println(dc.geefDeelnemendeSpelersInSpel()); // hier
 			
 		} catch (Exception e) {
 			System.err.println(e);

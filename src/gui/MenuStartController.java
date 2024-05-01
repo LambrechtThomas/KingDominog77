@@ -22,7 +22,7 @@ public class MenuStartController {
 	private Parent root;
 
 	private DomeinController dc;
-	
+
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
 	}
@@ -55,10 +55,10 @@ public class MenuStartController {
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuLogin.fxml"));
 		Parent root = loader.load();
-		
+
 		MenuLoginController controller = loader.getController();
 		controller.setDc(dc);
-		 
+
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -68,10 +68,10 @@ public class MenuStartController {
 	public void switchToSceneInstellingen(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuInstellingen.fxml"));
 		Parent root = loader.load();
-		
+
 		MenuInstellingenController controller = loader.getController();
 		controller.setDc(dc);
-		
+
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -79,16 +79,30 @@ public class MenuStartController {
 	}
 
 	public void switchToSceneGameBord(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("gameBord.fxml"));
-		Parent root = loader.load();
+		boolean correct = false;
 		
-		gameBordController controller = loader.getController();
-		controller.setDc(dc);
-		
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		try {
+			correct = dc.isSpelKlaarGezet();
+		} catch (Exception e) {
+			
+		}
+
+		if (correct) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("gameBord.fxml"));
+			Parent root = loader.load();
+			
+			gameBordController controller = loader.getController();
+			controller.setDc(dc);
+			
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+			
+		} else {
+			// Alert
+		}
+
 	}
 
 }

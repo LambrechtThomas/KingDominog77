@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
@@ -25,81 +26,9 @@ public class gameBordController {
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
 	}
-
+	
 	@FXML
-	private Button btn00;
-
-	@FXML
-	private Button btn01;
-
-	@FXML
-	private Button btn02;
-
-	@FXML
-	private Button btn03;
-
-	@FXML
-	private Button btn04;
-
-	@FXML
-	private Button btn10;
-
-	@FXML
-	private Button btn11;
-
-	@FXML
-	private Button btn12;
-
-	@FXML
-	private Button btn13;
-
-	@FXML
-	private Button btn14;
-
-	@FXML
-	private Button btn20;
-
-	@FXML
-	private Button btn21;
-
-	@FXML
-	private Button btn22King;
-
-	@FXML
-	private Button btn23;
-
-	@FXML
-	private Button btn24;
-
-	@FXML
-	private Button btn30;
-
-	@FXML
-	private Button btn31;
-
-	@FXML
-	private Button btn32;
-
-	@FXML
-	private Button btn33;
-
-	@FXML
-	private Button btn34;
-
-	@FXML
-	private Button btn40;
-
-	@FXML
-	private Button btn41;
-
-	@FXML
-	private Button btn42;
-
-	@FXML
-	private Button btn43;
-
-	@FXML
-	private Button btn44;
+	private GridPane grdBord;
 
 	@FXML
 	private Button btnDraai;
