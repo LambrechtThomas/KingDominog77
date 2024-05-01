@@ -35,9 +35,11 @@ public class MenuLoginController {
 	
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
+		gebruikersLijstUpdate();
 	}
 	
-    @FXML
+
+	@FXML
     private Button btnAddAanSpelers;
 
     @FXML
@@ -68,14 +70,13 @@ public class MenuLoginController {
     private Label lblOnderConfiguratie;
 
     @FXML
-    private ListView<Speler> lvGebruikers;
+    private ListView<spelerDTO> lvGebruikers;
 
     @FXML
-    private ListView<Speler> lvSpelers;
+    private ListView<spelerDTO> lvSpelers;
 
     public void initialize(){
     	updateLabels();
-    	// -------------------------------------------------------
     	// Gebruiker aanmaken
     	btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
@@ -94,6 +95,7 @@ public class MenuLoginController {
 						
 						// Gelukt alert
 						dc.doneBox(vertaal.geefWoord("CREATION_SUCCEED_MESSAGE"), vertaal.geefWoord("CREATION_SUCCEED_TITLE"), vertaal.geefWoord("CREATION_SUCCEED_HEADER"));
+						gebruikersLijstUpdate();
 					} catch (NumberFormatException e) {
 						System.err.print(e);
 						
@@ -109,26 +111,12 @@ public class MenuLoginController {
 				}
 			}
     	});
-    	// -------------------------------------------------------
-    	// ListView laten vullen met gebruikers
-    	
-    	// Haal de gebruikers op
-    	ArrayList<spelerDTO> beschikbareSpelerDTO = dc.geefBeschikbareSpelers();
 
-    	// ObservableList maken
-    	ObservableList<Speler> beschikbareSpelers = FXCollections.observableArrayList();
-
-    	// Aanvullen van de ObservableList
-    	for(spelerDTO spelerDTO : beschikbareSpelerDTO) {
-    	    Speler speler = new Speler(spelerDTO.gebruikersnaam(), spelerDTO.geboortejaar(), spelerDTO.aantalGewonnen(), spelerDTO.aantalGespeeld());
-    	    beschikbareSpelers.add(speler);
-    	}
-    	
-    	// Laad de ObservableList in de ListView
-    	lvGebruikers.setItems(beschikbareSpelers);
 
     	
     }
+    
+    
 
     private void updateLabels() {
 		btnAddAanSpelers.setText(vertaal.geefWoord("ADD"));
@@ -154,5 +142,20 @@ public class MenuLoginController {
 		stage.setScene(scene);
 		stage.show();
 	}	
+	
+	// ListView laten vullen met gebruikers
+    private void gebruikersLijstUpdate() {
+
+    	
+    	// Haal de gebruikers op
+    	ArrayList<spelerDTO> beschikbareSpelerDTO = dc.geefBeschikbareSpelers();
+
+    	// ObservableList maken
+    	ObservableList<spelerDTO> beschikbareSpelers = FXCollections.observableArrayList(beschikbareSpelerDTO);
+    	
+    	// Laad de ObservableList in de ListView
+    	lvGebruikers.setItems(beschikbareSpelers);
+		
+	}
 	
 }

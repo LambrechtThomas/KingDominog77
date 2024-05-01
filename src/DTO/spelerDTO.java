@@ -8,4 +8,9 @@ public record spelerDTO(String gebruikersnaam, int geboortejaar, int aantalGewon
 		this.aantalGewonnen = aantalGewonnen;
 		this.aantalGespeeld = aantalGespeeld;
 	}
+	
+	@Override
+	public String toString() {
+		return gebruikersnaam;
+	}
 }
