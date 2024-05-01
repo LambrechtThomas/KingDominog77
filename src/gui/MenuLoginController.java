@@ -1,8 +1,14 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Observable;
 
+import DTO.spelerDTO;
 import domein.DomeinController;
+import domein.Speler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,7 +36,7 @@ public class MenuLoginController {
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
 	}
-
+	
     @FXML
     private Button btnAddAanSpelers;
 
@@ -62,14 +68,14 @@ public class MenuLoginController {
     private Label lblOnderConfiguratie;
 
     @FXML
-    private ListView<?> lvGebruikers;
+    private ListView<Speler> lvGebruikers;
 
     @FXML
-    private ListView<?> lvSpelers;
+    private ListView<Speler> lvSpelers;
 
     public void initialize(){
     	updateLabels();
-    	
+    	// -------------------------------------------------------
     	// Gebruiker aanmaken
     	btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
@@ -103,8 +109,24 @@ public class MenuLoginController {
 				}
 			}
     	});
+    	// -------------------------------------------------------
+    	// ListView laten vullen met gebruikers
     	
+    	// Haal de gebruikers op
+    	ArrayList<spelerDTO> beschikbareSpelerDTO = dc.geefBeschikbareSpelers();
+
+    	// ObservableList maken
+    	ObservableList<Speler> beschikbareSpelers = FXCollections.observableArrayList();
+
+    	// Aanvullen van de ObservableList
+    	for(spelerDTO spelerDTO : beschikbareSpelerDTO) {
+    	    Speler speler = new Speler(spelerDTO.gebruikersnaam(), spelerDTO.geboortejaar(), spelerDTO.aantalGewonnen(), spelerDTO.aantalGespeeld());
+    	    beschikbareSpelers.add(speler);
+    	}
     	
+    	// Laad de ObservableList in de ListView
+    	lvGebruikers.setItems(beschikbareSpelers);
+
     	
     }
 

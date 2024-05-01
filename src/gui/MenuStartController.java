@@ -22,7 +22,7 @@ public class MenuStartController {
 	private Parent root;
 
 	private DomeinController dc;
-
+	
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
 		
