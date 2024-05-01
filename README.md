@@ -1,4 +1,4 @@
-# Readme - KingDomino in Java
+# README - KingDomino in Java
 
 ## Projectbeschrijving
 
