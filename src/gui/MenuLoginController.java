@@ -78,7 +78,7 @@ public class MenuLoginController {
     public void initialize(){
     	updateLabels();
     	// Gebruiker aanmaken
-    	btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
+    		btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
 				// Data uit fields ophalen
     			String gebruikersnaam = fldGebruikersnaam.getText();
@@ -112,6 +112,7 @@ public class MenuLoginController {
 			}
     	});
     	
+    	// Gebruiker -> Speler
     	btnAddAanSpelers.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
     			ObservableList<spelerDTO> observableSpelerLijst = FXCollections.observableArrayList(spelerLijst);
@@ -132,7 +133,7 @@ public class MenuLoginController {
     		}
     	});
     	
-    	
+    	// Speler -> Gebruiker
     	btnRemoveVanSpelers.setOnAction(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
     			ObservableList<spelerDTO> observableSpelerLijst = FXCollections.observableArrayList(spelerLijst);
@@ -153,7 +154,24 @@ public class MenuLoginController {
     			}
     	});
     	
-    }
+    	// Speler registreren
+    	btnNaarStart.setOnAction(new EventHandler<ActionEvent>() {
+    	    public void handle(ActionEvent event) {
+    	        try {
+    	            // Spelers uit de ListView halen
+    	            ObservableList<spelerDTO> geselecteerdeSpelers = lvSpelers.getItems();
+    	            // registreerGeselecteerdeSpelers uit de DC aanroepen en de Spelers meegeven
+    	            dc.registreerGeselecteerdeSpelers(new ArrayList<>(geselecteerdeSpelers));
+    	            // Scene switchen naar startscherm
+    	            switchToSceneStart(event);
+    	        } catch (Exception e) {
+    	            System.err.println(e);
+    	        }
+    	        dc.printDeelnemendeSpelers();
+    	    }
+    	});
+    }    
+    
     
     public void setDc(DomeinController dc) {
 		this.dc = dc;

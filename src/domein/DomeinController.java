@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import DTO.dominoTegelDTO;
@@ -66,6 +67,23 @@ public class DomeinController {
 		deelnemendeSpelers.add(deelNemendeSpeler);
 
 	}
+	
+	public void registreerGeselecteerdeSpelers(ArrayList<spelerDTO> geselecteerdeSpelers) throws Exception {
+	    Random random = new Random();
+	    for (spelerDTO speler : geselecteerdeSpelers) {
+	        int randomKleurIndex = random.nextInt(4);
+	        Kleur willekeurigeKleur = Kleur.values()[randomKleurIndex];
+	        spelerDoetMee(speler, willekeurigeKleur);
+	    }
+	}
+	
+	public void printDeelnemendeSpelers() {
+	    for (Speler speler : deelnemendeSpelers) {
+	        System.out.println(speler.getGebruikersnaam() + ", " + speler.getKleur());
+	    }
+	}
+
+	
 
 	public void clearDeelnemedeSpeler() {
 		deelnemendeSpelers.clear();
