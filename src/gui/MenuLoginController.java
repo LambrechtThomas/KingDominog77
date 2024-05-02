@@ -31,14 +31,14 @@ public class MenuLoginController {
 	private Scene scene;
 	private Parent root;
 	
+	// Dit is om de ListViews te populaten
+	private ArrayList<spelerDTO> beschikbareSpelerDTO;
+	private ObservableList<spelerDTO> beschikbareSpelers;
+	private ArrayList<spelerDTO> spelerLijst = new ArrayList<>();
+	
+	
 	private DomeinController dc;
 	
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		gebruikersLijstUpdate();
-	}
-	
-
 	@FXML
     private Button btnAddAanSpelers;
 
@@ -111,12 +111,54 @@ public class MenuLoginController {
 				}
 			}
     	});
-
-
+    	
+    	btnAddAanSpelers.setOnAction(new EventHandler<ActionEvent>() {
+    		public void handle(ActionEvent event) {
+    			ObservableList<spelerDTO> observableSpelerLijst = FXCollections.observableArrayList(spelerLijst);
+ 
+    			if(observableSpelerLijst.size() <= 3) {	
+        			// Geselecteerd item uit de ListView in een variabele zetten
+        			spelerDTO selectedItem = lvGebruikers.getSelectionModel().getSelectedItem();
+        			
+        			// Gebruikers -> Spelers
+        			spelerLijst.add(selectedItem);
+        			observableSpelerLijst = FXCollections.observableArrayList(spelerLijst);
+        			// Gebruiker uit de ObservableList deleten
+        			beschikbareSpelers.remove(selectedItem);
+        			
+        			// Updaten van de ListView van gebruikers
+        			lvSpelers.setItems(observableSpelerLijst);
+    			}
+    		}
+    	});
+    	
+    	
+    	btnRemoveVanSpelers.setOnAction(new EventHandler<ActionEvent>() {
+    		public void handle(ActionEvent event) {
+    			ObservableList<spelerDTO> observableSpelerLijst = FXCollections.observableArrayList(spelerLijst);
+        			spelerDTO selectedItem = lvSpelers.getSelectionModel().getSelectedItem();
+        			
+        			// Verwijderen uit LV van Spelers
+        			observableSpelerLijst.remove(selectedItem);
+        			spelerLijst.remove(selectedItem);
+        			lvSpelers.setItems(observableSpelerLijst);
+        			
+        			// Speler -> Gebruiker
+        			beschikbareSpelers.add(selectedItem);
+        			
+        			// Doorpompen naar LV
+        			lvGebruikers.setItems(beschikbareSpelers);
+        			
+        			
+    			}
+    	});
     	
     }
     
-    
+    public void setDc(DomeinController dc) {
+		this.dc = dc;
+		gebruikersLijstUpdate();
+	}
 
     private void updateLabels() {
 		btnAddAanSpelers.setText(vertaal.geefWoord("ADD"));
@@ -145,17 +187,13 @@ public class MenuLoginController {
 	
 	// ListView laten vullen met gebruikers
     private void gebruikersLijstUpdate() {
-
-    	
     	// Haal de gebruikers op
-    	ArrayList<spelerDTO> beschikbareSpelerDTO = dc.geefBeschikbareSpelers();
-
+    	beschikbareSpelerDTO = dc.geefBeschikbareSpelers();
     	// ObservableList maken
-    	ObservableList<spelerDTO> beschikbareSpelers = FXCollections.observableArrayList(beschikbareSpelerDTO);
+    	beschikbareSpelers = FXCollections.observableArrayList(beschikbareSpelerDTO);
     	
     	// Laad de ObservableList in de ListView
     	lvGebruikers.setItems(beschikbareSpelers);
-		
 	}
 	
 }
