@@ -93,9 +93,7 @@ public class DomeinController {
 	// Geeft weer hoeveel spelers er spelen
 
 	public int geefAantalSpelers() throws Exception {
-		checkVoorHuidigSpel();
-
-		return huidigSpel.getHuidigeSpelers().size();
+		return deelnemendeSpelers.size();
 	}
 
 	// Deze geeft een lijst terug van spelerDTO, deze spelers zitten in spel

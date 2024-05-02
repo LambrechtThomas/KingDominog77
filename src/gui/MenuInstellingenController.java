@@ -23,10 +23,6 @@ public class MenuInstellingenController {
 	
 	private DomeinController dc;
 	
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-	}
-	
 	@FXML
 	private Button btnEnglish;
 
@@ -69,6 +65,10 @@ public class MenuInstellingenController {
 				updateLabels();
 			}
 		});
+	}
+	
+	public void setDc(DomeinController dc) {
+		this.dc = dc;
 	}
 
 	private void updateLabels() {

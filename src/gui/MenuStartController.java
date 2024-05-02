@@ -22,17 +22,6 @@ public class MenuStartController {
 	private Parent root;
 
 	private DomeinController dc;
-	
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		
-		try {
-			if (!dc.isSpelKlaarGezet())
-				btnNieuwSpel.setDisable(true);
-		} catch (Exception e) {
-			System.err.print(e);
-		}
-	}
 
 	// INFO: sts____ == switchToScene_____
 
@@ -57,6 +46,17 @@ public class MenuStartController {
 		btnLogin.setText(vertaal.geefWoord("LOGIN"));
 
 		btnInstelling.setText(vertaal.geefWoord("SETTINGS"));
+	}
+	
+	public void setDc(DomeinController dc) {
+		this.dc = dc;
+		
+		try {
+			if (dc.isSpelKlaarGezet()) // Hier !
+				btnNieuwSpel.setDisable(true);
+		} catch (Exception e) {
+			System.err.print(e);
+		}
 	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
