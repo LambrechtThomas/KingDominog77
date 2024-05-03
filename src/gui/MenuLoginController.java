@@ -174,7 +174,7 @@ public class MenuLoginController {
 			// clear de deelnames
 			dc.clearDeelnemedeSpeler();
 			// Vraag kleuren op
-			ArrayList<Kleur> kleuren = new ArrayList<>(Arrays.asList(Kleur.values()));
+			ArrayList<Kleur> kleuren = new ArrayList<>(dc.geefBeschikbareKleuren());
 
 			// Speler laten meedoen aan het spel met rando kleuren
 			for (int i = 0; i < observableSpelerLijst.size(); i++) {
