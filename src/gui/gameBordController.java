@@ -148,7 +148,7 @@ public class gameBordController {
 			 */
 		}
 
-		if (aantalSpelers == 3) {
+		if (lbSpelers.length < 4) {
 			lbScore4.setDisable(true);
 			lbScore4.setVisible(false);
 			lbSpeler4.setDisable(true);
