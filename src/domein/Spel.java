@@ -6,7 +6,7 @@ import java.util.Collections;
 
 public class Spel {
 	private ArrayList<DominoTegel> startKolom;
-	private ArrayList<DominoTegel> eindKolom;
+	private ArrayList<DominoTegel> gebruikteDominos;
 	private ArrayList<DominoTegel> alleDominos;
 
 	private ArrayList<Speler> huidigeSpelers;
@@ -27,7 +27,7 @@ public class Spel {
 	public Spel(ArrayList<Speler> huidigeSpelers, ArrayList<DominoTegel> alleDominos) {
 		this.alleDominos = alleDominos;
 		startKolom = new ArrayList<>();
-		eindKolom = new ArrayList<>();
+		gebruikteDominos = new ArrayList<>();
 
 		sr = new SecureRandom();
 
@@ -53,8 +53,8 @@ public class Spel {
 		this.startKolom = startKolom;
 	}
 
-	public void setEindKolom(ArrayList<DominoTegel> eindKolom) {
-		this.eindKolom = eindKolom;
+	public void setGebruikteDominos(ArrayList<DominoTegel> gebruikteDominos) {
+		this.gebruikteDominos = gebruikteDominos;
 	}
 
 	// Getters
@@ -63,7 +63,7 @@ public class Spel {
 	}
 
 	public ArrayList<DominoTegel> getEindKolom() {
-		return eindKolom;
+		return gebruikteDominos;
 	}
 
 	public Speler getKoning() {
@@ -96,8 +96,7 @@ public class Spel {
 
 	// De tegels die op tafel liggen (start/eindkolom)
 	public void wisselKolomTegel() {
-		eindKolom.clear();
-		eindKolom.addAll(alleDominos);
+		gebruikteDominos.addAll(startKolom);
 
 		startKolom.clear();
 

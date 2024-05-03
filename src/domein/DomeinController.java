@@ -9,6 +9,7 @@ import DTO.spelerDTO;
 import DTO.tegelDTO;
 import exceptions.GebruikersnaamInGebruikException;
 import exceptions.SpelBestaatNietException;
+import exceptions.SpelerBestaatNietException;
 import exceptions.SpelerDoetAlMeeException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -61,7 +62,8 @@ public class DomeinController {
 		checkOfSpelerNietBestaat(speler);
 		checkAlsSpelerAlMeeDoet(speler);
 
-		Speler deelNemendeSpeler = spelerRepository.geefSpeler(speler.gebruikersnaam());
+		Speler deelNemendeSpeler = beschikbareSpelers.stream()
+				.filter(v -> v.getGebruikersnaam().equals(speler.gebruikersnaam())).findFirst().get();
 		deelNemendeSpeler.setKleur(kleur);
 
 		deelnemendeSpelers.add(deelNemendeSpeler);
@@ -110,7 +112,7 @@ public class DomeinController {
 
 	// Geeft weer hoeveel spelers er spelen
 
-	public int geefAantalSpelers() throws Exception {
+	public int geefAantalSpelers() {
 		return deelnemendeSpelers.size();
 	}
 
@@ -130,7 +132,7 @@ public class DomeinController {
 		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
 
 		for (Speler speler : spelers) {
-			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
+			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getTotaleScore(),
 					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
 		}
 
@@ -146,13 +148,11 @@ public class DomeinController {
 	 */
 	public ArrayList<spelerDTO> geefBeschikbareSpelers() {
 		ArrayList<spelerDTO> beschikbareSpelersDTO = new ArrayList<>();
-
-		if (!deelnemendeSpelers.isEmpty())
-			beschikbareSpelers.removeAll(deelnemendeSpelers);
+		beschikbareSpelers.removeAll(deelnemendeSpelers);
 
 		for (Speler speler : beschikbareSpelers) {
 			beschikbareSpelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
-					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+					speler.getTotaleScore(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
 		}
 
 		return beschikbareSpelersDTO;
@@ -226,7 +226,7 @@ public class DomeinController {
 
 		Speler koning = huidigSpel.getKoning();
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
-				koning.getAantalGespeeld());
+				koning.getTotaleScore(), koning.getAantalGespeeld());
 	}
 
 	// Kiest een nieuwe koning
@@ -267,7 +267,7 @@ public class DomeinController {
 
 	private void checkOfSpelerNietBestaat(spelerDTO speler) throws Exception {
 		if (!spelerRepository.bestaatSpeler(speler.gebruikersnaam()))
-			throw new SpelBestaatNietException();
+			throw new SpelerBestaatNietException();
 	}
 
 	private void checkAlsSpelerAlMeeDoet(spelerDTO speler) throws Exception {

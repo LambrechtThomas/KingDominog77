@@ -52,7 +52,7 @@ public class MenuStartController {
 		this.dc = dc;
 		
 		try {
-			if (dc.isSpelKlaarGezet()) // Hier !
+			if (!dc.isSpelKlaarGezet())
 				btnNieuwSpel.setDisable(true);
 		} catch (Exception e) {
 			System.err.print(e);

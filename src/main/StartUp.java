@@ -1,6 +1,8 @@
 package main;
 
+import DTO.spelerDTO;
 import domein.DomeinController;
+import domein.Kleur;
 import gui.MenuStartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,12 @@ public class StartUp extends Application {
 
 		try {
 			this.dc = new DomeinController();
+			
+			dc.spelerDoetMee(new spelerDTO("Thomas Lambrecht", 2003, 0, 0, 0), Kleur.GEEL);
+			dc.spelerDoetMee(new spelerDTO("Mauro Maratta", 2004, 0, 0, 0), Kleur.GROEN);
+			dc.spelerDoetMee(new spelerDTO("Liesbeth Lewyllie", 2004, 0, 0, 0), Kleur.BLAUW);
+			dc.spelerDoetMee(new spelerDTO("MauroTest", 2004, 0, 0, 0), Kleur.ROZE);
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/menuStart.fxml"));
 			Parent root = loader.load();
 

@@ -41,6 +41,7 @@ public class Speler {
 		setGeboortejaar(geboortejaar);
 		setAantalGewonnen(aantalGewonnen);
 		setAantalGespeeld(aantalGespeeld);
+		totaleScore = 0;
 
 		this.koninkrijk = new Koninkrijk();
 		this.kasteel = new KasteelTegel();
@@ -211,8 +212,6 @@ public class Speler {
 	 * deeindscore
 	 */
 	public void berekenScore() {
-		totaleScore = 0;
-
 		moerasScore = berekenTotaleScoreDomein(bosTegelScores);
 		bosScore = berekenTotaleScoreDomein(bosTegelScores);
 		grasScore = berekenTotaleScoreDomein(bosTegelScores);

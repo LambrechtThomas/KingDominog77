@@ -92,7 +92,7 @@ class SpelTest {
 	@NullAndEmptySource
 	void spel_setEindKolom_metNullOflegeLijst_gooitException(ArrayList<DominoTegel> eindKolom) {
 		// Zet de eindkolom met een lege of null lijst
-		assertThrows(IllegalArgumentException.class, () -> spel.setEindKolom(eindKolom));
+		assertThrows(IllegalArgumentException.class, () -> spel.setGebruikteDominos(eindKolom));
 	}
 
 	@Test
