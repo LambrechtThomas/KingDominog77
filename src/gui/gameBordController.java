@@ -39,6 +39,9 @@ public class gameBordController {
 
 	private Image selecteerdeImage;
 	private boolean geKlikt = false;
+	
+	private ArrayList<dominoTegelDTO> eindKolom;
+	ArrayList<dominoTegelDTO> startKolom;
 
 	@FXML
 	private Button btnDraai;
@@ -113,6 +116,8 @@ public class gameBordController {
 		lbSpelers = new Label[] { lbSpeler1, lbSpeler2, lbSpeler3, lbSpeler4 };
 		lbScores = new Label[] { lbScore1, lbScore2, lbScore3, lbScore4 };
 		imgDominos = new ImageView[] { imgDomino1, imgDomino2, imgDomino3, imgDomino4 };
+		eindKolom = new ArrayList<dominoTegelDTO>();
+		startKolom = new ArrayList<dominoTegelDTO>();
 
 		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
 
@@ -191,14 +196,21 @@ public class gameBordController {
 
 					wachtVoorSpeler();
 
-					volgendeRonde();
+					volgendeSpeler();
 				}
+				
+				volgendeRonde();
 			}
 
 		});
 
 		gameLoop.start();
 
+	}
+
+	private void volgendeRonde() {
+		eindKolom.clear();
+		eindKolom.addAll(startKolom);
 	}
 
 	private void wachtVoorSpeler() {
@@ -225,7 +237,7 @@ public class gameBordController {
 		});
 	}
 
-	private void volgendeRonde() {
+	private void volgendeSpeler() {
 		try {
 			dc.kiesNieuweKoning();
 
@@ -238,27 +250,27 @@ public class gameBordController {
 		lblPlayingUsername.setText(String.format("Round %d", getRonde()));
 		lbAlgemeneTekst.setText("Turn dominos");
 
-		ArrayList<dominoTegelDTO> dominos = new ArrayList<>();
+		startKolom.clear();
 
 		try {
-			dominos.addAll(dc.geefStartKolom());
+			startKolom.addAll(dc.geefStartKolom());
 
 		} catch (Exception e) {
 			System.err.print(e);
 			// switch
 		}
 
-		Collections.sort(dominos, new dominoTegelComparator());
+		Collections.sort(startKolom, new dominoTegelComparator());
 
-		for (int i = 0; i < dominos.size(); i++) {
+		for (int i = 0; i < startKolom.size(); i++) {
 			Image img = new Image(
-					String.format("file:assets/dominotegel/tegel_%02d_achterkant.png", dominos.get(i).volgnummer()));
+					String.format("file:assets/dominotegel/tegel_%02d_achterkant.png", startKolom.get(i).volgnummer()));
 			imgDominos[i].setImage(img);
 		}
 		btnNext.setText("Turn dominos");
 		btnNext.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				draaiDominos(dominos);
+				draaiDominos(startKolom);
 				notifyThread();
 			}
 		});
