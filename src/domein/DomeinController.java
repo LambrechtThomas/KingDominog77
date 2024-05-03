@@ -1,13 +1,14 @@
 package domein;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import DTO.dominoTegelDTO;
 import DTO.spelerDTO;
 import DTO.tegelDTO;
 import exceptions.GebruikersnaamInGebruikException;
+import exceptions.KleurBestaatNietException;
 import exceptions.SpelBestaatNietException;
 import exceptions.SpelerBestaatNietException;
 import exceptions.SpelerDoetAlMeeException;
@@ -32,6 +33,17 @@ public class DomeinController {
 
 		deelnemendeSpelers = new ArrayList<>();
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
+	}
+
+	public ArrayList<spelerDTO> getDeelnemendeSpelers() {
+		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
+
+		for (Speler speler : deelnemendeSpelers) {
+			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getTotaleScore(),
+					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+		}
+
+		return spelersDTO;
 	}
 
 	/**
@@ -61,38 +73,29 @@ public class DomeinController {
 	public void spelerDoetMee(spelerDTO speler, Kleur kleur) throws Exception {
 		checkOfSpelerNietBestaat(speler);
 		checkAlsSpelerAlMeeDoet(speler);
+		checkOfKleurBestaat(kleur);
 
-		Speler deelNemendeSpeler = beschikbareSpelers.stream()
+		Speler gekozenSpeler = beschikbareSpelers.stream()
 				.filter(v -> v.getGebruikersnaam().equals(speler.gebruikersnaam())).findFirst().get();
-		deelNemendeSpeler.setKleur(kleur);
-
-		deelnemendeSpelers.add(deelNemendeSpeler);
-
-	}
-	
-	public void registreerGeselecteerdeSpelers(ArrayList<spelerDTO> geselecteerdeSpelers) throws Exception {
-	    Random random = new Random();
-	    for (spelerDTO speler : geselecteerdeSpelers) {
-	        int randomKleurIndex = random.nextInt(4);
-	        Kleur willekeurigeKleur = Kleur.values()[randomKleurIndex];
-	        spelerDoetMee(speler, willekeurigeKleur);
-	    }
-	}
-	
-	public void printDeelnemendeSpelers() {
-	    for (Speler speler : deelnemendeSpelers) {
-	        System.out.println(speler.getGebruikersnaam() + ", " + speler.getKleur());
-	    }
+		gekozenSpeler.setKleur(kleur);
+		deelnemendeSpelers.add(gekozenSpeler);
 	}
 
-	
+	public void spelerDoetNietMeer(spelerDTO speler, Kleur kleur) throws Exception {
+		checkOfSpelerNietBestaat(speler);
+
+		Speler verwijderSpeler = beschikbareSpelers.stream()
+				.filter(v -> v.getGebruikersnaam().equals(speler.gebruikersnaam())).findFirst().get();
+		verwijderSpeler.setKleur(null);
+		deelnemendeSpelers.remove(verwijderSpeler);
+	}
 
 	public void clearDeelnemedeSpeler() {
 		deelnemendeSpelers.clear();
 	}
 
 	public void startSpel() throws Exception {
-		CheckOfSpelKlaarIsGezet();
+		checkOfSpelKlaarIsGezet();
 
 		huidigSpel = new Spel(deelnemendeSpelers, dominoRepo.geefLijstDominos(deelnemendeSpelers.size()));
 	}
@@ -148,9 +151,10 @@ public class DomeinController {
 	 */
 	public ArrayList<spelerDTO> geefBeschikbareSpelers() {
 		ArrayList<spelerDTO> beschikbareSpelersDTO = new ArrayList<>();
-		beschikbareSpelers.removeAll(deelnemendeSpelers);
+		ArrayList<Speler> overgeblevenspelers = beschikbareSpelers.stream().filter(v -> !deelnemendeSpelers.contains(v))
+				.collect(Collectors.toCollection(ArrayList::new));
 
-		for (Speler speler : beschikbareSpelers) {
+		for (Speler speler : overgeblevenspelers) {
 			beschikbareSpelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
 					speler.getTotaleScore(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
 		}
@@ -173,8 +177,9 @@ public class DomeinController {
 		}
 
 		for (Kleur kleur : Kleur.values()) {
-			if (!gebruikteKleuren.contains(kleur))
+			if (!gebruikteKleuren.contains(kleur)) {
 				nietGebruikteKleuren.add(kleur);
+			}
 		}
 
 		return nietGebruikteKleuren;
@@ -278,7 +283,7 @@ public class DomeinController {
 
 	}
 
-	private void CheckOfSpelKlaarIsGezet() throws Exception {
+	private void checkOfSpelKlaarIsGezet() throws Exception {
 		if (deelnemendeSpelers.size() < MIN_AANTAL_SPELERS || deelnemendeSpelers.size() > MAX_AANTAL_SPELERS)
 			throw new IllegalArgumentException();
 
@@ -287,6 +292,13 @@ public class DomeinController {
 
 		if (kleuren.size() != deelnemendeSpelers.size())
 			throw new IllegalArgumentException();
+	}
+
+	private void checkOfKleurBestaat(Kleur kleur) {
+		ArrayList<Kleur> kleuren = new ArrayList<>(Arrays.asList(Kleur.values()));
+		if (!kleuren.contains(kleur)) {
+			throw new KleurBestaatNietException();
+		}
 	}
 
 	// GUI - Alertbox oproepen
