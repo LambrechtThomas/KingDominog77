@@ -3,6 +3,7 @@ package domein;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 public class Spel {
 	private ArrayList<DominoTegel> startKolom;
@@ -124,6 +125,18 @@ public class Spel {
 		spelersAanbeurtTeKomen.remove(gekozen);
 		aandeBeurtGeweest.add(gekozen);
 		koning = gekozen;
+	}
+
+	public Speler geefGewonnenSpeler() {
+		Speler gewonenenSpeler = huidigeSpelers.get(0);
+		berekenScores();
+
+		for (Speler speler : huidigeSpelers) {
+			if (speler.getTotaleScore() > gewonenenSpeler.getTotaleScore())
+				gewonenenSpeler = speler;
+		}
+
+		return gewonenenSpeler;
 	}
 
 	/**
