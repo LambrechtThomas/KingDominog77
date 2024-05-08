@@ -234,4 +234,5 @@ public class Speler {
 		return score;
 	}
 
+
 }

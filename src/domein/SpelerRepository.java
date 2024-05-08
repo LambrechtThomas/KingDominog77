@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import exceptions.GebruikersnaamInGebruikException;
 import persistentie.SpelerMapper;
@@ -32,5 +33,9 @@ public class SpelerRepository {
 
 	public ArrayList<Speler> geefLijstBestaandeSpelers() {
 		return mapper.geefSpelers();
+	}
+
+	public void slaSpelersOp(List<Speler> spelers, Speler speler) {
+		mapper.verhoogVelden(spelers, speler);
 	}
 }

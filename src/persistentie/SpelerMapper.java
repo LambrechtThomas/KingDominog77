@@ -7,8 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import domein.Speler;
+import domein.SpelerRepository;
+import exceptions.SpelerBestaatNietException;
 
 public class SpelerMapper {
 
@@ -107,4 +110,34 @@ public class SpelerMapper {
 		ssh.closeConnection();
 		return spelers;
 	}
+	
+	public void verhoogVelden(List<Speler> spelers, Speler gewonnenSpeler) {
+
+		
+		
+// ===============FOUTE CODE===============	
+//	    SpelerRepository sr = new SpelerRepository();
+//
+//	    // Spelers uit database halen
+//	    List<Speler> spelers = sr.geefLijstBestaandeSpelers();
+//
+//	    // Verhoog het aantal gespeelde spellen voor elke speler
+//	    for (Speler speler : spelers) {
+//	        if (gespeeldeSpelers.contains(speler.getGebruikersnaam())) {
+//	            speler.verhoogSpellenGespeeld();
+//	        }
+//	    }
+//
+//	    // Verhoog het aantal gewonnen spellen voor de winnende speler
+//	    Speler winnendeSpeler = spelers.stream()
+//	            .filter(s -> s.getGebruikersnaam().equals(gewonnenSpeler))
+//	            .findFirst()
+//	            .orElseThrow(() -> new SpelerBestaatNietException(gewonnenSpeler));
+//	    winnendeSpeler.verhoogSpellenGespeeld(); 
+//
+//	    // Sla de wijzigingen op in de database
+//	    sr.slaSpelersOp(spelers); 
+	}
+
+
 }
