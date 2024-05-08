@@ -258,6 +258,11 @@ public class DomeinController {
 
 		return false;
 	}
+	
+	public void wisselKolom() throws Exception {
+		checkVoorHuidigSpel();
+		huidigSpel.wisselKolomTegel();
+	}
 
 	// === Checks ===
 	private void checkVoorHuidigSpel() throws Exception {

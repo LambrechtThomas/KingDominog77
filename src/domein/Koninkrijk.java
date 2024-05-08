@@ -14,7 +14,7 @@ public class Koninkrijk {
 
 	// Zet kasteel in de grid
 	public void setKasteel(int rij, int kolom, KasteelTegel kasteel) {
-		getBord()[rij][kolom] = kasteel;
+		bord[rij][kolom] = kasteel;
 	}
 
 	public Tegel[][] getBord() {

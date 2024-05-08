@@ -32,16 +32,19 @@ public class gameBordController {
 
 	private DomeinController dc;
 	private int aantalSpelers;
+	private ArrayList<spelerDTO> deelnemers;
+	private spelerDTO koning;
 
 	private Label[] lbSpelers;
 	private Label[] lbScores;
 	private ImageView[] imgDominos;
 
 	private Image selecteerdeImage;
+	private ArrayList<Image> mogelijkeImages;
 	private boolean geKlikt = false;
-	
+
 	private ArrayList<dominoTegelDTO> eindKolom;
-	ArrayList<dominoTegelDTO> startKolom;
+	private ArrayList<dominoTegelDTO> startKolom;
 
 	@FXML
 	private Button btnDraai;
@@ -112,12 +115,18 @@ public class gameBordController {
 	@FXML
 	private ProgressBar pbProgressie;
 
+	public gameBordController() {
+
+	}
+
 	public void initialize() {
 		lbSpelers = new Label[] { lbSpeler1, lbSpeler2, lbSpeler3, lbSpeler4 };
 		lbScores = new Label[] { lbScore1, lbScore2, lbScore3, lbScore4 };
 		imgDominos = new ImageView[] { imgDomino1, imgDomino2, imgDomino3, imgDomino4 };
 		eindKolom = new ArrayList<dominoTegelDTO>();
 		startKolom = new ArrayList<dominoTegelDTO>();
+		deelnemers = new ArrayList<>();
+		mogelijkeImages = new ArrayList<>();
 
 		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
 
@@ -136,12 +145,11 @@ public class gameBordController {
 
 	public void setDc(DomeinController dc) {
 		this.dc = dc;
+		initialize();
 
 		try {
 			dc.startSpel();
 			aantalSpelers = dc.geefAantalSpelers();
-
-			startScene();
 
 		} catch (Exception e) {
 			System.err.print(e);
@@ -159,98 +167,27 @@ public class gameBordController {
 			lbSpeler4.setDisable(true);
 			lbSpeler4.setVisible(false);
 		}
-	}
 
-	private final Object lock = new Object();
+		startScene();
+	}
 
 	private void startScene() {
-		ArrayList<spelerDTO> deelnemers = new ArrayList<spelerDTO>();
+		if (mogelijkeImages.isEmpty())
+			setDominosOpScherm();
+		else
+			kiesDomino();
 
-		try {
-			deelnemers = dc.geefDeelnemendeSpelersInSpel();
-		} catch (Exception e) {
-			System.err.println(e);
-			// switchToSceneStart();
-		}
-
-		for (int i = 0; i < deelnemers.size(); i++) {
-			lbSpelers[i].setText(deelnemers.get(i).gebruikersnaam());
-			lbScores[i].setText("Score 0");
-		}
-
-		Thread gameLoop = new Thread(() -> {
-			while (!spelTenEinde()) {
-				Platform.runLater(() -> {
-					setDominosOpScherm();
-				});
-
-				wachtVoorSpeler();
-
-				for (int i = 0; i < 4; i++) {
-					spelerDTO koning = geefKoning();
-					
-					Platform.runLater(() -> {
-						persoonAanDeBeurt(koning);
-						kiesDomino(koning);
-					});
-
-					wachtVoorSpeler();
-
-					volgendeSpeler();
-				}
-				
-				volgendeRonde();
-			}
-
-		});
-
-		gameLoop.start();
-
-	}
-
-	private void volgendeRonde() {
-		eindKolom.clear();
-		eindKolom.addAll(startKolom);
-	}
-
-	private void wachtVoorSpeler() {
-		synchronized (lock) {
-			try {
-				lock.wait();
-
-			} catch (InterruptedException e) {
-				System.err.println(e);
-			}
-		}
-	}
-
-	private void kiesDomino(spelerDTO koning) {
-		btnNext.setText("Chose domino");
-
-		btnNext.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				if (selecteerdeImage != null)
-					System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString());
-				
-				notifyThread();
-			}
-		});
-	}
-
-	private void volgendeSpeler() {
-		try {
-			dc.kiesNieuweKoning();
-
-		} catch (Exception e) {
-			// hier
-		}
 	}
 
 	private void setDominosOpScherm() {
+		updateScores();
 		lblPlayingUsername.setText(String.format("Round %d", getRonde()));
 		lbAlgemeneTekst.setText("Turn dominos");
 
 		startKolom.clear();
+		mogelijkeImages.clear();
+		eindKolom.clear();
+		eindKolom.addAll(startKolom);
 
 		try {
 			startKolom.addAll(dc.geefStartKolom());
@@ -267,78 +204,117 @@ public class gameBordController {
 					String.format("file:assets/dominotegel/tegel_%02d_achterkant.png", startKolom.get(i).volgnummer()));
 			imgDominos[i].setImage(img);
 		}
+
 		btnNext.setText("Turn dominos");
 		btnNext.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				draaiDominos(startKolom);
-				notifyThread();
+				draaiDominos();
 			}
 		});
 
 	}
 
-	protected void draaiDominos(ArrayList<dominoTegelDTO> dominos) {
+	private void draaiDominos() {
 		lbAlgemeneTekst.setText("Chose domino");
 
-		for (int i = 0; i < dominos.size(); i++) {
+		for (int i = 0; i < startKolom.size(); i++) {
 			Image img = new Image(
-					String.format("file:assets/dominotegel/tegel_%02d_voorkant.png", dominos.get(i).volgnummer()));
+					String.format("file:assets/dominotegel/tegel_%02d_voorkant.png", startKolom.get(i).volgnummer()));
 			imgDominos[i].setImage(img);
+			mogelijkeImages.add(img);
+		}
+
+		btnNext.setText("Chose domino");
+		btnNext.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				kiesDomino();
+			}
+		});
+	}
+
+	private void kiesDomino() {
+		if (selecteerdeImage != null && mogelijkeImages.contains(selecteerdeImage)) {
+			volgendeSpeler();
+
+			mogelijkeImages.remove(selecteerdeImage);
+
+			if (mogelijkeImages.isEmpty()) {
+				btnNext.setText("Place Domino");
+				btnNext.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						renderBord();
+					}
+				});
+			} else {
+				btnNext.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						kiesDomino();
+					}
+				});
+			}
+		}
+	}
+	
+	private void renderBord() {
+		
+		
+	}
+
+	private void updateScores() {
+		deelnemers.clear();
+
+		try {
+			deelnemers = dc.geefDeelnemendeSpelersInSpel();
+		} catch (Exception e) {
+			System.err.println(e);
+			// switchToSceneStart();
+		}
+
+		for (int i = 0; i < deelnemers.size(); i++) {
+			lbSpelers[i].setText(deelnemers.get(i).gebruikersnaam());
+			lbScores[i].setText(String.format("Score %d", deelnemers.get(i).score()));
+		}
+
+	}
+
+	private void volgendeSpeler() {
+		try {
+			dc.kiesNieuweKoning();
+			updateKoning();
+
+		} catch (Exception e) {
+			// hier
+		}
+	}
+	
+	private void volgendeRonde() {
+		try {
+			dc.wisselKolom();
+
+		} catch (Exception e) {
+			// hier
+		}
+	}
+
+	private void updateKoning() {
+		try {
+			koning = dc.geefKoning();
+
+		} catch (Exception e) {
+			// hier
 		}
 	}
 
 	private int getRonde() {
 		try {
-			return dc.getRonde();
+			return (dc.getRonde() + 1) /2;
 
 		} catch (Exception e) {
 			System.err.println(e);
+			// Hier
 		}
 
 		return 0;
-	}
-
-	private boolean spelTenEinde() {
-		try {
-			return dc.isSpelTenEinde();
-
-		} catch (Exception e) {
-			System.err.print(e);
-			// Switch
-		}
-
-		return false;
-	}
-
-	private void persoonAanDeBeurt(spelerDTO koning) {
-		lblPlayingUsername.setText(String.format("%s %s:", koning.gebruikersnaam(), "turn"));
-	}
-
-	private spelerDTO geefKoning() {
-		spelerDTO koning = null;
-
-		try {
-			koning = dc.geefKoning();
-		} catch (Exception e) {
-			System.err.print(e);
-			// Switch
-		}
-
-		return koning;
-	}
-
-	private void updateScores() {
-		ArrayList<spelerDTO> deelnemers = new ArrayList<>();
-		try {
-			deelnemers.addAll(dc.geefDeelnemendeSpelersInSpel());
-		} catch (Exception e) {
-			// Switch
-		}
-
-		for (int i = 0; i < deelnemers.size(); i++) {
-			lbScores[i].setText(String.format("Score %d", deelnemers.get(i).score()));
-		}
-
 	}
 
 	@FXML
@@ -359,12 +335,9 @@ public class gameBordController {
 	void selecteerImage(javafx.scene.input.MouseEvent event) {
 		ImageView imageView = (ImageView) event.getSource();
 		selecteerdeImage = imageView.getImage();
-	}
 
-	private void notifyThread() {
-		synchronized (lock) {
-			lock.notify();
-		}
+		updateKoning();
+		System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString());
 	}
 
 	private void switchtoStart() throws IOException {

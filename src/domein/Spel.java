@@ -117,8 +117,6 @@ public class Spel {
 			spelersAanbeurtTeKomen.addAll(aandeBeurtGeweest);
 			aandeBeurtGeweest.clear();
 			ronde++;
-
-			wisselKolomTegel();
 		}
 
 		gekozen = spelersAanbeurtTeKomen.get(sr.nextInt(spelersAanbeurtTeKomen.size()));
