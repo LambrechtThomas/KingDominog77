@@ -68,6 +68,13 @@ public class Koninkrijk {
 		return bord[coordinaatX][kolom] == null;
 	}
 	
+	/**
+	 * Checkt of kasteel op het geselecteerde coordinaat staat
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true/false
+	 */
 	public boolean isKasteelHier(int x, int y) {
 		return bord[Math.min(Math.max(x, 0), rij - 1)][Math.min(Math.max(y, 0), kolom - 1)] instanceof KasteelTegel;
 	}
