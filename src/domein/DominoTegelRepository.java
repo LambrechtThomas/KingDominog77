@@ -7,8 +7,9 @@ public class DominoTegelRepository {
 	private ArrayList<DominoTegel> dominos;
 	private SecureRandom rs;
 
-	// Genereer alle domino's via genereerDominos()(hardcoded lijst domino's) en zet
-	// deze in de repository
+	/**
+	 * Genereert alle domino's via genereerDominos()(hardcoded lijst domino's) en zet deze in de repository
+	 */
 	public DominoTegelRepository() {
 		dominos = new ArrayList<DominoTegel>();
 		rs = new SecureRandom();
@@ -17,9 +18,9 @@ public class DominoTegelRepository {
 	}
 
 	/**
-	 * Zoek de eerste dominotegel
+	 * Geeft de eerste dominotegel op het deck
 	 * 
-	 * @return de eerste domino op het deck
+	 * @return de eerste tegel
 	 */
 	public DominoTegel geefDomino() {
 		DominoTegel eersteTegel = dominos.get(0);
@@ -29,13 +30,9 @@ public class DominoTegelRepository {
 	}
 
 	/**
-	 * Maak een deck van domino's aan afhankelijk van het aantal spelers
-	 * ================================================================= Niet zeker
-	 * of da juist is => PLS KIJK NA
-	 * =================================================================
+	 * Geeft een lijst terug met alle dominos
 	 * 
-	 * @param aantalSpelers in het actief spel
-	 * @return volledige lijst van domino's in het deck
+	 * @return alle dominos
 	 */
 	public ArrayList<DominoTegel> geefLijstDominos(int aantalSpelers) {
 		ArrayList<DominoTegel> alleDominos = new ArrayList<>();
@@ -46,13 +43,11 @@ public class DominoTegelRepository {
 		return alleDominos;
 	}
 
-	// Geeft een lijst van domino's terug (aan de hand van het aantal spelers)
 	/**
-	 * Geeft een kolom van random domino's afhv aantal spelers
+	 * Geeft een lijst van domino's terug (afhankelijk van het aantal spelers) 
 	 * 
-	 * @param aantalSpelers in het actief spel
-	 * @return een arraylist dominos van 3 of 4 domino's afhv het aantal spelers,
-	 *         dit is de kolom
+	 * @param aantalSpelers
+	 * @return dominos
 	 */
 	public ArrayList<DominoTegel> geefKolom(int aantalSpelers) {
 		ArrayList<DominoTegel> dominos = new ArrayList<DominoTegel>();
@@ -61,10 +56,11 @@ public class DominoTegelRepository {
 		}
 		return dominos;
 	}
-
-	// Hardcoded methode die alle 48 unieke dominotegels + tegels (landschap, aantal
-	// kroontjes) aanmaakt. Wordt gebruikt voor de DominoTegelRepository aan te
-	// maken
+	
+	/**
+	 * Hardcoded methode die alle 48 unieke dominotegels + tegels (landschap, aantal kroontjes) aanmaakt. 
+	 * Wordt gebruikt voor de DominoTegelRepository aan te maken
+	 */
 	private void genereerDominos() {
 		dominos.clear();
 

@@ -56,7 +56,11 @@ public class Speler {
 
 	// Setters
 
-	// Check gebruikersnaam: mag enkel letters bevatten
+	/**
+	 * Check gebruikersnaam: mag enkel letters bevatten
+	 * 
+	 * @param gebruikersnaam
+	 */
 	private void setGebruikersnaam(String gebruikersnaam) {
 
 		if (gebruikersnaam == null || gebruikersnaam.isBlank())
@@ -65,7 +69,11 @@ public class Speler {
 		this.gebruikersnaam = gebruikersnaam;
 	}
 
-	// Check geboortejaar: moet tussen (Huidig jaar - 121 en Huidig jaar) liggen
+	/**
+	 * Check geboortejaar: moet tussen (Huidig jaar - 121 en Huidig jaar) liggen
+	 * 
+	 * @param geboortejaar
+	 */
 	private void setGeboortejaar(int geboortejaar) {
 
 		if (geboortejaar < MIN_YEAR || geboortejaar > MAX_YEAR)
@@ -75,7 +83,11 @@ public class Speler {
 		this.geboortejaar = geboortejaar;
 	}
 
-	// Check aantalGewonnen: niet negatief
+	/**
+	 * Check aantalGewonnen: niet negatief
+	 * 
+	 * @param aantalGewonnen
+	 */
 	private void setAantalGewonnen(int aantalGewonnen) {
 
 		if (aantalGewonnen < 0)
@@ -84,7 +96,11 @@ public class Speler {
 		this.aantalGewonnen = aantalGewonnen;
 	}
 
-	// Check aantalGespeeld: niet negatief
+	/**
+	 * Check aantalGespeeld: niet negatief
+	 * 
+	 * @param aantalGespeeld
+	 */
 	private void setAantalGespeeld(int aantalGespeeld) {
 
 		if (aantalGespeeld < 0)
@@ -93,8 +109,11 @@ public class Speler {
 		this.aantalGespeeld = aantalGespeeld;
 	}
 
-	// Check kleur: kleur geselecteerd
-	// wat als kleur overlapt met kleur van andere speler?
+	/**
+	 * Check kleur: kleur geselecteerd. Wat als kleur overlapt met kleur van andere speler?
+	 * 
+	 * @param kleur
+	 */
 	public void setKleur(Kleur kleur) {
 
 		if (kleur == null)
@@ -104,67 +123,149 @@ public class Speler {
 	}
 
 	// Setters voor de list<list>
+	
+	/**
+	 * Set de moerastegelscore
+	 * 
+	 * @param moerasTegelScores
+	 */
 	public void setMoerasTegelScores(ArrayList<ArrayList<Integer>> moerasTegelScores) {
 		this.moerasTegelScores = moerasTegelScores;
 	}
 
+	/**
+	 * Set de bostegelscore
+	 * 
+	 * @param bosTegelScores
+	 */
 	public void setBosTegelScores(ArrayList<ArrayList<Integer>> bosTegelScores) {
 		this.bosTegelScores = bosTegelScores;
 	}
 
+	/**
+	 * Set de bostegelscore
+	 * 
+	 * @param grasTegelScores
+	 */
 	public void setGrasTegelScores(ArrayList<ArrayList<Integer>> grasTegelScores) {
 		this.grasTegelScores = grasTegelScores;
 	}
 
+	/**
+	 * Set de mijntegelscore
+	 * 
+	 * @param mijnTegelScores
+	 */
 	public void setMijnTegelScores(ArrayList<ArrayList<Integer>> mijnTegelScores) {
 		this.mijnTegelScores = mijnTegelScores;
 	}
 
+	/**
+	 * Set de mijntegelscore
+	 * 
+	 * @param waterTegelScores
+	 */
 	public void setWaterTegelScores(ArrayList<ArrayList<Integer>> waterTegelScores) {
 		this.waterTegelScores = waterTegelScores;
 	}
 
+	/**
+	 * Set de graantegelscore
+	 * 
+	 * @param graanTegelScores
+	 */
 	public void setGraanTegelScores(ArrayList<ArrayList<Integer>> graanTegelScores) {
 		this.graanTegelScores = graanTegelScores;
 	}
 
 	// Getters
+	
+	/**
+	 * Get de gebruikersnaam
+	 * 
+	 * @return gebruikersnaam
+	 */
 	public String getGebruikersnaam() {
 		return gebruikersnaam;
 	}
 
+	/**
+	 * Get het geboortejaar
+	 * 
+	 * @return geboortejaar
+	 */
 	public int getGeboortejaar() {
 		return geboortejaar;
 	}
 
+	/**
+	 * Get het aantal keren gewonnen
+	 * 
+	 * @return aantalGewonnen
+	 */
 	public int getAantalGewonnen() {
 		return aantalGewonnen;
 	}
 
+	/**
+	 * Get het aantal keren gespeeld
+	 * 
+	 * @return aantalGespeeld
+	 */
 	public int getAantalGespeeld() {
 		return aantalGespeeld;
 	}
 
+	/**
+	 * Get het kleur
+	 * 
+	 * @return kleur
+	 */
 	public Kleur getKleur() {
 		return kleur;
 	}
 
+	/**
+	 * Get het koninkrijk
+	 * 
+	 * @return koninkrijk
+	 */
 	public Koninkrijk getKoninkrijk() {
 		return koninkrijk;
 	}
 
+	/**
+	 * Get het kasteel 
+	 * 
+	 * @return kasteel
+	 */
 	public KasteelTegel getKasteel() {
 		return kasteel;
 	}
 
+	/**
+	 * Get de totale score
+	 * 
+	 * @return	totaleScore
+	 */
 	public int getTotaleScore() {
 		return totaleScore;
 	}
 
+	/**
+	 * Get de scores van de moerastegel
+	 * 
+	 * @return moerasTegelScores
+	 */
 	public ArrayList<ArrayList<Integer>> getMoerasTegelScores() {
 		return moerasTegelScores;
 	}
 
+	/**
+	 * Get de scores van de bostegel
+	 * 
+	 * @return bosTegelScores
+	 */
 	public ArrayList<ArrayList<Integer>> getBosTegelScores() {
 		return bosTegelScores;
 	}
@@ -173,20 +274,35 @@ public class Speler {
 		return grasTegelScores;
 	}
 
+	/**
+	 * Get de scores van de mijntegel
+	 * 
+	 * @return mijnTegelScores
+	 */
 	public ArrayList<ArrayList<Integer>> getMijnTegelScores() {
 		return mijnTegelScores;
 	}
 
+	/**
+	 * Get de scores van de watertegel
+	 * 
+	 * @return waterTegelScores
+	 */
 	public ArrayList<ArrayList<Integer>> getWaterTegelScores() {
 		return waterTegelScores;
 	}
 
+	/**
+	 * Get de scores van de graantegel
+	 * 
+	 * @return graanTegelScores
+	 */
 	public ArrayList<ArrayList<Integer>> getGraanTegelScores() {
 		return graanTegelScores;
 	}
 
 	/**
-	 * plaatst het kasteel in het koninkrijk
+	 * Plaatst het kasteel op het bord (koninkrijk)
 	 * 
 	 * @param x coördinaat
 	 * @param y coördinaat
@@ -196,7 +312,7 @@ public class Speler {
 	}
 
 	/**
-	 * plaatst de domino in het koninkrijk
+	 * Plaatst een domino op het bord (koninkrijk)
 	 * 
 	 * @param domino
 	 * @param rij    x coördinaat
@@ -208,8 +324,8 @@ public class Speler {
 
 	/**
 	 * Bereken de scores van de aparte landschappen door de grootte van de
-	 * oppervlakken maal het aantal kroontjes te doen en voeg ze samen voor
-	 * deeindscore
+	 * oppervlakken x aantal kroontjes te doen en voeg ze samen voor
+	 * de eindscore
 	 */
 	public void berekenScore() {
 		moerasScore = berekenTotaleScoreDomein(bosTegelScores);
@@ -223,7 +339,12 @@ public class Speler {
 
 	}
 
-	// hulp methode om landschap makkelijker te kunnen berekenen
+	/**
+	 * Hulpmethode om landschap makkelijker te kunnen berekenen
+	 * 
+	 * @param lijst
+	 * @return score
+	 */
 	public int berekenTotaleScoreDomein(ArrayList<ArrayList<Integer>> lijst) {
 		int score = 0;
 

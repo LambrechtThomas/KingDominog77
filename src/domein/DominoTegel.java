@@ -18,23 +18,45 @@ public class DominoTegel {
 	}
 
 	// Getters
+	/**
+	 * Get het volgnummer
+	 * 
+	 * @return volgnummer
+	 */
 	public int getVolgnummer() {
 		return volgnummer;
 	}
 
+	/**
+	 * Get de tegels
+	 * 
+	 * @return tegels
+	 */
 	public Tegel[] getTegels() {
 		return tegels;
 	}
 
+	/**
+	 * Checkt of het horizontaal is
+	 * 
+	 * @return true/false
+	 */
 	public boolean isHorizontaal() {
 		return horizontaal;
 	}
 
+	/**
+	 * Checkt of het gespiegeld is
+	 * 
+	 * @return true/false
+	 */
 	public boolean isSpiegeld() {
 		return spiegeld;
 	}
 
-	// Draai de domino horizontaal of verticaal met de klok mee of tegenkloks terug
+	/**
+	 * Draait de domino horizontaal of verticaal, met de klok mee of tegenkloks terug
+	 */
 	public void draai() {
 		if (horizontaal)
 			horizontaal = false;
@@ -42,7 +64,10 @@ public class DominoTegel {
 			horizontaal = true;
 	}
 
-	// Spiegel de domino door deze 180° te draaien
+	
+	/**
+	 * Spiegel de domino door deze 180° te draaien
+	 */
 	public void spiegel() {
 		if (spiegeld)
 			spiegeld = false;

@@ -50,31 +50,67 @@ public class Spel {
 	}
 
 	// Setters
+	/**
+	 * Set de startkolom
+	 * 
+	 * @param startKolom
+	 */
 	public void setStartKolom(ArrayList<DominoTegel> startKolom) {
 		this.startKolom = startKolom;
 	}
 
+	/**
+	 * Set de gebruikte dominos
+	 * 
+	 * @param gebruikteDominos
+	 */
 	public void setGebruikteDominos(ArrayList<DominoTegel> gebruikteDominos) {
 		this.gebruikteDominos = gebruikteDominos;
 	}
 
 	// Getters
+	
+	/**
+	 * Get de startkolom
+	 * 
+	 * @return startKolom
+	 */
 	public ArrayList<DominoTegel> getStartKolom() {
 		return startKolom;
 	}
 
+	/**
+	 * Get de eindkolom
+	 * 
+	 * @return	gebruikteDominos
+	 */
 	public ArrayList<DominoTegel> getEindKolom() {
 		return gebruikteDominos;
 	}
 
+	/**
+	 * Get de koning
+	 * 
+	 * @return koning
+	 */
 	public Speler getKoning() {
 		return koning;
 	}
 
+	/**
+	 * Get de ronde
+	 * 
+	 * @return ronde
+	 */
 	public int getRonde() {
 		return ronde;
 	}
 
+	/**
+	 * Get de huidige spelers
+	 * 
+	 * @return huidigeSpelers
+	 */
 	public ArrayList<Speler> getHuidigeSpelers() {
 		return huidigeSpelers;
 	}
@@ -90,12 +126,16 @@ public class Spel {
 		koning.plaatsDomino(domino, rij, kolom);
 	}
 
-	// Schud het deck
+	/**
+	 * Schud het deck
+	 */
 	public void schud() {
 		Collections.shuffle(alleDominos);
 	}
 
-	// De tegels die op tafel liggen (start/eindkolom)
+	/**
+	 * De tegels die op tafel liggen (start/eindkolom)
+	 */
 	public void wisselKolomTegel() {
 		gebruikteDominos.addAll(startKolom);
 
@@ -109,7 +149,9 @@ public class Spel {
 		schud();
 	}
 
-	// Kiest een willekeurige koning uit het spel
+	/**
+	 * Kiest een willekeurige koning uit het spel
+	 */
 	public void kiesKoning() {
 		Speler gekozen;
 
@@ -125,6 +167,11 @@ public class Spel {
 		koning = gekozen;
 	}
 
+	/**
+	 * Geeft de gewonnen speler
+	 * 
+	 * @return gewonenenSpeler
+	 */
 	public Speler geefGewonnenSpeler() {
 		Speler gewonenenSpeler = huidigeSpelers.get(0);
 		berekenScores();
@@ -138,7 +185,7 @@ public class Spel {
 	}
 
 	/**
-	 * Berekenen van de scores van aparte landschappen om deze daarna via
+	 * Berekent de scores van aparte landschappen om deze daarna via
 	 * "berekenScore" op te tellen
 	 */
 	public void berekenScores() {

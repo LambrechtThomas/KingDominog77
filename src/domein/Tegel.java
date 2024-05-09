@@ -33,10 +33,21 @@ public class Tegel {
 	}
 
 	// Getters
+	
+	/**
+	 * Get het landschap
+	 * 
+	 * @return landschap
+	 */
 	public String getLandschap() {
 		return landschap;
 	}
 
+	/**
+	 * Get kroontjes
+	 * 
+	 * @return kroontjes
+	 */
 	public int getKroontjes() {
 		return kroontjes;
 	}

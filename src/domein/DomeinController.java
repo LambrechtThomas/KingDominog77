@@ -35,6 +35,11 @@ public class DomeinController {
 		beschikbareSpelers = spelerRepository.geefLijstBestaandeSpelers();
 	}
 
+	/**
+	 * Geeft alle deelnemende spelers terug
+	 * 
+	 * @return	speler
+	 */
 	public ArrayList<spelerDTO> getDeelnemendeSpelers() {
 		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
 
@@ -81,6 +86,13 @@ public class DomeinController {
 		deelnemendeSpelers.add(gekozenSpeler);
 	}
 
+	/**
+	 * Verwijder speler uit deelnemendeSpers, de speler doet niet meer mee aan het spel
+	 * 
+	 * @param speler
+	 * @param kleur
+	 * @throws Exception
+	 */
 	public void spelerDoetNietMeer(spelerDTO speler, Kleur kleur) throws Exception {
 		checkOfSpelerNietBestaat(speler);
 
@@ -90,10 +102,18 @@ public class DomeinController {
 		deelnemendeSpelers.remove(verwijderSpeler);
 	}
 
+	/**
+	 * Alle deelneemende spelers verwijderen uit de lijst
+	 */
 	public void clearDeelnemedeSpeler() {
 		deelnemendeSpelers.clear();
 	}
 
+	/**
+	 * Start het spel
+	 * 
+	 * @throws Exception
+	 */
 	public void startSpel() throws Exception {
 		checkOfSpelKlaarIsGezet();
 
@@ -102,8 +122,12 @@ public class DomeinController {
 
 	// Checked of spel gedaan is (spel kan nooit verder dan ronde 13 gaan)
 
-	// check of er 13 rondes gespeeld zijn en eindig dan het spel
-
+	/**
+	 * Checkt of er 13 rondes gespeeld zijn
+	 * 
+	 * @return true/false
+	 * @throws Exception
+	 */
 	public boolean isSpelTenEinde() throws Exception {
 		checkVoorHuidigSpel();
 
@@ -113,8 +137,12 @@ public class DomeinController {
 		return false;
 	}
 
-	// Geeft weer hoeveel spelers er spelen
 
+	/**
+	 * Geeft weer hoeveel spelers in het spel zitten
+	 * 
+	 * @return aantal spelers
+	 */
 	public int geefAantalSpelers() {
 		return deelnemendeSpelers.size();
 	}
@@ -122,12 +150,10 @@ public class DomeinController {
 	// Deze geeft een lijst terug van spelerDTO, deze spelers zitten in spel
 
 	/**
-	 * Maak een spelerDTO aan voor elke speler. Voeg deze spelerDTO toe aan
-	 * spelersDTO
+	 * Geeft een lijst met alle deelnemende spelers in het spel weer
 	 * 
-	 * @return een arraylist spelersDTO
+	 * @return alle deelnemende spelers
 	 */
-
 	public ArrayList<spelerDTO> geefDeelnemendeSpelersInSpel() throws Exception {
 		checkVoorHuidigSpel();
 
@@ -143,11 +169,9 @@ public class DomeinController {
 	}
 
 	/**
-	 * Als er beschikbare spelers zijn, verwijder dan alle deelnemende spelers uit
-	 * beschikbare spelers Maak een spelerDTO aan voor elke speler in het actief
-	 * spel. Voeg deze spelerDTO toe aan beschikbareSpelersDTO
+	 * Geeft de spelers/gebruikers terug die nog niet in een game zitten (aka ze zijn nog beschikbaar)
 	 * 
-	 * @return Geeft een lijst van spelerDTO's terug
+	 * @return alle gebruikers die nog beschikbaar zijn
 	 */
 	public ArrayList<spelerDTO> geefBeschikbareSpelers() {
 		ArrayList<spelerDTO> beschikbareSpelersDTO = new ArrayList<>();
@@ -163,10 +187,9 @@ public class DomeinController {
 	}
 
 	/**
-	 * Voeg elke gebruikte kleur toe aan een arraylist Voeg elke niet gebruikte
-	 * kleur toe aan een arraylist afhv gebruikteKleuren
+	 * Geeft de kleuren weer die nog gekozen kunnen worden
 	 * 
-	 * @return Geeft de niet gebruikte kleuren terug
+	 * @return Geeft de beschikbare kleuren terug
 	 */
 	public ArrayList<Kleur> geefBeschikbareKleuren() {
 		ArrayList<Kleur> gebruikteKleuren = new ArrayList<>();
@@ -185,7 +208,12 @@ public class DomeinController {
 		return nietGebruikteKleuren;
 	}
 
-	// Checked of de gebruikersnaam al bestaat in de spelerRepository
+	/**
+	 * Checkt of de gebruikersnaam al bestaat in de repo
+	 * 
+	 * @param gebruikersnaam
+	 * @return true/false
+	 */
 	public boolean bestaatSpeler(String gebruikersnaam) {
 		return spelerRepository.bestaatSpeler(gebruikersnaam);
 	}
@@ -214,8 +242,16 @@ public class DomeinController {
 
 		return startKolom;
 	}
-
-	// plaats domino bij koning
+	
+	/**
+	 * Plaatst domino bij koning
+	 * 
+	 * @param dominoDTO
+	 * @param speler
+	 * @param rij
+	 * @param kolom
+	 * @throws Exception
+	 */
 	public void plaatsDomino(dominoTegelDTO dominoDTO, spelerDTO speler, int rij, int kolom) throws Exception {
 		DominoTegel domino = huidigSpel.getStartKolom().stream()
 				.filter(v -> v.getVolgnummer() == dominoDTO.volgnummer()).findFirst().get();
@@ -225,7 +261,12 @@ public class DomeinController {
 			throw new IllegalArgumentException("spelers komen niet overeen!!");
 	}
 
-	// Geeft de speler terug die aan de beurt is
+	/**
+	 * Geeft de koning weer
+	 * 
+	 * @return koning
+	 * @throws Exception
+	 */
 	public spelerDTO geefKoning() throws Exception {
 		checkVoorHuidigSpel();
 
@@ -233,23 +274,35 @@ public class DomeinController {
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
 				koning.getTotaleScore(), koning.getAantalGespeeld());
 	}
-
-	// Kiest een nieuwe koning
+	
+	/**
+	 * Kiest nieuwe koning
+	 * 
+	 * @throws Exception
+	 */
 	public void kiesNieuweKoning() throws Exception {
 		checkVoorHuidigSpel();
 
 		huidigSpel.kiesKoning();
 	}
 
-	// Vraagt aan spel welke ronde we zitten
-
+	/**
+	 * Vraagt wat de huidige ronde is
+	 * 
+	 * @return huidige ronde
+	 * @throws Exception
+	 */
 	public int getRonde() throws Exception {
 		checkVoorHuidigSpel();
 
 		return huidigSpel.getRonde();
 	}
 
-	// Deze methode zeg of het spel correct is klaar gezet (spel bestaat nog niet)
+	/**
+	 * Checkt of het spel is klaargezet
+	 * 
+	 * @return true/false
+	 */
 	public boolean isSpelKlaarGezet() {
 		if (deelnemendeSpelers.size() >= MIN_AANTAL_SPELERS && deelnemendeSpelers.size() <= MAX_AANTAL_SPELERS
 				&& huidigSpel == null) {
@@ -258,28 +311,56 @@ public class DomeinController {
 
 		return false;
 	}
-	
+
+	/**
+	 * Wisselt kolom
+	 * 
+	 * @throws Exception
+	 */
 	public void wisselKolom() throws Exception {
 		checkVoorHuidigSpel();
 		huidigSpel.wisselKolomTegel();
 	}
 
 	// === Checks ===
+	
+	/**
+	 * Checkt of het huidige spel bestaat
+	 * 
+	 * @throws Exception
+	 */
 	private void checkVoorHuidigSpel() throws Exception {
 		if (huidigSpel == null)
 			throw new SpelBestaatNietException();
 	}
 
+	/**
+	 * Checkt of de gebruikersnaam al dan niet al in gebruik is
+	 * 
+	 * @param naam
+	 * @throws Exception
+	 */
 	private void checkVoorGebruikersNaam(String naam) throws Exception {
 		if (spelerRepository.bestaatSpeler(naam))
 			throw new GebruikersnaamInGebruikException();
 	}
-
+	/**
+	 * Checkt of de speler bestaat of niet
+	 * 
+	 * @param speler
+	 * @throws Exception
+	 */
 	private void checkOfSpelerNietBestaat(spelerDTO speler) throws Exception {
 		if (!spelerRepository.bestaatSpeler(speler.gebruikersnaam()))
 			throw new SpelerBestaatNietException();
 	}
 
+	/**
+	 * Checkt of de speler meedoet aan de game of niet
+	 * 
+	 * @param speler
+	 * @throws Exception
+	 */
 	private void checkAlsSpelerAlMeeDoet(spelerDTO speler) throws Exception {
 		ArrayList<String> deelname = (ArrayList<String>) deelnemendeSpelers.stream().map(v -> v.getGebruikersnaam())
 				.collect(Collectors.toList());
@@ -288,6 +369,11 @@ public class DomeinController {
 
 	}
 
+	/**
+	 * Checkt of het spel is klaargezet
+	 * 
+	 * @throws Exception
+	 */
 	private void checkOfSpelKlaarIsGezet() throws Exception {
 		if (deelnemendeSpelers.size() < MIN_AANTAL_SPELERS || deelnemendeSpelers.size() > MAX_AANTAL_SPELERS)
 			throw new IllegalArgumentException();
@@ -299,6 +385,11 @@ public class DomeinController {
 			throw new IllegalArgumentException();
 	}
 
+	/**
+	 * Checkt of de kleur al dan niet bestaat in onze game
+	 * 
+	 * @param kleur
+	 */
 	private void checkOfKleurBestaat(Kleur kleur) {
 		ArrayList<Kleur> kleuren = new ArrayList<>(Arrays.asList(Kleur.values()));
 		if (!kleuren.contains(kleur)) {
@@ -307,6 +398,14 @@ public class DomeinController {
 	}
 
 	// GUI - Alertbox oproepen
+	
+	/**
+	 * De alert die in GUI tevoorschijn komt bij fouten
+	 * 
+	 * @param infoMessage
+	 * @param titleBar
+	 * @param headerMessage
+	 */
 	public static void errorBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle(titleBar);
@@ -315,6 +414,13 @@ public class DomeinController {
 		alert.showAndWait();
 	}
 
+	/**
+	 * De alert die in GUI tevoorschijn komt als een actie gelukt is
+	 * 
+	 * @param infoMessage
+	 * @param titleBar
+	 * @param headerMessage
+	 */
 	public static void doneBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(titleBar);
@@ -323,6 +429,13 @@ public class DomeinController {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Een alert die in de GUI tevoorschijn komt om info mee te delen
+	 * 
+	 * @param infoMessage
+	 * @param titleBar
+	 * @param headerMessage
+	 */
 	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle(titleBar);

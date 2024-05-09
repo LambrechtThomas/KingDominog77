@@ -7,25 +7,51 @@ public class Koninkrijk {
 	private static final int kolom = 5;
 	private static Tegel[][] bord;
 
-	// Een array voor de grid aanmaken
+	/**
+	 * Een array voor de grid aanmaken
+	 */
 	public Koninkrijk() {
 		bord = new Tegel[rij][kolom];
 	}
 
-	// Zet kasteel in de grid
+	/**
+	 * Zet kasteel in de grid
+	 * 
+	 * @param rij
+	 * @param kolom
+	 * @param kasteel
+	 */
 	public void setKasteel(int rij, int kolom, KasteelTegel kasteel) {
 		bord[rij][kolom] = kasteel;
 	}
 
+	/**
+	 * Get het bord
+	 * 
+	 * @return het bord
+	 */
 	public Tegel[][] getBord() {
 		return bord;
 	}
 
-	// Dominotegel op de grid plaatsen volgens xy coördinaten
+	/**
+	 * Dominotegel op de grid plaatsen volgens x-y coördinaten
+	 * 
+	 * @param domino
+	 * @param x
+	 * @param y
+	 */
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
 		
 	}
 	
+	/**
+	 * Checkt of de plaats vrij is aan de hand van x-y coördinaten
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true/false
+	 */
 	public boolean isPlaatsVrij(int x, int y) {
 		int coordinaatX = x;
 		int coordinaatY = y;
@@ -47,12 +73,12 @@ public class Koninkrijk {
 	}
 
 	/**
-	 * Kijk na of tegel1 hetzelfde landschap heeft als tegel2 Gebruikt voor het
-	 * plaatsen van een domino naast een andere domino
+	 * Kijk na of tegel1 hetzelfde landschap heeft als tegel2 
+	 * Gebruikt voor het plaatsen van een domino naast een andere domino
 	 * 
 	 * @param tegel1
 	 * @param tegel2
-	 * @return true als de tegels een gelijk landschap hebben
+	 * @return true/false
 	 */
 	public boolean isZelfdeTegel(Tegel tegel1, Tegel tegel2) {
 		if (tegel1 != null)
@@ -61,7 +87,13 @@ public class Koninkrijk {
 		return false;
 	}
 
-	// Checkt of er op die plaats een open spot is
+	/**
+	 * Checkt of de plaats al dan niet bezit is
+	 * 
+	 * @param rij
+	 * @param kolom
+	 * @return
+	 */
 	public boolean isBezet(int rij, int kolom) {
 		return getBord()[rij][kolom] == null;
 	}
@@ -83,12 +115,10 @@ public class Koninkrijk {
 	}
 
 	/**
-	 * Berekent de grootte van de oppervlakte van een bepaald landschap + bereken
-	 * het aantal kroontjes Zet deze in een tijdelijke array Voeg deze tijdelijke
-	 * array van grootte, aantal kroontjes toe in oppervlakte
+	 * Berekent de oppervlakte van het landschap die de speler bezit
 	 * 
-	 * @param landschap bevat het landschap van de tegel en aantal kroontjes
-	 * @return de totale oppervlakte van elk landschap
+	 * @param landschap
+	 * @return de oppervlakte
 	 */
 	public ArrayList<ArrayList<Integer>> berekenOppvervlakte(String landschap) {
 		ArrayList<ArrayList<Integer>> oppervlakte = new ArrayList<>();
@@ -128,15 +158,13 @@ public class Koninkrijk {
 		return oppervlakte;
 	}
 
-	// =============================================================
-	// Thomas please maak hier de comments
-	// =============================================================
 	/**
+	 * Berekent hoeveelheid tegels
 	 * 
 	 * @param grid
 	 * @param i
 	 * @param j
-	 * @return
+	 * @return	het aantal tegels
 	 */
 	private int berekenHoeveelheidTegels(int[][] grid, int i, int j) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)

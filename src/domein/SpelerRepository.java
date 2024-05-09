@@ -14,8 +14,11 @@ public class SpelerRepository {
 		mapper = new SpelerMapper();
 	}
 
-	// Check bestaatSpeler: kijkt of de speler(gebruikersnaam) al bestaat, zo ja
-	// throw exception
+	/**
+	 * Checkt of de speler al bestaat, zoja ==> throw exception
+	 * 
+	 * @param speler
+	 */
 	public void voegToe(Speler speler) {
 		if (bestaatSpeler(speler.getGebruikersnaam()))
 			throw new GebruikersnaamInGebruikException();
@@ -23,18 +26,41 @@ public class SpelerRepository {
 		mapper.voegToe(speler);
 	}
 
+	/**
+	 * Checkt of de speler bestaat
+	 * 
+	 * @param gebruikersnaam
+	 * @return true/false
+	 */
 	public boolean bestaatSpeler(String gebruikersnaam) {
 		return mapper.geefSpeler(gebruikersnaam) != null;
 	}
 
+	/**
+	 * Geeft de speler
+	 * 
+	 * @param gebruikersnaam
+	 * @return speler
+	 */
 	public Speler geefSpeler(String gebruikersnaam) {
 		return mapper.geefSpeler(gebruikersnaam);
 	}
 
+	/**
+	 * Geeft lijst met bestaande spelers
+	 * 
+	 * @return lijst met bestaande spelers
+	 */
 	public ArrayList<Speler> geefLijstBestaandeSpelers() {
 		return mapper.geefSpelers();
 	}
 
+	/**
+	 * Roept methode aan die velden van gepseelde games en gewonnen game verhoogd
+	 * 
+	 * @param spelers
+	 * @param speler
+	 */
 	public void verhoogVeldenGames(List<Speler> spelers, Speler speler) {
 		mapper.verhoogVelden(spelers, speler);
 	}
