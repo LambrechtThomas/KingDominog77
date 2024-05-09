@@ -11,8 +11,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
- 
-<SplitPane dividerPositions="0.4005550416281221" prefHeight="658.0" prefWidth="1083.0" style="-fx-background-color: white;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.gameBordController">
+
+<SplitPane dividerPositions="0.4005550416281221" prefHeight="955.0" prefWidth="1798.0" style="-fx-background-color: white;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.gameBordController">
    <items>
       <AnchorPane maxWidth="450.0" minHeight="0.0" minWidth="450.0" prefHeight="0.0" prefWidth="450.0">
          <children>
@@ -103,9 +103,9 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="656.0" prefWidth="887.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="955.0" prefWidth="1329.0">
          <children>
-            <GridPane fx:id="grdBord" hgap="10.0" layoutX="73.0" layoutY="43.0" prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: red;" vgap="10.0">
+            <GridPane fx:id="grdBord" hgap="10.0" layoutX="24.0" layoutY="25.0" prefHeight="774.0" prefWidth="774.0" style="-fx-border-color: red;" vgap="10.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -121,9 +121,57 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <Button fx:id="btnSpeelveldSpelerEen" disable="true" layoutX="24.0" layoutY="575.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 1" />
-            <Button fx:id="btnSpeelveldSpelerTwee" disable="true" layoutX="222.0" layoutY="575.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 2" />
-            <Button fx:id="btnSpeelveldSpelerDrie" disable="true" layoutX="420.0" layoutY="575.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 3" />
+            <Button fx:id="btnSpeelveldSpelerEen" disable="true" layoutX="24.0" layoutY="825.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 1" />
+            <Button fx:id="btnSpeelveldSpelerTwee" disable="true" layoutX="224.0" layoutY="825.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 2" />
+            <Button fx:id="btnSpeelveldSpelerDrie" disable="true" layoutX="423.0" layoutY="825.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="187.0" text="Speler 3" />
+            <GridPane fx:id="grdBord1" hgap="10.0" layoutX="808.0" layoutY="328.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: red;" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <GridPane fx:id="grdBord11" hgap="10.0" layoutX="808.0" layoutY="16.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: red;" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <GridPane fx:id="grdBord111" hgap="10.0" layoutX="808.0" layoutY="638.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: red;" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
          </children></AnchorPane>
    </items>
 </SplitPane>
