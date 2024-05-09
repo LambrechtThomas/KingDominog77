@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import DTO.spelerDTO;
 import domein.DomeinController;
@@ -87,7 +88,7 @@ public class MenuLoginController {
 
 				// Checken of de velden daadwerkelijk ingevuld zijn
 				if (gebruikersnaam.isEmpty() || geboortedatum.isEmpty()) {
-					dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"),
+					DomeinController.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"),
 							vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 				} else {
 					// Try catch om na te gaan of de gebruiker in de database zit/geboortejaar een
@@ -96,7 +97,7 @@ public class MenuLoginController {
 						dc.registreerSpeler(gebruikersnaam, Integer.parseInt(geboortedatum));
 
 						// Gelukt alert
-						dc.doneBox(vertaal.geefWoord("CREATION_SUCCEED_MESSAGE"),
+						DomeinController.doneBox(vertaal.geefWoord("CREATION_SUCCEED_MESSAGE"),
 								vertaal.geefWoord("CREATION_SUCCEED_TITLE"),
 								vertaal.geefWoord("CREATION_SUCCEED_HEADER"));
 
@@ -105,14 +106,14 @@ public class MenuLoginController {
 						System.err.print(e);
 
 						// Niet gelukt cijfer alert
-						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"),
+						DomeinController.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_NUMBER"),
 								vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 
 					} catch (Exception e) {
 						System.err.print(e);
 
 						// Niet gelukt bestaand alert
-						dc.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"),
+						DomeinController.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION_EXISTS"),
 								vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 					}
 				}
@@ -203,14 +204,17 @@ public class MenuLoginController {
 		beschikbareSpelers.clear();
 		observableSpelerLijst.clear();
 		// Haal de gebruikers op
-		// ObservableList maken
 		beschikbareSpelers.addAll(dc.geefBeschikbareSpelers());
 		// Haal de spelers op
 		observableSpelerLijst.addAll(dc.getDeelnemendeSpelers());
-		// spelers verwijderen uit gebruikers
-		beschikbareSpelers.removeAll(observableSpelerLijst);
 		// Laad ze ook in
+		ArrayList<String> namen = (ArrayList<String>) observableSpelerLijst.stream().map(v -> v.gebruikersnaam()).collect(Collectors.toList());
+		beschikbareSpelers.removeAll(beschikbareSpelers.stream().filter(v -> namen.contains(v.gebruikersnaam())).collect(Collectors.toList()));
 		updateSpelers();
+		
+		System.out.printf("gebruikers %s %n",beschikbareSpelers);
+		System.out.printf("spelers %s %n", observableSpelerLijst);
+		System.out.printf("%n%n%n");
 	}
 
 	private void updateSpelers() {

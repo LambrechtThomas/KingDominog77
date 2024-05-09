@@ -45,7 +45,7 @@ public class DomeinController {
 
 		for (Speler speler : deelnemendeSpelers) {
 			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getTotaleScore(),
-					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+					speler.getAantalGewonnen(), speler.getAantalGespeeld(), speler.getKleur()));
 		}
 
 		return spelersDTO;
@@ -162,7 +162,7 @@ public class DomeinController {
 
 		for (Speler speler : spelers) {
 			spelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getTotaleScore(),
-					speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+					speler.getAantalGewonnen(), speler.getAantalGespeeld(), speler.getKleur()));
 		}
 
 		return spelersDTO;
@@ -180,7 +180,7 @@ public class DomeinController {
 
 		for (Speler speler : overgeblevenspelers) {
 			beschikbareSpelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
-					speler.getTotaleScore(), speler.getAantalGewonnen(), speler.getAantalGespeeld()));
+					speler.getTotaleScore(), speler.getAantalGewonnen(), speler.getAantalGespeeld(), speler.getKleur()));
 		}
 
 		return beschikbareSpelersDTO;
@@ -272,7 +272,7 @@ public class DomeinController {
 
 		Speler koning = huidigSpel.getKoning();
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
-				koning.getTotaleScore(), koning.getAantalGespeeld());
+				koning.getTotaleScore(), koning.getAantalGespeeld(), koning.getKleur());
 	}
 	
 	/**
@@ -320,6 +320,13 @@ public class DomeinController {
 	public void wisselKolom() throws Exception {
 		checkVoorHuidigSpel();
 		huidigSpel.wisselKolomTegel();
+	}
+
+	public void updateDataBase() throws Exception {
+		checkVoorHuidigSpel();
+		if (isSpelTenEinde()) {
+			spelerRepository.verhoogVeldenGames(huidigSpel.getHuidigeSpelers(), huidigSpel.geefGewonnenSpeler());
+		}
 	}
 
 	// === Checks ===

@@ -45,6 +45,7 @@ public class Speler {
 
 		this.koninkrijk = new Koninkrijk();
 		this.kasteel = new KasteelTegel();
+		koninkrijk.setKasteel(0, 0, kasteel);
 	}
 
 	public Speler(String gebruikersnaam, int geboortejaar) {
@@ -52,6 +53,7 @@ public class Speler {
 
 		this.koninkrijk = new Koninkrijk();
 		this.kasteel = new KasteelTegel();
+		koninkrijk.setKasteel(0, 0, kasteel);
 	}
 
 	// Setters
@@ -313,6 +315,7 @@ public class Speler {
 
 	/**
 	 * Plaatst een domino op het bord (koninkrijk)
+	 * plaatst de domino in het koninkrijk
 	 * 
 	 * @param domino
 	 * @param rij    x coördinaat

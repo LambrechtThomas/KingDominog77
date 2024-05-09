@@ -17,6 +17,9 @@ public class SpelerMapper {
 
 	private static final String INSERT_SPELER = "INSERT INTO ID430019_g77.Speler (gebruikersnaam, geboortejaar, aantalGewonnen, aantalGespeeld)"
 			+ "VALUES (?, ?, ?, ?)";
+	private static final String UPDATE_SPELER_GESPEELD = "UPDATE ID430019_g77.Speler SET aantalGespeeld = aantalGespeeld + 1 WHERE gebruikersnaam = ?";
+	private static final String UPDATE_SPELER_GEWONNEN = "UPDATE ID430019_g77.Speler SET aantalGewonnen = aantalGewonnen + 1 WHERE gebruikersnaam = ?";
+
 
 	/**
 	 * Maake een connectie aan met de databank en voer een query uit om te vragen
@@ -111,16 +114,13 @@ public class SpelerMapper {
 		return spelers;
 	}
 	
-	
-	private static final String UPDATE_SPELER_GESPEELD = "UPDATE ID430019_g77.Speler SET aantalGespeeld = aantalGespeeld + 1 WHERE gebruikersnaam = ?";
-	private static final String UPDATE_SPELER_GEWONNEN = "UPDATE ID430019_g77.Speler SET aantalGewonnen = aantalGewonnen + 1 WHERE gebruikersnaam = ?";
-
 	/**
 	 * Verhoogt de velden aantalGespeeld en aantalGewonnen
 	 * 
 	 * @param spelers
 	 * @param gewonnenSpeler
 	 */
+
 	public void verhoogVelden(List<Speler> spelers, Speler gewonnenSpeler) {
 		Connectie ssh = new Connectie();
 
@@ -153,27 +153,4 @@ public class SpelerMapper {
 			query.executeUpdate();
 		} 
 	}
-
-	// ===============FOUTE CODE===============	
-//    SpelerRepository sr = new SpelerRepository();
-//
-//    // Spelers uit database halen
-//    List<Speler> spelers = sr.geefLijstBestaandeSpelers();
-//
-//    // Verhoog het aantal gespeelde spellen voor elke speler
-//    for (Speler speler : spelers) {
-//        if (gespeeldeSpelers.contains(speler.getGebruikersnaam())) {
-//            speler.verhoogSpellenGespeeld();
-//        }
-//    }
-//
-//    // Verhoog het aantal gewonnen spellen voor de winnende speler
-//    Speler winnendeSpeler = spelers.stream()
-//            .filter(s -> s.getGebruikersnaam().equals(gewonnenSpeler))
-//            .findFirst()
-//            .orElseThrow(() -> new SpelerBestaatNietException(gewonnenSpeler));
-//    winnendeSpeler.verhoogSpellenGespeeld(); 
-//
-//    // Sla de wijzigingen op in de database
-//    sr.slaSpelersOp(spelers);
 }

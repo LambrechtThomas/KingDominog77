@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>assets/starttegel/starttegel_roze.png</name>
+			<type>1</type>
+			<location>C:/Users/thoma/OneDrive/Documenten/SoftwareDefProject/kingdomino-g77/assets/starttegel/starttegel_roze.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>
