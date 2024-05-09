@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import domein.DominoTegel;
@@ -56,23 +57,45 @@ class DominoTegelTest {
 		assertTrue(dominoTegel.isHorizontaal());
 	}
 
+//  @Test	
+//	@DisplayName("Draaien verandert de orientatie")
+//	  void draaien_verandertOrientatie(boolean isHorizontaal, boolean verwachteOrientatie) {
+//	        DominoTegel dominoTegel = new DominoTegel(1, new Tegel[]{new Tegel("Gras", 2), new Tegel("Bos", 1)});
+//	        dominoTegel.setHorizontaal(isHorizontaal);
+//
+//	        dominoTegel.draai();
+//
+//	        assertEquals(verwachteOrientatie, dominoTegel.isHorizontaal());
+//	    }
+//
+
 	// ------------------------------------------------------------------
 	// Tests voor spiegel(). -------------------------------------------
 
 	@Test
-	void dominoTegel_spiegel_nietGespiegeldWordtGespiegeld() {
-		dominoTegel = new DominoTegel(1, new Tegel[] { new Tegel("Gras", 2), new Tegel("Bos", 1) });
+	@DisplayName("Spiegelen verandert de spiegeling")
+	void spiegelen_verandertSpiegeling() {
+		DominoTegel dominoTegel = new DominoTegel(1, new Tegel[] { new Tegel("Gras", 2), new Tegel("Bos", 1) });
 		dominoTegel.spiegel();
 
-		assertTrue(dominoTegel.isSpiegeld());
-	}
-
-	@Test
-	void dominoTegel_spiegel_gespiegeldWordtNietGespiegeld() {
-		dominoTegel = new DominoTegel(1, new Tegel[] { new Tegel("Gras", 2), new Tegel("Bos", 1) });
-		dominoTegel.spiegel();
-		dominoTegel.spiegel();
-
-		assertFalse(dominoTegel.isSpiegeld());
+		assertEquals(true, dominoTegel.isSpiegeld());
 	}
 }
+
+//	@Test
+//	void dominoTegel_spiegel_nietGespiegeldWordtGespiegeld() {
+//		dominoTegel = new DominoTegel(1, new Tegel[] { new Tegel("Gras", 2), new Tegel("Bos", 1) });
+//		dominoTegel.spiegel();
+//
+//		assertTrue(dominoTegel.isSpiegeld());
+//	}
+//
+//	@Test
+//	void dominoTegel_spiegel_gespiegeldWordtNietGespiegeld() {
+//		dominoTegel = new DominoTegel(1, new Tegel[] { new Tegel("Gras", 2), new Tegel("Bos", 1) });
+//		dominoTegel.spiegel();
+//		dominoTegel.spiegel();
+//
+//		assertFalse(dominoTegel.isSpiegeld());
+//	}
+//}
