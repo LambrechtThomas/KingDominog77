@@ -111,33 +111,62 @@ public class SpelerMapper {
 		return spelers;
 	}
 	
-	public void verhoogVelden(List<Speler> spelers, Speler gewonnenSpeler) {
+	private static final String UPDATE_SPELER_GESPEELD = "UPDATE ID430019_g77.Speler SET aantalGespeeld = aantalGespeeld + 1 WHERE gebruikersnaam = ?";
+	private static final String UPDATE_SPELER_GEWONNEN = "UPDATE ID430019_g77.Speler SET aantalGewonnen = aantalGewonnen + 1 WHERE gebruikersnaam = ?";
 
-		
-		
-// ===============FOUTE CODE===============	
-//	    SpelerRepository sr = new SpelerRepository();
-//
-//	    // Spelers uit database halen
-//	    List<Speler> spelers = sr.geefLijstBestaandeSpelers();
-//
-//	    // Verhoog het aantal gespeelde spellen voor elke speler
-//	    for (Speler speler : spelers) {
-//	        if (gespeeldeSpelers.contains(speler.getGebruikersnaam())) {
-//	            speler.verhoogSpellenGespeeld();
-//	        }
-//	    }
-//
-//	    // Verhoog het aantal gewonnen spellen voor de winnende speler
-//	    Speler winnendeSpeler = spelers.stream()
-//	            .filter(s -> s.getGebruikersnaam().equals(gewonnenSpeler))
-//	            .findFirst()
-//	            .orElseThrow(() -> new SpelerBestaatNietException(gewonnenSpeler));
-//	    winnendeSpeler.verhoogSpellenGespeeld(); 
-//
-//	    // Sla de wijzigingen op in de database
-//	    sr.slaSpelersOp(spelers); 
+	public void verhoogVelden(List<Speler> spelers, Speler gewonnenSpeler) {
+		Connectie ssh = new Connectie();
+
+		try (Connection conn = DriverManager.getConnection(Connectie.MYSQL_JDBC)) {
+			// Update aantal gespeelde spellen voor alle spelers
+			for (Speler speler : spelers) {
+				updateGespeeld(conn, speler.getGebruikersnaam());
+			}
+
+			// Update aantal gewonnen spellen voor de winnende speler
+			updateGewonnen(conn, gewonnenSpeler.getGebruikersnaam());
+
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+
+		ssh.closeConnection();
 	}
 
+	private void updateGespeeld(Connection conn, String gebruikersnaam) throws SQLException {
+		try (PreparedStatement query = conn.prepareStatement(UPDATE_SPELER_GESPEELD)) {
+			query.setString(1, gebruikersnaam);
+			query.executeUpdate();
+		}
+	}
 
+	private void updateGewonnen(Connection conn, String gebruikersnaam) throws SQLException {
+		try (PreparedStatement query = conn.prepareStatement(UPDATE_SPELER_GEWONNEN)) {
+			query.setString(1, gebruikersnaam);
+			query.executeUpdate();
+		} 
+	}
+
+	// ===============FOUTE CODE===============	
+//    SpelerRepository sr = new SpelerRepository();
+//
+//    // Spelers uit database halen
+//    List<Speler> spelers = sr.geefLijstBestaandeSpelers();
+//
+//    // Verhoog het aantal gespeelde spellen voor elke speler
+//    for (Speler speler : spelers) {
+//        if (gespeeldeSpelers.contains(speler.getGebruikersnaam())) {
+//            speler.verhoogSpellenGespeeld();
+//        }
+//    }
+//
+//    // Verhoog het aantal gewonnen spellen voor de winnende speler
+//    Speler winnendeSpeler = spelers.stream()
+//            .filter(s -> s.getGebruikersnaam().equals(gewonnenSpeler))
+//            .findFirst()
+//            .orElseThrow(() -> new SpelerBestaatNietException(gewonnenSpeler));
+//    winnendeSpeler.verhoogSpellenGespeeld(); 
+//
+//    // Sla de wijzigingen op in de database
+//    sr.slaSpelersOp(spelers);
 }

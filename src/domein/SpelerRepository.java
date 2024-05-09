@@ -35,7 +35,7 @@ public class SpelerRepository {
 		return mapper.geefSpelers();
 	}
 
-	public void slaSpelersOp(List<Speler> spelers, Speler speler) {
+	public void verhoogVeldenGames(List<Speler> spelers, Speler speler) {
 		mapper.verhoogVelden(spelers, speler);
 	}
 }
