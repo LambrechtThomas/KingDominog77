@@ -424,7 +424,7 @@ public class gameBordController {
 
 	private void plaatsDomino() {
 		
-		
+		// TODO
 	}
 
 	private void updateScores() {

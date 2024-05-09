@@ -339,7 +339,6 @@ public class Speler {
 		graanScore = berekenTotaleScoreDomein(graanTegelScores);
 
 		totaleScore = moerasScore + bosScore + grasScore + mijnScore + waterScore + graanScore;
-
 	}
 
 	/**
@@ -357,6 +356,4 @@ public class Speler {
 
 		return score;
 	}
-
-
 }
