@@ -7,22 +7,43 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
-public class MenuInstellingenController {
+public class MenuInstellingenController extends AnchorPane {
 
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	
+
 	private DomeinController dc;
-	
+
+	// ======================================================
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public MenuInstellingenController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("menuInstellingen.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+	}
+
+	// ======================================================
+
 	@FXML
 	private Button btnEnglish;
 
@@ -65,10 +86,13 @@ public class MenuInstellingenController {
 				updateLabels();
 			}
 		});
-	}
-	
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
+
+		btnTerugNaarStart.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				MenuStartController scene = new MenuStartController(dc, stage);
+				getScene().setRoot(scene);
+			}
+		});
 	}
 
 	private void updateLabels() {
@@ -80,20 +104,6 @@ public class MenuInstellingenController {
 
 		lbInstellingen.setText(vertaal.geefWoord("SETTINGS"));
 
-	}
-
-	public void switchToSceneStart(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuStart.fxml"));
-		Parent root = loader.load();
-		
-		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
-		
-		
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
 	}
 
 }
