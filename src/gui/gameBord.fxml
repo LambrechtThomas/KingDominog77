@@ -76,8 +76,8 @@
                   </VBox>
                </children>
             </VBox>
-            <Button fx:id="btnDraai" disable="true" layoutX="20.0" layoutY="605.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="124.0" text="Draai 90°" />
-            <Button fx:id="btnRoteer" disable="true" layoutX="155.0" layoutY="605.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="124.0" text="Roteer" />
+            <Button fx:id="btnDraai" disable="true" layoutX="20.0" layoutY="605.0" mnemonicParsing="false" onAction="#draaiDomino" prefHeight="54.0" prefWidth="124.0" text="Draai 90°" />
+            <Button fx:id="btnRoteer" disable="true" layoutX="155.0" layoutY="605.0" mnemonicParsing="false" onAction="#speigelDomino" prefHeight="54.0" prefWidth="124.0" text="Roteer" />
             <Button fx:id="btnNext" layoutX="292.0" layoutY="605.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="124.0" text="Next" />
 
             <VBox layoutX="90.0" layoutY="308.0" prefHeight="274.0" prefWidth="270.0">

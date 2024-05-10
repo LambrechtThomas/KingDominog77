@@ -15,3 +15,16 @@
   -fx-background-color: #d3aa00;  /* Change background color on hover /
   -fx-cursor: hand;  / Change cursor to hand on hover */
 }
+
+.grid-pane {
+    -fx-hgap: 1; /* Horizontale afstand tussen cellen */
+    -fx-vgap: 1; /* Verticale afstand tussen cellen */
+}
+
+.grid-pane .grid-line {
+    -fx-stroke: black; /* Kleur van de lijnen */
+}
+
+.test {
+	-fx-background-color: #000000;
+}

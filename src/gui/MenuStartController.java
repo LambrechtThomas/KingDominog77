@@ -80,7 +80,6 @@ public class MenuStartController extends AnchorPane {
 	public void switchToSceneGameBord(ActionEvent event) throws IOException {
 		Scene sc = new Scene(new gameBordController(dc, stage));
 		stage.setScene(sc);
-
 	}
 
 }

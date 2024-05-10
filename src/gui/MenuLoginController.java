@@ -228,12 +228,11 @@ public class MenuLoginController extends AnchorPane {
 				.collect(Collectors.toList()));
 		updateSpelers();
 
-		System.out.println("----------------------------------------------");
-		System.out.println(dc);
 
 		System.out.printf("gebruikers %s %n", beschikbareSpelers);
 		System.out.printf("spelers %s %n", observableSpelerLijst);
 		System.out.printf("%n%n%n");
+
 	}
 
 	private void updateSpelers() {
