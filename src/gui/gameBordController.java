@@ -40,54 +40,6 @@ public class gameBordController extends SplitPane {
 
 	private DomeinController dc;
 
-	// ======================================================
-
-	private void loadFxmlScreen(String name) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
-
-	public gameBordController(DomeinController dc2, Stage stage) {
-		loadFxmlScreen("gameBord.fxml");
-		this.dc = dc2;
-		this.stage = stage;
-
-		this.dc = dc;
-		initialize();
-
-		try {
-			dc.startSpel();
-			aantalSpelers = dc.geefAantalSpelers();
-
-		} catch (Exception e) {
-			System.err.print(e);
-
-			/*
-			 * try { switchtoStart();
-			 * 
-			 * } catch (IOException e1) { System.err.println(e1); }
-			 */
-		}
-
-		if (aantalSpelers < 4) {
-			lbScore4.setDisable(true);
-			lbScore4.setVisible(false);
-			lbSpeler4.setDisable(true);
-			lbSpeler4.setVisible(false);
-		}
-
-		startSpel();
-
-	}
-
-	// ======================================================
-
 	private Double coorX, coorY;
 	private int aantalSpelers;
 	private ArrayList<spelerDTO> deelnemers;
@@ -113,6 +65,8 @@ public class gameBordController extends SplitPane {
 
 	private ArrayList<dominoTegelDTO> eindKolom;
 	private ArrayList<dominoTegelDTO> startKolom;
+	private boolean horizontaal;
+	private boolean spiegeld;
 
 	@FXML
 	private AnchorPane anchBord1;
@@ -133,7 +87,7 @@ public class gameBordController extends SplitPane {
 	private Button btnNext;
 
 	@FXML
-	private Button btnRoteer;
+	private Button btnSpiegel;
 
 	@FXML
 	private GridPane grdDominos;
@@ -211,6 +165,30 @@ public class gameBordController extends SplitPane {
 	private ProgressBar pbProgressie;
 
 	public void initialize() {
+		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
+		btnSpiegel.setText(vertaal.geefWoord("MIRROR"));
+		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
+		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
+	}
+
+	// ======================================================
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public gameBordController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("gameBord.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+
 		lbSpelers = new Label[] { lbSpeler1, lbSpeler2, lbSpeler3, lbSpeler4 };
 		lbScores = new Label[] { lbScore1, lbScore2, lbScore3, lbScore4 };
 		imgDominos = new ImageView[] { imgDomino1, imgDomino2, imgDomino3, imgDomino4 };
@@ -227,18 +205,29 @@ public class gameBordController extends SplitPane {
 		eindPionImages = new ArrayList<>();
 		gridPanePerPersoon = new HashMap<>();
 		gekozenTeLeggenDominos = new HashMap<>();
+		horizontaal = true;
+		spiegeld = false;
 
-		//btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
+		try {
+			dc.startSpel();
+			aantalSpelers = dc.geefAantalSpelers();
 
-		ImageView imageView = new ImageView(new Image("file:assats/arrow_clockwise.png"));
-		imageView.setFitWidth(24);
-		imageView.setFitHeight(24);
-		btnDraai.setGraphic(imageView);
+		} catch (Exception e) {
+			System.err.print(e);
+		}
 
-		btnRoteer.setText(vertaal.geefWoord("MIRROR"));
-		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
-		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
+		if (aantalSpelers < 4) {
+			lbScore4.setDisable(true);
+			lbScore4.setVisible(false);
+			lbSpeler4.setDisable(true);
+			lbSpeler4.setVisible(false);
+		}
+
+		startSpel();
+
 	}
+
+	// ======================================================
 
 	private void startSpel() {
 		updateScores();
@@ -263,11 +252,6 @@ public class gameBordController extends SplitPane {
 
 				RowConstraints row = new RowConstraints(40);
 				pane.getRowConstraints().add(row);
-
-// 				TODO
-//				for (int j = 0; j < 5; j++) {
-//					pane.add(new javafx.scene.layout.StackPane(), i, j);
-//				} 
 			}
 
 			ImageView imgV = new ImageView(new Image(
@@ -286,18 +270,17 @@ public class gameBordController extends SplitPane {
 			});
 
 			pane.setOnDragDropped(event -> {
-				if (sleepBareImage != null) {
-					int rij = (int) (event.getX() / sleepBareImage.getBoundsInParent().getWidth());
-					int kolom = (int) (event.getY() / sleepBareImage.getBoundsInParent().getHeight());
+				Dragboard db = event.getDragboard();
+
+				if (db.hasImage()) {
+					int kolom = (int) (event.getX() / (pane.getWidth() / pane.getColumnCount()));
+					int rij = (int) (event.getY() / (pane.getHeight() / pane.getRowCount()));
 
 					pane.getChildren().remove(sleepBareImage);
-					pane.add(sleepBareImage, rij, kolom);
-					
-					if(sleepBareDomino.horizontaal()) {
-						GridPane.setColumnSpan(sleepBareImage, 2);
-					} else {
-						GridPane.setRowSpan(sleepBareImage, 2);
-					}
+
+					pane.add(sleepBareImage, kolom, rij);
+					GridPane.setRowIndex(sleepBareImage, rij);
+					GridPane.setColumnIndex(sleepBareImage, kolom);
 
 					event.setDropCompleted(true);
 				}
@@ -305,8 +288,7 @@ public class gameBordController extends SplitPane {
 				event.consume();
 			});
 
-//			TODO
-//			pane.getStyleClass().add("grid-pane");
+			pane.setGridLinesVisible(true);
 			gridPanePerPersoon.put(speler, pane);
 		}
 	}
@@ -347,8 +329,14 @@ public class gameBordController extends SplitPane {
 		pane.getChildren().forEach(child -> {
 			if (child instanceof ImageView) {
 				ImageView imgV = (ImageView) child;
-				imgV.setFitHeight(grootte);
-				imgV.setFitWidth(grootte);
+				if (imgV.getFitWidth() == 168 || imgV.getFitWidth() == 80) {
+					imgV.setFitHeight(grootte * 2);
+					imgV.setFitWidth(grootte);
+				} else {
+					imgV.setFitHeight(grootte);
+					imgV.setFitWidth(grootte * 2);
+				}
+
 			}
 		});
 
@@ -356,6 +344,10 @@ public class gameBordController extends SplitPane {
 	}
 
 	private void setDominosOpScherm() {
+		if (spelTenEinde()) {
+			eindeGame();
+		}
+		
 		lblPlayingUsername.setText(String.format("Round %d", getRonde()));
 		lbAlgemeneTekst.setText("Turn dominos");
 
@@ -407,6 +399,37 @@ public class gameBordController extends SplitPane {
 			}
 		});
 
+	}
+
+	private void eindeGame() {
+		spelerDTO winnaar = null;
+		
+		try {
+			winnaar =  dc.geefWinnaar();
+			dc.updateDataBase();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		lbAlgemeneTekst.setText(String.format("%s has won", winnaar));
+		updateScores();
+		
+		btnNext.setText("Exit game");
+		btnNext.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				// TODO hier naar start
+			}
+		});
+		
+	}
+
+	private boolean spelTenEinde() {
+		try {
+			return dc.isSpelTenEinde();
+		} catch (Exception e) {
+			// TODO: Hier
+		}
+		
+		return false;
 	}
 
 	private void draaiDominos() {
@@ -476,28 +499,38 @@ public class gameBordController extends SplitPane {
 		if (!gekozenTeLeggenDominos.isEmpty()) {
 			btnDraai.setDisable(false);
 			btnDraai.setVisible(true);
-			btnRoteer.setDisable(false);
-			btnRoteer.setVisible(true);
-			
+			btnSpiegel.setDisable(false);
+			btnSpiegel.setVisible(true);
+
 			lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
 			updateBorden();
 
 			plaatsDomino();
 
-
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					volgendeSpeler();
-					lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
+					boolean correct = false;
+					try {
+						dc.plaatsDomino(sleepBareDomino, koning, GridPane.getRowIndex(sleepBareImage),
+								GridPane.getColumnSpan(sleepBareImage));
+						correct = true;
+					} catch (Exception e) {
+						// TODO hier
+					}
 
+					if (correct) {
+						volgendeSpeler();
+						lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
+					}
 					renderBord();
 				}
 			});
 		} else {
 			btnDraai.setDisable(true);
 			btnDraai.setVisible(false);
-			btnRoteer.setDisable(true);
-			btnRoteer.setVisible(false);
+			btnSpiegel.setDisable(true);
+			btnSpiegel.setVisible(false);
+
 			btnNext.setText("Next round");
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
@@ -511,35 +544,40 @@ public class gameBordController extends SplitPane {
 
 		updateBorden();
 		GridPane grid = haalGridPaneOp();
-		ImageView imgV = new ImageView(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
+		sleepBareImage = new ImageView(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
 				gekozenTeLeggenDominos.get(koning).volgnummer())));
-		imgV.setFitHeight(84);
-		imgV.setFitWidth(84);
-		GridPane.setColumnSpan(imgV, 2);
-		GridPane.setRowSpan(imgV, 1);
-		grid.add(imgV, 0, 0);
-		
+		sleepBareImage.setFitHeight(84);
+		sleepBareImage.setFitWidth(168);
+		GridPane.setColumnSpan(sleepBareImage, 2);
+		grid.add(sleepBareImage, 0, 0);
+
 		// TODO HIER
 
 		sleepBareDomino = gekozenTeLeggenDominos.get(koning);
 		gekozenTeLeggenDominos.remove(koning);
 
-		imgV.setOnDragDetected(event -> {
+		sleepBareImage.setOnDragDetected(event -> {
 			sleepBareImage = (ImageView) event.getSource();
-			Dragboard db = imgV.startDragAndDrop(TransferMode.ANY);
-
 			Image snapshot = sleepBareImage.snapshot(null, null);
 			sleepBareImage.setImage(snapshot);
 
+			if (!horizontaal) {
+
+			} else if (spiegeld) {
+				sleepBareImage.setRotate(180);
+			}
+
+			Dragboard db = sleepBareImage.startDragAndDrop(TransferMode.MOVE);
+
 			ClipboardContent content = new ClipboardContent();
-			content.putImage(imgV.getImage());
+			content.putImage(sleepBareImage.getImage());
 			db.setContent(content);
 
 			event.consume();
 		});
 
 //		TODO
-//		gridPanePerPersoon.put(koning, grid);
+		gridPanePerPersoon.put(koning, grid);
 	}
 
 	private GridPane haalGridPaneOp() {
@@ -621,24 +659,43 @@ public class gameBordController extends SplitPane {
 		updateKoning();
 		System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString()); // RAndom
 	}
-	
+
 	@FXML
 	void speigelDomino(ActionEvent event) {
-		
+		if (sleepBareImage != null) {
+			sleepBareImage.setRotate(180);
+			spiegeld = !spiegeld;
+
+			try {
+				dc.spiegelDomino(gekozenTeLeggenDominos.get(koning));
+			} catch (Exception e) {
+
+			}
+		}
 	}
-	
+
 	@FXML
 	void draaiDomino(ActionEvent event) {
-		
-	}
+		if (sleepBareImage != null) {
+			if (horizontaal) {
+				sleepBareImage.setImage(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
+						gekozenTeLeggenDominos.get(koning).volgnummer())));
+				sleepBareImage.setFitHeight(168);
+				sleepBareImage.setFitWidth(84);
 
-	private void switchtoStart() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuStart.fxml"));
-		Parent root = loader.load();
+			} else {
+				sleepBareImage.setRotate(90);
+				sleepBareImage.setFitHeight(84);
+				sleepBareImage.setFitWidth(168);
+			}
 
-		MenuStartController controller = loader.getController();
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+			horizontaal = !horizontaal;
+
+			try {
+				dc.draaiDomino(gekozenTeLeggenDominos.get(koning));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
 }

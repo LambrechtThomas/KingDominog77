@@ -328,6 +328,25 @@ public class DomeinController {
 			spelerRepository.verhoogVeldenGames(huidigSpel.getHuidigeSpelers(), huidigSpel.geefGewonnenSpeler());
 		}
 	}
+	
+	public void draaiDomino(dominoTegelDTO domino) throws Exception {
+		checkVoorHuidigSpel();
+		
+		huidigSpel.draaiDomino(domino.volgnummer());
+	}
+	
+	public void spiegelDomino(dominoTegelDTO domino) throws Exception {
+		checkVoorHuidigSpel();
+		
+		huidigSpel.spiegelDomino(domino.volgnummer());
+	}
+	
+	public spelerDTO geefWinnaar() throws Exception {
+		checkVoorHuidigSpel();
+		
+		Speler s = huidigSpel.geefWinnaar();
+		return new spelerDTO(s.getGebruikersnaam(), s.getGeboortejaar(), s.getTotaleScore(), s.getAantalGewonnen(), s.getAantalGespeeld(), s.getKleur());
+	}
 
 	// === Checks ===
 	

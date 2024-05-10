@@ -1,12 +1,12 @@
 package main;
 
+import DTO.spelerDTO;
 import domein.DomeinController;
+import domein.Kleur;
 import gui.MenuStartController;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
@@ -20,6 +20,15 @@ public class StartUp extends Application {
 		primaryStage.setTitle("Kingdomino - Groep 77");
 
 		DomeinController dc = new DomeinController();
+		
+		try {
+			dc.spelerDoetMee(new spelerDTO("Thomas Lambrecht", 2003, 0, 0, 0, null), Kleur.GEEL);
+			dc.spelerDoetMee(new spelerDTO("Mauro Maratta", 2004, 0, 0, 0, null), Kleur.GROEN);
+			dc.spelerDoetMee(new spelerDTO("Liesbeth Lewyllie", 2004, 0, 0, 0, null), Kleur.BLAUW);
+			dc.spelerDoetMee(new spelerDTO("Kobe Sapijn", 2004, 0, 0, 0, null), Kleur.ROZE);
+		} catch(Exception e) {
+			
+		}
 
 		Scene scene = new Scene(new MenuStartController(dc, primaryStage));
 

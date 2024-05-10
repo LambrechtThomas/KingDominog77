@@ -69,7 +69,7 @@ public class Spel {
 	}
 
 	// Getters
-	
+
 	/**
 	 * Get de startkolom
 	 * 
@@ -82,7 +82,7 @@ public class Spel {
 	/**
 	 * Get de eindkolom
 	 * 
-	 * @return	gebruikteDominos
+	 * @return gebruikteDominos
 	 */
 	public ArrayList<DominoTegel> getEindKolom() {
 		return gebruikteDominos;
@@ -185,8 +185,8 @@ public class Spel {
 	}
 
 	/**
-	 * Berekent de scores van aparte landschappen om deze daarna via
-	 * "berekenScore" op te tellen
+	 * Berekent de scores van aparte landschappen om deze daarna via "berekenScore"
+	 * op te tellen
 	 */
 	public void berekenScores() {
 		for (Speler speler : huidigeSpelers) {
@@ -199,5 +199,21 @@ public class Spel {
 
 			speler.berekenScore();
 		}
+	}
+
+	public void draaiDomino(int volgnummer) {
+		alleDominos.stream().filter(v -> v.getVolgnummer() == volgnummer).findFirst().get().draai();
+	}
+
+	public void spiegelDomino(int volgnummer) {
+		alleDominos.stream().filter(v -> v.getVolgnummer() == volgnummer).findFirst().get().spiegel();
+		;
+	}
+
+	public Speler geefWinnaar() {
+		berekenScores();
+
+		return huidigeSpelers.stream()
+				.reduce((prev, curr) -> prev.getTotaleScore() > curr.getTotaleScore() ? prev : curr).get();
 	}
 }
