@@ -53,7 +53,7 @@ public class MenuLoginController extends AnchorPane {
 
 		updateLabels();
 		haalGebruikersOp();
-//		updateSpelers();
+		updateSpelers();
 
 	}
 

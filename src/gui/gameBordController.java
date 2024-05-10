@@ -53,6 +53,33 @@ public class gameBordController extends SplitPane {
 		loadFxmlScreen("gameBord.fxml");
 		this.dc = dc2;
 		this.stage = stage;
+
+		this.dc = dc;
+		initialize();
+
+		try {
+			dc.startSpel();
+			aantalSpelers = dc.geefAantalSpelers();
+
+		} catch (Exception e) {
+			System.err.print(e);
+
+			/*
+			 * try { switchtoStart();
+			 * 
+			 * } catch (IOException e1) { System.err.println(e1); }
+			 */
+		}
+
+		if (aantalSpelers < 4) {
+			lbScore4.setDisable(true);
+			lbScore4.setVisible(false);
+			lbSpeler4.setDisable(true);
+			lbSpeler4.setVisible(false);
+		}
+
+		startSpel();
+
 	}
 
 	// ======================================================
@@ -198,34 +225,6 @@ public class gameBordController extends SplitPane {
 		btnRoteer.setText(vertaal.geefWoord("MIRROR"));
 		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
 		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
-	}
-
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		initialize();
-
-		try {
-			dc.startSpel();
-			aantalSpelers = dc.geefAantalSpelers();
-
-		} catch (Exception e) {
-			System.err.print(e);
-
-			/*
-			 * try { switchtoStart();
-			 * 
-			 * } catch (IOException e1) { System.err.println(e1); }
-			 */
-		}
-
-		if (aantalSpelers < 4) {
-			lbScore4.setDisable(true);
-			lbScore4.setVisible(false);
-			lbSpeler4.setDisable(true);
-			lbSpeler4.setVisible(false);
-		}
-
-		startSpel();
 	}
 
 	private void startSpel() {
