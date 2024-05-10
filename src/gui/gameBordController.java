@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -28,12 +29,34 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
-public class gameBordController {
+public class gameBordController extends SplitPane {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 
 	private DomeinController dc;
+
+	// ======================================================
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public gameBordController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("gameBord.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+	}
+
+	// ======================================================
+
 	private int aantalSpelers;
 	private ArrayList<spelerDTO> deelnemers;
 	private spelerDTO koning;
@@ -152,10 +175,6 @@ public class gameBordController {
 
 	@FXML
 	private ProgressBar pbProgressie;
-
-	public gameBordController() {
-
-	}
 
 	public void initialize() {
 		lbSpelers = new Label[] { lbSpeler1, lbSpeler2, lbSpeler3, lbSpeler4 };
@@ -357,7 +376,8 @@ public class gameBordController {
 
 	private void kiesDomino() {
 		if (selecteerdeImage != null && mogelijkeImages.contains(selecteerdeImage)) {
-			ImageView imgV = new ImageView(new Image(String.format("file:assets/speler/pawn_%s.png", koning.kleur().toStringForPath())));
+			ImageView imgV = new ImageView(
+					new Image(String.format("file:assets/speler/pawn_%s.png", koning.kleur().toStringForPath())));
 			imgV.setFitHeight(64);
 			imgV.setFitWidth(64);
 
@@ -367,10 +387,9 @@ public class gameBordController {
 
 			mogelijkeImages.remove(selecteerdeImage);
 			gekozenDominoSpeler.put(koning, startKolom.get(index));
-			
+
 			volgendeSpeler();
 			lbAlgemeneTekst.setText(String.format("%s Chose a domino", koning.gebruikersnaam()));
-
 
 			if (eindKolom.isEmpty() && mogelijkeImages.isEmpty()) {
 				lbAlgemeneTekst.setText(String.format("Getting new dominos"));
@@ -405,7 +424,7 @@ public class gameBordController {
 			plaatsDomino();
 
 			// Hier
-			
+
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					renderBord();
@@ -423,7 +442,7 @@ public class gameBordController {
 	}
 
 	private void plaatsDomino() {
-		
+
 		// TODO
 	}
 
@@ -491,7 +510,6 @@ public class gameBordController {
 		Parent root = loader.load();
 
 		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
 
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -513,7 +531,6 @@ public class gameBordController {
 		Parent root = loader.load();
 
 		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
