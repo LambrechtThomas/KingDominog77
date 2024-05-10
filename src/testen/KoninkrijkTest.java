@@ -38,6 +38,7 @@ class KoninkrijkTest {
 		KasteelTegel kasteel = new KasteelTegel();
 		koninkrijk.setKasteel(0, 0, kasteel);
 
+		// assertThat(koninkrijk.getBord()[0][0]).isEqualTo(kasteel);
 		assertEquals(kasteel, koninkrijk.getBord()[0][0]);
 	}
 

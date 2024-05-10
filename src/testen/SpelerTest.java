@@ -1,19 +1,27 @@
 package testen;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import domein.Kleur;
 import domein.Speler;
 
 // Verschillende tests of de speler juiste parameters geeft
 class SpelerTest {
 	private Speler speler;
 
+	@BeforeEach
+	void setUp() {
+		speler = new Speler("avatar", 2005, 4, 25);
+	}
 	// ------------------------------------------------------------------
 	// Alle gegevens moeten correct zijn. -------------------------------
 
@@ -29,12 +37,19 @@ class SpelerTest {
 
 	@Test
 	void maakSpeler_alleGegevensCorrect_maaktObject() {
-		speler = new Speler("avatar", 2003, 4, 25);
-		Assertions.assertEquals("avatar", speler.getGebruikersnaam());
-		Assertions.assertEquals(2003, speler.getGeboortejaar());
-		Assertions.assertEquals(4, speler.getAantalGewonnen());
-		Assertions.assertEquals(25, speler.getAantalGespeeld());
+		assertEquals("avatar", speler.getGebruikersnaam());
+		assertEquals(2005, speler.getGeboortejaar());
+		assertEquals(4, speler.getAantalGewonnen());
+		assertEquals(25, speler.getAantalGespeeld());
 	}
+	/*
+	 * @Test void maakSpeler_alleGegevensCorrect_maaktObject() { speler = new
+	 * Speler("avatar", 2003, 4, 25); Assertions.assertEquals("avatar",
+	 * speler.getGebruikersnaam()); Assertions.assertEquals(2003,
+	 * speler.getGeboortejaar()); Assertions.assertEquals(4,
+	 * speler.getAantalGewonnen()); Assertions.assertEquals(25,
+	 * speler.getAantalGespeeld()); }
+	 */
 
 	// ------------------------------------------------------------------
 	// Alle gegevens moeten fout zijn. ----------------------------------
@@ -67,7 +82,23 @@ class SpelerTest {
 
 	@Test
 	void speler_geenKleur_assertThrow() {
-		Speler speler = new Speler("avatar", 2005, 4, 5);
-		assertThrows(IllegalArgumentException.class, () -> speler.setKleur(null));
+		try {
+			speler.setKleur(null);
+			fail("Geen IllegalArgumentException gegooid");
+		} catch (IllegalArgumentException e) {
+			// Test geslaagd
+		}
 	}
+
+	@Test
+	void speler_geldigeKleur_setKleur() {
+		speler.setKleur(Kleur.BLAUW);
+		assertEquals(Kleur.BLAUW, speler.getKleur());
+	}
+
+	/*
+	 * @Test void speler_geenKleur_assertThrow() { Speler speler = new
+	 * Speler("avatar", 2005, 4, 5); assertThrows(IllegalArgumentException.class, ()
+	 * -> speler.setKleur(null)); }
+	 */
 }
