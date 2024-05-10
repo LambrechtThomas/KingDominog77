@@ -8,7 +8,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
@@ -45,9 +47,11 @@ public class StartUp extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

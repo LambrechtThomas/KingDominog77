@@ -21,10 +21,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
@@ -34,6 +38,7 @@ public class gameBordController {
 	private Parent root;
 
 	private DomeinController dc;
+	private Double coorX, coorY;
 	private int aantalSpelers;
 	private ArrayList<spelerDTO> deelnemers;
 	private spelerDTO koning;
@@ -49,6 +54,8 @@ public class gameBordController {
 	private AnchorPane[] borden;
 
 	private Image selecteerdeImage;
+	private ImageView sleepBareImage;
+	private dominoTegelDTO sleepBareDomino;
 	private ArrayList<Image> mogelijkeImages;
 	private ArrayList<Image> alleTijdelijkeImages;
 	private ArrayList<ImageView> startPionImages;
@@ -175,7 +182,13 @@ public class gameBordController {
 		gridPanePerPersoon = new HashMap<>();
 		gekozenTeLeggenDominos = new HashMap<>();
 
-		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
+		//btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
+
+		ImageView imageView = new ImageView(new Image("file:assats/arrow_clockwise.png"));
+		imageView.setFitWidth(24);
+		imageView.setFitHeight(24);
+		btnDraai.setGraphic(imageView);
+
 		btnRoteer.setText(vertaal.geefWoord("MIRROR"));
 		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
 		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
@@ -232,6 +245,11 @@ public class gameBordController {
 
 				RowConstraints row = new RowConstraints(40);
 				pane.getRowConstraints().add(row);
+
+// 				TODO
+//				for (int j = 0; j < 5; j++) {
+//					pane.add(new javafx.scene.layout.StackPane(), i, j);
+//				} 
 			}
 
 			ImageView imgV = new ImageView(new Image(
@@ -241,6 +259,36 @@ public class gameBordController {
 			imgV.setFitHeight(40);
 			pane.add(imgV, 2, 2);
 
+			pane.setOnDragOver(event -> {
+				if (event.getGestureSource() != pane && event.getDragboard().hasImage()) {
+					event.acceptTransferModes(TransferMode.MOVE);
+				}
+
+				event.consume();
+			});
+
+			pane.setOnDragDropped(event -> {
+				if (sleepBareImage != null) {
+					int rij = (int) (event.getX() / sleepBareImage.getBoundsInParent().getWidth());
+					int kolom = (int) (event.getY() / sleepBareImage.getBoundsInParent().getHeight());
+
+					pane.getChildren().remove(sleepBareImage);
+					pane.add(sleepBareImage, rij, kolom);
+					
+					if(sleepBareDomino.horizontaal()) {
+						GridPane.setColumnSpan(sleepBareImage, 2);
+					} else {
+						GridPane.setRowSpan(sleepBareImage, 2);
+					}
+
+					event.setDropCompleted(true);
+				}
+
+				event.consume();
+			});
+
+//			TODO
+//			pane.getStyleClass().add("grid-pane");
 			gridPanePerPersoon.put(speler, pane);
 		}
 	}
@@ -257,30 +305,36 @@ public class gameBordController {
 		for (int i = 0; i < overigeSpelers.size(); i++) {
 			lbVelden[i + 1].setText(String.format("%s", overigeSpelers.get(i)));
 			lbVelden[i + 1].setTextFill(overigeSpelers.get(i).kleur().getColor());
+			herSchaal(overigeSpelers.get(i), 40);
 			borden[i + 1].getChildren().add(gridPanePerPersoon.get(overigeSpelers.get(i)));
 		}
 
 		lbVelden[0].setText(String.format("%s", koning.gebruikersnaam()));
 		lbVelden[0].setTextFill(koning.kleur().getColor());
+		herSchaal(koning, 84);
+		borden[0].getChildren().add(gridPanePerPersoon.get(koning));
+	}
 
-		GridPane pane = gridPanePerPersoon.get(koning);
+	private void herSchaal(spelerDTO spelerDTO, int grootte) {
+		GridPane pane = gridPanePerPersoon.get(spelerDTO);
+
 		pane.getRowConstraints().clear();
 		pane.getColumnConstraints().clear();
 
 		for (int i = 0; i < 5; i++) {
-			pane.getRowConstraints().add(new RowConstraints(84));
-			pane.getColumnConstraints().add(new ColumnConstraints(84));
+			pane.getRowConstraints().add(new RowConstraints(grootte));
+			pane.getColumnConstraints().add(new ColumnConstraints(grootte));
 		}
 
 		pane.getChildren().forEach(child -> {
 			if (child instanceof ImageView) {
 				ImageView imgV = (ImageView) child;
-				imgV.setFitHeight(84);
-				imgV.setFitWidth(84);
+				imgV.setFitHeight(grootte);
+				imgV.setFitWidth(grootte);
 			}
 		});
 
-		borden[0].getChildren().add(pane);
+		gridPanePerPersoon.put(spelerDTO, pane);
 	}
 
 	private void setDominosOpScherm() {
@@ -308,6 +362,7 @@ public class gameBordController {
 			grdDominos.getChildren().remove(imageView);
 			grdDominos.add(imageView, 1, GridPane.getRowIndex(imageView));
 		}
+
 		grdDominos.getChildren().removeAll(eindPionImages);
 		eindPionImages.clear();
 		eindPionImages.addAll(startPionImages);
@@ -357,7 +412,8 @@ public class gameBordController {
 
 	private void kiesDomino() {
 		if (selecteerdeImage != null && mogelijkeImages.contains(selecteerdeImage)) {
-			ImageView imgV = new ImageView(new Image(String.format("file:assets/speler/pawn_%s.png", koning.kleur().toStringForPath())));
+			ImageView imgV = new ImageView(
+					new Image(String.format("file:assets/speler/pawn_%s.png", koning.kleur().toStringForPath())));
 			imgV.setFitHeight(64);
 			imgV.setFitWidth(64);
 
@@ -367,10 +423,9 @@ public class gameBordController {
 
 			mogelijkeImages.remove(selecteerdeImage);
 			gekozenDominoSpeler.put(koning, startKolom.get(index));
-			
+
 			volgendeSpeler();
 			lbAlgemeneTekst.setText(String.format("%s Chose a domino", koning.gebruikersnaam()));
-
 
 			if (eindKolom.isEmpty() && mogelijkeImages.isEmpty()) {
 				lbAlgemeneTekst.setText(String.format("Getting new dominos"));
@@ -401,17 +456,29 @@ public class gameBordController {
 
 	private void renderBord() {
 		if (!gekozenTeLeggenDominos.isEmpty()) {
+			btnDraai.setDisable(false);
+			btnDraai.setVisible(true);
+			btnRoteer.setDisable(false);
+			btnRoteer.setVisible(true);
+			
 			lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
+			updateBorden();
+
 			plaatsDomino();
 
-			// Hier
-			
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
+					volgendeSpeler();
+					lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
+
 					renderBord();
 				}
 			});
 		} else {
+			btnDraai.setDisable(true);
+			btnDraai.setVisible(false);
+			btnRoteer.setDisable(true);
+			btnRoteer.setVisible(false);
 			btnNext.setText("Next round");
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
@@ -419,12 +486,49 @@ public class gameBordController {
 				}
 			});
 		}
-
 	}
 
 	private void plaatsDomino() {
+		updateBorden();
+		GridPane grid = haalGridPaneOp();
+		ImageView imgV = new ImageView(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
+				gekozenTeLeggenDominos.get(koning).volgnummer())));
+		imgV.setFitHeight(84);
+		imgV.setFitWidth(84);
+		GridPane.setColumnSpan(imgV, 2);
+		GridPane.setRowSpan(imgV, 1);
+		grid.add(imgV, 0, 0);
 		
-		// TODO
+		// TODO HIER
+
+		sleepBareDomino = gekozenTeLeggenDominos.get(koning);
+		gekozenTeLeggenDominos.remove(koning);
+
+		imgV.setOnDragDetected(event -> {
+			sleepBareImage = (ImageView) event.getSource();
+			Dragboard db = imgV.startDragAndDrop(TransferMode.ANY);
+
+			Image snapshot = sleepBareImage.snapshot(null, null);
+			sleepBareImage.setImage(snapshot);
+
+			ClipboardContent content = new ClipboardContent();
+			content.putImage(imgV.getImage());
+			db.setContent(content);
+
+			event.consume();
+		});
+
+//		TODO
+//		gridPanePerPersoon.put(koning, grid);
+	}
+
+	private GridPane haalGridPaneOp() {
+		for (Node node : borden[0].getChildren()) {
+			if (node instanceof GridPane) {
+				return (GridPane) node;
+			}
+		}
+		return null;
 	}
 
 	private void updateScores() {
@@ -449,15 +553,6 @@ public class gameBordController {
 		try {
 			dc.kiesNieuweKoning();
 			updateKoning();
-
-		} catch (Exception e) {
-			// hier
-		}
-	}
-
-	private void volgendeRonde() {
-		try {
-			dc.wisselKolom();
 
 		} catch (Exception e) {
 			// hier
@@ -506,6 +601,16 @@ public class gameBordController {
 
 		updateKoning();
 		System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString()); // RAndom
+	}
+	
+	@FXML
+	void speigelDomino(ActionEvent event) {
+		
+	}
+	
+	@FXML
+	void draaiDomino(ActionEvent event) {
+		
 	}
 
 	private void switchtoStart() throws IOException {

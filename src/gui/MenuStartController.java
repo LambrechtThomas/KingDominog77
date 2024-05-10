@@ -94,6 +94,9 @@ public class MenuStartController {
 
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
+		
+//		TODO
+//		scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 

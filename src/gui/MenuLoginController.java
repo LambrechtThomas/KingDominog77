@@ -211,10 +211,6 @@ public class MenuLoginController {
 		ArrayList<String> namen = (ArrayList<String>) observableSpelerLijst.stream().map(v -> v.gebruikersnaam()).collect(Collectors.toList());
 		beschikbareSpelers.removeAll(beschikbareSpelers.stream().filter(v -> namen.contains(v.gebruikersnaam())).collect(Collectors.toList()));
 		updateSpelers();
-		
-		System.out.printf("gebruikers %s %n",beschikbareSpelers);
-		System.out.printf("spelers %s %n", observableSpelerLijst);
-		System.out.printf("%n%n%n");
 	}
 
 	private void updateSpelers() {
