@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -32,12 +33,61 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
-public class gameBordController {
+public class gameBordController extends SplitPane {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 
 	private DomeinController dc;
+
+	// ======================================================
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public gameBordController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("gameBord.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+
+		this.dc = dc;
+		initialize();
+
+		try {
+			dc.startSpel();
+			aantalSpelers = dc.geefAantalSpelers();
+
+		} catch (Exception e) {
+			System.err.print(e);
+
+			/*
+			 * try { switchtoStart();
+			 * 
+			 * } catch (IOException e1) { System.err.println(e1); }
+			 */
+		}
+
+		if (aantalSpelers < 4) {
+			lbScore4.setDisable(true);
+			lbScore4.setVisible(false);
+			lbSpeler4.setDisable(true);
+			lbSpeler4.setVisible(false);
+		}
+
+		startSpel();
+
+	}
+
+	// ======================================================
+
 	private Double coorX, coorY;
 	private int aantalSpelers;
 	private ArrayList<spelerDTO> deelnemers;
@@ -160,10 +210,6 @@ public class gameBordController {
 	@FXML
 	private ProgressBar pbProgressie;
 
-	public gameBordController() {
-
-	}
-
 	public void initialize() {
 		lbSpelers = new Label[] { lbSpeler1, lbSpeler2, lbSpeler3, lbSpeler4 };
 		lbScores = new Label[] { lbScore1, lbScore2, lbScore3, lbScore4 };
@@ -192,34 +238,6 @@ public class gameBordController {
 		btnRoteer.setText(vertaal.geefWoord("MIRROR"));
 		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
 		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
-	}
-
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		initialize();
-
-		try {
-			dc.startSpel();
-			aantalSpelers = dc.geefAantalSpelers();
-
-		} catch (Exception e) {
-			System.err.print(e);
-
-			/*
-			 * try { switchtoStart();
-			 * 
-			 * } catch (IOException e1) { System.err.println(e1); }
-			 */
-		}
-
-		if (aantalSpelers < 4) {
-			lbScore4.setDisable(true);
-			lbScore4.setVisible(false);
-			lbSpeler4.setDisable(true);
-			lbSpeler4.setVisible(false);
-		}
-
-		startSpel();
 	}
 
 	private void startSpel() {
@@ -466,6 +484,7 @@ public class gameBordController {
 
 			plaatsDomino();
 
+
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					volgendeSpeler();
@@ -489,6 +508,7 @@ public class gameBordController {
 	}
 
 	private void plaatsDomino() {
+
 		updateBorden();
 		GridPane grid = haalGridPaneOp();
 		ImageView imgV = new ImageView(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
@@ -586,7 +606,6 @@ public class gameBordController {
 		Parent root = loader.load();
 
 		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
 
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -618,7 +637,6 @@ public class gameBordController {
 		Parent root = loader.load();
 
 		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();

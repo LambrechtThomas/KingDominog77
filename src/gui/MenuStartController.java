@@ -1,21 +1,20 @@
 package gui;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 
 import domein.DomeinController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
-public class MenuStartController {
+public class MenuStartController extends AnchorPane {
 
 	private Stage stage;
 	private Scene scene;
@@ -23,7 +22,26 @@ public class MenuStartController {
 
 	private DomeinController dc;
 
-	// INFO: sts____ == switchToScene_____
+	// -------------------------------------------------------------------
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public MenuStartController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("menuStart.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+	}
+
+	// -------------------------------------------------------------------
 
 	@FXML
 	private Label lblOnderTitel;
@@ -47,59 +65,21 @@ public class MenuStartController {
 
 		btnInstelling.setText(vertaal.geefWoord("SETTINGS"));
 	}
-	
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		
-		try {
-			if (!dc.isSpelKlaarGezet())
-				btnNieuwSpel.setDisable(true);
-		} catch (Exception e) {
-			System.err.print(e);
-		}
-	}
 
 	public void switchToSceneLogin(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuLogin.fxml"));
-		Parent root = loader.load();
-
-		MenuLoginController controller = loader.getController();
-		controller.setDc(dc);
-
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		Scene sc = new Scene(new MenuLoginController(dc, stage));
+		stage.setScene(sc);
 	}
 
 	public void switchToSceneInstellingen(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuInstellingen.fxml"));
-		Parent root = loader.load();
+		Scene sc = new Scene(new MenuInstellingenController(dc, stage));
+		stage.setScene(sc);
 
-		MenuInstellingenController controller = loader.getController();
-		controller.setDc(dc);
-
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
 	}
 
 	public void switchToSceneGameBord(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("gameBord.fxml"));
-		Parent root = loader.load();
-
-		gameBordController controller = loader.getController();
-		controller.setDc(dc);
-
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		
-//		TODO
-//		scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-		stage.setScene(scene);
-		stage.show();
-
+		Scene sc = new Scene(new gameBordController(dc, stage));
+		stage.setScene(sc);
 	}
 
 }

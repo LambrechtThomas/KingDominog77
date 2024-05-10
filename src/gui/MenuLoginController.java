@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import DTO.spelerDTO;
@@ -14,27 +13,55 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import taalmanager.vertaal;
 
-public class MenuLoginController {
+public class MenuLoginController extends AnchorPane {
 
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 
+	private DomeinController dc;
+
+	// ======================================================
+
+	private void loadFxmlScreen(String name) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	public MenuLoginController(DomeinController dc2, Stage stage) {
+		loadFxmlScreen("menuLogin.fxml");
+		this.dc = dc2;
+		this.stage = stage;
+
+		System.out.println(dc);
+
+		updateLabels();
+		haalGebruikersOp();
+		updateSpelers();
+
+	}
+
+	// ======================================================
+
 	// Dit is om de ListViews te populaten
 	private ObservableList<spelerDTO> beschikbareSpelers;
 	private ObservableList<spelerDTO> observableSpelerLijst;
-
-	private DomeinController dc;
 
 	@FXML
 	private Button btnAddAanSpelers;
@@ -76,9 +103,6 @@ public class MenuLoginController {
 		beschikbareSpelers = FXCollections.observableArrayList();
 		observableSpelerLijst = FXCollections.observableArrayList();
 
-		updateLabels();
-		// haalGebruikersOp(); // TODO zeker
-
 		// Gebruiker aanmaken
 		btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -88,8 +112,8 @@ public class MenuLoginController {
 
 				// Checken of de velden daadwerkelijk ingevuld zijn
 				if (gebruikersnaam.isEmpty() || geboortedatum.isEmpty()) {
-					DomeinController.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"), vertaal.geefWoord("POPUP_TITLE_CREATION"),
-							vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
+					DomeinController.errorBox(vertaal.geefWoord("POPUP_MESSAGE_CREATION"),
+							vertaal.geefWoord("POPUP_TITLE_CREATION"), vertaal.geefWoord("POPUP_MESSAGE_HEADER"));
 				} else {
 					// Try catch om na te gaan of de gebruiker in de database zit/geboortejaar een
 					// cijfer is
@@ -151,11 +175,30 @@ public class MenuLoginController {
 				updateSpelers();
 			}
 		});
-	}
 
-	public void setDc(DomeinController dc) {
-		this.dc = dc;
-		haalGebruikersOp();
+		btnNaarStart.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+
+				MenuStartController scene = new MenuStartController(dc, stage);
+				getScene().setRoot(scene);
+
+				try {
+					// clear de deelnames
+					dc.clearDeelnemedeSpeler();
+					// Vraag kleuren op
+					ArrayList<Kleur> kleuren = new ArrayList<>(dc.geefBeschikbareKleuren());
+
+					// Speler laten meedoen aan het spel met rando kleuren
+					for (int i = 0; i < observableSpelerLijst.size(); i++) {
+						dc.spelerDoetMee(observableSpelerLijst.get(i), kleuren.get(i));
+					}
+
+				} catch (Exception e) {
+					System.err.println(e);
+				}
+
+			}
+		});
 	}
 
 	private void updateLabels() {
@@ -169,35 +212,6 @@ public class MenuLoginController {
 		lblGeboortedatum.setText(vertaal.geefWoord("DATE_OF_BIRTH"));
 	}
 
-	public void switchToSceneStart(ActionEvent event) throws IOException {
-
-		try {
-			// clear de deelnames
-			dc.clearDeelnemedeSpeler();
-			// Vraag kleuren op
-			ArrayList<Kleur> kleuren = new ArrayList<>(dc.geefBeschikbareKleuren());
-
-			// Speler laten meedoen aan het spel met rando kleuren
-			for (int i = 0; i < observableSpelerLijst.size(); i++) {
-				dc.spelerDoetMee(observableSpelerLijst.get(i), kleuren.get(i));
-			}
-
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("menuStart.fxml"));
-		Parent root = loader.load();
-
-		MenuStartController controller = loader.getController();
-		controller.setDc(dc);
-
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
 	// ListView laten vullen met gebruikers
 	private void haalGebruikersOp() {
 		// Clear de lijsten
@@ -208,9 +222,17 @@ public class MenuLoginController {
 		// Haal de spelers op
 		observableSpelerLijst.addAll(dc.getDeelnemendeSpelers());
 		// Laad ze ook in
-		ArrayList<String> namen = (ArrayList<String>) observableSpelerLijst.stream().map(v -> v.gebruikersnaam()).collect(Collectors.toList());
-		beschikbareSpelers.removeAll(beschikbareSpelers.stream().filter(v -> namen.contains(v.gebruikersnaam())).collect(Collectors.toList()));
+		ArrayList<String> namen = (ArrayList<String>) observableSpelerLijst.stream().map(v -> v.gebruikersnaam())
+				.collect(Collectors.toList());
+		beschikbareSpelers.removeAll(beschikbareSpelers.stream().filter(v -> namen.contains(v.gebruikersnaam()))
+				.collect(Collectors.toList()));
 		updateSpelers();
+
+
+		System.out.printf("gebruikers %s %n", beschikbareSpelers);
+		System.out.printf("spelers %s %n", observableSpelerLijst);
+		System.out.printf("%n%n%n");
+
 	}
 
 	private void updateSpelers() {
