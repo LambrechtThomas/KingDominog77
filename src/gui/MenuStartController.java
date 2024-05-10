@@ -39,8 +39,17 @@ public class MenuStartController extends AnchorPane {
 		loadFxmlScreen("menuStart.fxml");
 		this.dc = dc2;
 		this.stage = stage;
+
+		btnDis();
 	}
 
+	public void btnDis() {
+		btnNieuwSpel.setDisable(true);
+		if (dc.isSpelKlaarGezet())
+			btnNieuwSpel.setDisable(false);
+	}
+
+	//
 	// -------------------------------------------------------------------
 
 	@FXML
@@ -56,7 +65,6 @@ public class MenuStartController extends AnchorPane {
 	private Button btnNieuwSpel;
 
 	@FXML
-
 	public void initialize() {
 
 		btnNieuwSpel.setText(vertaal.geefWoord("START_A_NEW_GAME"));
