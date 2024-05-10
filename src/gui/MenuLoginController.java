@@ -48,8 +48,13 @@ public class MenuLoginController extends AnchorPane {
 		loadFxmlScreen("menuLogin.fxml");
 		this.dc = dc2;
 		this.stage = stage;
+
 		System.out.println(dc);
-		initialize();
+
+		updateLabels();
+		haalGebruikersOp();
+//		updateSpelers();
+
 	}
 
 	// ======================================================
@@ -97,10 +102,6 @@ public class MenuLoginController extends AnchorPane {
 	public void initialize() {
 		beschikbareSpelers = FXCollections.observableArrayList();
 		observableSpelerLijst = FXCollections.observableArrayList();
-
-		updateLabels();
-//		haalGebruikersOp(); // TODO zeker
-//		updateSpelers();
 
 		// Gebruiker aanmaken
 		btnMaakGebruiker.setOnAction(new EventHandler<ActionEvent>() {
@@ -226,6 +227,9 @@ public class MenuLoginController extends AnchorPane {
 		beschikbareSpelers.removeAll(beschikbareSpelers.stream().filter(v -> namen.contains(v.gebruikersnaam()))
 				.collect(Collectors.toList()));
 		updateSpelers();
+
+		System.out.println("----------------------------------------------");
+		System.out.println(dc);
 
 		System.out.printf("gebruikers %s %n", beschikbareSpelers);
 		System.out.printf("spelers %s %n", observableSpelerLijst);
