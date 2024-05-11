@@ -509,19 +509,19 @@ public class gameBordController extends SplitPane {
 
 			btnNext.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					boolean correct = false;
-					try {
-						dc.plaatsDomino(sleepBareDomino, koning, GridPane.getRowIndex(sleepBareImage),
-								GridPane.getColumnSpan(sleepBareImage));
-						correct = true;
-					} catch (Exception e) {
-						// TODO hier
-					}
-
-					if (correct) {
+//					boolean correct = false;
+//					try {
+//						dc.plaatsDomino(sleepBareDomino, koning, GridPane.getRowIndex(sleepBareImage),
+//								GridPane.getColumnSpan(sleepBareImage));
+//						correct = true;
+//					} catch (Exception e) {
+//						// TODO hier
+//					}
+//
+//					if (correct) {
 						volgendeSpeler();
-						lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
-					}
+//						lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
+//					}
 					renderBord();
 				}
 			});
@@ -678,13 +678,12 @@ public class gameBordController extends SplitPane {
 	void draaiDomino(ActionEvent event) {
 		if (sleepBareImage != null) {
 			if (horizontaal) {
-				sleepBareImage.setImage(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
-						gekozenTeLeggenDominos.get(koning).volgnummer())));
+				sleepBareImage.setRotate(90);
 				sleepBareImage.setFitHeight(168);
 				sleepBareImage.setFitWidth(84);
 
 			} else {
-				sleepBareImage.setRotate(90);
+				sleepBareImage.setRotate(-90);
 				sleepBareImage.setFitHeight(84);
 				sleepBareImage.setFitWidth(168);
 			}

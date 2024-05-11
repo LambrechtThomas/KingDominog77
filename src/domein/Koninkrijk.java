@@ -42,9 +42,240 @@ public class Koninkrijk {
 	 * @param y
 	 */
 	public void plaatsDomino(DominoTegel domino, int x, int y) {
-		
+		if ((x < 0 || y < 0) || (x == rij - 1 && !domino.isHorizontaal())
+				|| (y == kolom - 1 && domino.isHorizontaal())) {
+			// Niet vrij - out of bounds
+			// TODO exception
+
+		} else if (!isPlaatsVrij(x, y)) {
+			// Niet vrij - bezet
+			// TODO exception
+
+		} else if (isPlaatsVrij(x, y) && !isPlaatsVrij(x + 1, y) && !isPlaatsVrij(x - 1, y) && !isPlaatsVrij(x, y + 1)
+				&& !isPlaatsVrij(x, y - 1)) {
+			// Niet Vrij - bezet
+			// TODO exception
+		} else if (isKasteelHier(x, y)) {
+			// Niet Vrij - bezet
+			// TODO exception
+
+			// Kijken op kasteel
+		} else if (isKasteelHier(x + 1, y) || isKasteelHier(x - 1, y) || isKasteelHier(x, y + 1)
+				|| isKasteelHier(x, y - 1)) {
+
+			// kijken of domino horizontaal is
+			if (domino.isHorizontaal()) {
+				// ......./......./.......
+				// ......./Kasteel/X / X
+				// ......./......./.......
+				if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+
+					// ......./......./.......
+					// X / X /Kasteel/.......
+					// ......./......./.......
+				} else if (isKasteelHier(x, y + 2) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+
+					// .X....../.X....../.......
+					// ......./Kasteel/.......
+					// ......./......./.......
+				} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+
+					// ......./.X...../.X.....
+					// ......./Kasteel/.......
+					// ......./......./.......
+				} else if (isKasteelHier(x + 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+
+					// ......./......./.......
+					// ......./Kasteel/.......
+					// ......./.X.... /.X.....
+				} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+
+					// ......./......./.......
+					// ......./Kasteel/.......
+					// .X...../.X...../.......
+				} else if (isKasteelHier(x - 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x][y + 1] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x][y + 1] = domino.getTegels()[0];
+					}
+				}
+
+				// Cheken op verticale dominos
+			} else if (!domino.isHorizontaal()) {
+				// ......./......./.x.....
+				// ......./Kasteel/.X.....
+				// ......./......./.......
+				if (isKasteelHier(x + 1, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+
+					// ......./......./.......
+					// ......./Kasteel/.X.....
+					// ......./......./.X.....
+				} else if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+
+					// ......./......./.......
+					// .X...../Kasteel/.......
+					// .X...../......./.......
+				} else if (isKasteelHier(x, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+
+					// .X...../......./.......
+					// .X...../Kasteel/.......
+					// ......./......./.......
+				} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+
+					// ......./.X...../.......
+					// ......./Kasteel/.......
+					// ......./......./.......
+				} else if (isKasteelHier(x + 2, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+					// ......./......./.......
+					// ......./Kasteel/.......
+					// ......./.X...../.......
+				} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+					if (!domino.isSpiegeld()) {
+						bord[x][y] = domino.getTegels()[0];
+						bord[x + 1][y] = domino.getTegels()[1];
+					} else {
+						bord[x][y] = domino.getTegels()[1];
+						bord[x + 1][y] = domino.getTegels()[0];
+					}
+				}
+			}
+			// Kijken of er een zelfde tegel naast ligt horizonaal
+			// .../.?./.?./..
+			// .?./.X./.X./.?.
+			// .../.?./.?./...
+		} else if (domino.isHorizontaal()) {
+			if (!domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[0], bord[x][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][y])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 2, kolom - 1)])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[1],
+							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+				if (isPlaatsVrij(x, y + 1)) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				}
+			} else if (domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[1], bord[x][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][y])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 2, kolom - 1)])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[0],
+							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+				if (isPlaatsVrij(x, y + 1)) {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
+				}
+			} else {
+				// TODO exception
+			}
+
+			// .../.?./...
+			// .?./.X./.?.
+			// .?./.X./.?.
+			// .../.?./...
+		} else if (!domino.isHorizontaal()) {
+			if (!domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[0], bord[x][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 1, kolom - 1)])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 2, rij - 1)][y])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[1],
+							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+				if (isPlaatsVrij(x + 1, y)) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				}
+			} else if (domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[1], bord[x][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
+					&& isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 1, kolom - 1)])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 2, rij - 1)][y])
+					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
+					&& isZelfdeTegel(domino.getTegels()[0],
+							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+				if (isPlaatsVrij(x + 1, y)) {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+			} else {
+				// TODO Exception
+			}
+		}
 	}
-	
+
 	/**
 	 * Checkt of de plaats vrij is aan de hand van x-y coördinaten
 	 * 
@@ -55,7 +286,7 @@ public class Koninkrijk {
 	public boolean isPlaatsVrij(int x, int y) {
 		int coordinaatX = x;
 		int coordinaatY = y;
-		
+
 		if (coordinaatX < 0)
 			coordinaatX = 0;
 		else if (coordinaatY < 0)
@@ -63,11 +294,11 @@ public class Koninkrijk {
 		else if (coordinaatX > this.rij)
 			coordinaatX = rij - 1;
 		else if (coordinaatY > this.kolom)
-			coordinaatY = kolom -1;
-		
+			coordinaatY = kolom - 1;
+
 		return bord[coordinaatX][kolom] == null;
 	}
-	
+
 	/**
 	 * Checkt of kasteel op het geselecteerde coordinaat staat
 	 * 
@@ -80,8 +311,8 @@ public class Koninkrijk {
 	}
 
 	/**
-	 * Kijk na of tegel1 hetzelfde landschap heeft als tegel2 
-	 * Gebruikt voor het plaatsen van een domino naast een andere domino
+	 * Kijk na of tegel1 hetzelfde landschap heeft als tegel2 Gebruikt voor het
+	 * plaatsen van een domino naast een andere domino
 	 * 
 	 * @param tegel1
 	 * @param tegel2
@@ -171,7 +402,7 @@ public class Koninkrijk {
 	 * @param grid
 	 * @param i
 	 * @param j
-	 * @return	het aantal tegels
+	 * @return het aantal tegels
 	 */
 	private int berekenHoeveelheidTegels(int[][] grid, int i, int j) {
 		if (i < 0 || j < 0 || i >= grid.length || j >= grid.length)

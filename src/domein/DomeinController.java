@@ -253,10 +253,8 @@ public class DomeinController {
 	 * @throws Exception
 	 */
 	public void plaatsDomino(dominoTegelDTO dominoDTO, spelerDTO speler, int rij, int kolom) throws Exception {
-		DominoTegel domino = huidigSpel.getStartKolom().stream()
-				.filter(v -> v.getVolgnummer() == dominoDTO.volgnummer()).findFirst().get();
 		if (speler.gebruikersnaam().equals(huidigSpel.getKoning().getGebruikersnaam())) {
-			huidigSpel.plaatsDominoTegel(domino, rij, kolom);
+			huidigSpel.plaatsDominoTegel(dominoDTO.volgnummer(), rij, kolom);
 		} else
 			throw new IllegalArgumentException("spelers komen niet overeen!!");
 	}
