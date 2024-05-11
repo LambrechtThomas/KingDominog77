@@ -321,7 +321,7 @@ public class Speler {
 	 * @param rij    x coördinaat
 	 * @param kolom  y coördinaat
 	 */
-	public void plaatsDomino(DominoTegel domino, int rij, int kolom) {
+	public void plaatsDomino(DominoTegel domino, int rij, int kolom) throws Exception {
 		koninkrijk.plaatsDomino(domino, rij, kolom);
 	}
 

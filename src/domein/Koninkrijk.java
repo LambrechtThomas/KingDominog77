@@ -2,6 +2,9 @@ package domein;
 
 import java.util.ArrayList;
 
+import exceptions.GeenJuistePlaatsException;
+import exceptions.PlaatIsBezetException;
+
 public class Koninkrijk {
 	private static final int rij = 5;
 	private static final int kolom = 5;
@@ -41,27 +44,25 @@ public class Koninkrijk {
 	 * @param x
 	 * @param y
 	 */
-	public void plaatsDomino(DominoTegel domino, int x, int y) {
+	public void plaatsDomino(DominoTegel domino, int x, int y) throws Exception {
 		if ((x < 0 || y < 0) || (x == rij - 1 && !domino.isHorizontaal())
 				|| (y == kolom - 1 && domino.isHorizontaal())) {
-			// Niet vrij - out of bounds
-			// TODO exception
+			throw new IndexOutOfBoundsException();
 
 		} else if (!isPlaatsVrij(x, y)) {
-			// Niet vrij - bezet
-			// TODO exception
+			throw new PlaatIsBezetException();
 
 		} else if (isPlaatsVrij(x, y) && !isPlaatsVrij(x + 1, y) && !isPlaatsVrij(x - 1, y) && !isPlaatsVrij(x, y + 1)
 				&& !isPlaatsVrij(x, y - 1)) {
-			// Niet Vrij - bezet
-			// TODO exception
+			throw new PlaatIsBezetException();
+			
 		} else if (isKasteelHier(x, y)) {
-			// Niet Vrij - bezet
-			// TODO exception
+			throw new PlaatIsBezetException();
 
 			// Kijken op kasteel
 		} else if (isKasteelHier(x + 1, y) || isKasteelHier(x - 1, y) || isKasteelHier(x, y + 1)
-				|| isKasteelHier(x, y - 1)) {
+				|| isKasteelHier(x, y - 1) || isKasteelHier(x - 1, y + 1) || isKasteelHier(x + 1, y - 1)
+				|| isKasteelHier(x + 1, y + 1) || isKasteelHier(x + 2, y) || isKasteelHier(x, y + 2)) {
 
 			// kijken of domino horizontaal is
 			if (domino.isHorizontaal()) {
@@ -240,7 +241,7 @@ public class Koninkrijk {
 					bord[x][y + 1] = domino.getTegels()[0];
 				}
 			} else {
-				// TODO exception
+				throw new GeenJuistePlaatsException();
 			}
 
 			// .../.?./...
@@ -271,7 +272,7 @@ public class Koninkrijk {
 					bord[x + 1][y] = domino.getTegels()[0];
 				}
 			} else {
-				// TODO Exception
+				throw new GeenJuistePlaatsException();
 			}
 		}
 	}

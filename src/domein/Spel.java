@@ -122,7 +122,7 @@ public class Spel {
 	 * @param rij    het x coördinaat van het bord
 	 * @param kolom  het y coördinaat van het bord
 	 */
-	public void plaatsDominoTegel(int dominoNummer, int rij, int kolom) {
+	public void plaatsDominoTegel(int dominoNummer, int rij, int kolom) throws Exception {
 		koning.plaatsDomino(alleDominos.stream().filter(v -> v.getVolgnummer() == dominoNummer).findFirst().get(), rij, kolom);
 	}
 
