@@ -168,23 +168,6 @@ public class Spel {
 	}
 
 	/**
-	 * Geeft de gewonnen speler
-	 * 
-	 * @return gewonenenSpeler
-	 */
-	public Speler geefGewonnenSpeler() {
-		Speler gewonenenSpeler = huidigeSpelers.get(0);
-		berekenScores();
-
-		for (Speler speler : huidigeSpelers) {
-			if (speler.getTotaleScore() > gewonenenSpeler.getTotaleScore())
-				gewonenenSpeler = speler;
-		}
-
-		return gewonenenSpeler;
-	}
-
-	/**
 	 * Berekent de scores van aparte landschappen om deze daarna via "berekenScore"
 	 * op te tellen
 	 */
@@ -209,7 +192,12 @@ public class Spel {
 		alleDominos.stream().filter(v -> v.getVolgnummer() == volgnummer).findFirst().get().spiegel();
 		;
 	}
-
+	
+	/**
+	 * Geeft de Winnaar speler
+	 * 
+	 * @return Winnaar
+	 */
 	public Speler geefWinnaar() {
 		berekenScores();
 

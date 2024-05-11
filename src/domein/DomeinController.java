@@ -325,7 +325,7 @@ public class DomeinController {
 	public void updateDataBase() throws Exception {
 		checkVoorHuidigSpel();
 		if (isSpelTenEinde()) {
-			spelerRepository.verhoogVeldenGames(huidigSpel.getHuidigeSpelers(), huidigSpel.geefGewonnenSpeler());
+			spelerRepository.verhoogVeldenGames(huidigSpel.getHuidigeSpelers(), huidigSpel.geefWinnaar());
 		}
 	}
 	
