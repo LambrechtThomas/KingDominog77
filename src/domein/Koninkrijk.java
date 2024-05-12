@@ -45,8 +45,7 @@ public class Koninkrijk {
 	 * @param y
 	 */
 	public void plaatsDomino(DominoTegel domino, int x, int y) throws Exception {
-		if ((x < 0 || y < 0) || (x == rij - 1 && !domino.isHorizontaal())
-				|| (y == kolom - 1 && domino.isHorizontaal())) {
+		if (x < 0 || y < 0 || (x == rij - 1 && !domino.isHorizontaal()) || (y == kolom - 1 && domino.isHorizontaal())) {
 			throw new IndexOutOfBoundsException();
 
 		} else if (!isPlaatsVrij(x, y)) {
@@ -55,7 +54,7 @@ public class Koninkrijk {
 		} else if (isPlaatsVrij(x, y) && !isPlaatsVrij(x + 1, y) && !isPlaatsVrij(x - 1, y) && !isPlaatsVrij(x, y + 1)
 				&& !isPlaatsVrij(x, y - 1)) {
 			throw new PlaatIsBezetException();
-			
+
 		} else if (isKasteelHier(x, y)) {
 			throw new PlaatIsBezetException();
 
@@ -334,7 +333,7 @@ public class Koninkrijk {
 	 * @return
 	 */
 	public boolean isBezet(int rij, int kolom) {
-		return getBord()[rij][kolom] == null;
+		return bord[rij][kolom] == null;
 	}
 
 	/**
@@ -361,6 +360,7 @@ public class Koninkrijk {
 	 */
 	public ArrayList<ArrayList<Integer>> berekenOppvervlakte(String landschap) {
 		ArrayList<ArrayList<Integer>> oppervlakte = new ArrayList<>();
+		ArrayList<Integer> lijst = new ArrayList<>();
 
 		int[][] passeerdeTegel = new int[rij][kolom];
 		int[][] passeerdeTegelVoorKroon = new int[rij][kolom];

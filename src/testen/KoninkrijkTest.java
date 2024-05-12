@@ -60,9 +60,13 @@ class KoninkrijkTest {
 	@Test
 	void koninkrijk_plaatsDomino_metGeldigeTegel_plaatstDomino() {
 		DominoTegel domino = new DominoTegel(2, tegels);
-		koninkrijk.plaatsDomino(domino, 0, 1);
+		try {
+			koninkrijk.plaatsDomino(domino, 1, 2);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 
-		assertEquals(domino, koninkrijk.getBord()[0][1]);
+		assertEquals(domino.getTegels()[0], koninkrijk.getBord()[1][2]);
 	}
 
 	// ------------------------------------------------------------------

@@ -38,7 +38,7 @@ public class DomeinController {
 	/**
 	 * Geeft alle deelnemende spelers terug
 	 * 
-	 * @return	speler
+	 * @return speler
 	 */
 	public ArrayList<spelerDTO> getDeelnemendeSpelers() {
 		ArrayList<spelerDTO> spelersDTO = new ArrayList<>();
@@ -87,7 +87,8 @@ public class DomeinController {
 	}
 
 	/**
-	 * Verwijder speler uit deelnemendeSpers, de speler doet niet meer mee aan het spel
+	 * Verwijder speler uit deelnemendeSpers, de speler doet niet meer mee aan het
+	 * spel
 	 * 
 	 * @param speler
 	 * @param kleur
@@ -137,7 +138,6 @@ public class DomeinController {
 		return false;
 	}
 
-
 	/**
 	 * Geeft weer hoeveel spelers in het spel zitten
 	 * 
@@ -169,7 +169,8 @@ public class DomeinController {
 	}
 
 	/**
-	 * Geeft de spelers/gebruikers terug die nog niet in een game zitten (aka ze zijn nog beschikbaar)
+	 * Geeft de spelers/gebruikers terug die nog niet in een game zitten (aka ze
+	 * zijn nog beschikbaar)
 	 * 
 	 * @return alle gebruikers die nog beschikbaar zijn
 	 */
@@ -179,8 +180,9 @@ public class DomeinController {
 				.collect(Collectors.toCollection(ArrayList::new));
 
 		for (Speler speler : overgeblevenspelers) {
-			beschikbareSpelersDTO.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(),
-					speler.getTotaleScore(), speler.getAantalGewonnen(), speler.getAantalGespeeld(), speler.getKleur()));
+			beschikbareSpelersDTO
+					.add(new spelerDTO(speler.getGebruikersnaam(), speler.getGeboortejaar(), speler.getTotaleScore(),
+							speler.getAantalGewonnen(), speler.getAantalGespeeld(), speler.getKleur()));
 		}
 
 		return beschikbareSpelersDTO;
@@ -242,7 +244,7 @@ public class DomeinController {
 
 		return startKolom;
 	}
-	
+
 	/**
 	 * Plaatst domino bij koning
 	 * 
@@ -272,7 +274,7 @@ public class DomeinController {
 		return new spelerDTO(koning.getGebruikersnaam(), koning.getGeboortejaar(), koning.getAantalGewonnen(),
 				koning.getTotaleScore(), koning.getAantalGespeeld(), koning.getKleur());
 	}
-	
+
 	/**
 	 * Kiest nieuwe koning
 	 * 
@@ -326,28 +328,29 @@ public class DomeinController {
 			spelerRepository.verhoogVeldenGames(huidigSpel.getHuidigeSpelers(), huidigSpel.geefWinnaar());
 		}
 	}
-	
+
 	public void draaiDomino(dominoTegelDTO domino) throws Exception {
 		checkVoorHuidigSpel();
-		
+
 		huidigSpel.draaiDomino(domino.volgnummer());
 	}
-	
+
 	public void spiegelDomino(dominoTegelDTO domino) throws Exception {
 		checkVoorHuidigSpel();
-		
+
 		huidigSpel.spiegelDomino(domino.volgnummer());
 	}
-	
+
 	public spelerDTO geefWinnaar() throws Exception {
 		checkVoorHuidigSpel();
-		
+
 		Speler s = huidigSpel.geefWinnaar();
-		return new spelerDTO(s.getGebruikersnaam(), s.getGeboortejaar(), s.getTotaleScore(), s.getAantalGewonnen(), s.getAantalGespeeld(), s.getKleur());
+		return new spelerDTO(s.getGebruikersnaam(), s.getGeboortejaar(), s.getTotaleScore(), s.getAantalGewonnen(),
+				s.getAantalGespeeld(), s.getKleur());
 	}
 
 	// === Checks ===
-	
+
 	/**
 	 * Checkt of het huidige spel bestaat
 	 * 
@@ -368,6 +371,7 @@ public class DomeinController {
 		if (spelerRepository.bestaatSpeler(naam))
 			throw new GebruikersnaamInGebruikException();
 	}
+
 	/**
 	 * Checkt of de speler bestaat of niet
 	 * 
@@ -422,7 +426,7 @@ public class DomeinController {
 	}
 
 	// GUI - Alertbox oproepen
-	
+
 	/**
 	 * De alert die in GUI tevoorschijn komt bij fouten
 	 * 
