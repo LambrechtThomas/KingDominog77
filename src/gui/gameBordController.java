@@ -328,13 +328,15 @@ public class gameBordController extends SplitPane {
 			if (child instanceof ImageView) {
 				ImageView imgV = (ImageView) child;
 				if (imgV.getFitWidth() == 168 || imgV.getFitWidth() == 80) {
+					imgV.setFitHeight(grootte);
+					imgV.setFitWidth(grootte * 2);
+				} else if (imgV.getFitHeight() == 168 || imgV.getFitWidth() == 80) {
 					imgV.setFitHeight(grootte * 2);
 					imgV.setFitWidth(grootte);
 				} else {
 					imgV.setFitHeight(grootte);
-					imgV.setFitWidth(grootte * 2);
+					imgV.setFitWidth(grootte);
 				}
-
 			}
 		});
 
@@ -550,23 +552,31 @@ public class gameBordController extends SplitPane {
 
 	private void plaatsDomino() {
 		updateBorden();
-		GridPane grid = haalGridPaneOp();
+		GridPane grid = gridPanePerPersoon.get(koning);
+		borden[0].getChildren().clear();
+		borden[0].getChildren().add(grid);
 		sleepBareImage = new ImageView(new Image(String.format("file:assets/dominotegel/tegel_%02d_voorkant.png",
 				gekozenTeLeggenDominos.get(koning).volgnummer())));
-		sleepBareImage.setFitHeight(84);
 		sleepBareImage.setFitWidth(168);
+		sleepBareImage.setFitHeight(84);
+		
 		GridPane.setColumnSpan(sleepBareImage, 2);
 		GridPane.setRowSpan(sleepBareImage, 1);
 		grid.add(sleepBareImage, 0, 0);
 		
 		gridPanePerPersoon.put(koning, grid);
 
+		
+		System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+		System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
+		
 		// TODO HIER
 
 		sleepBareImage.setOnDragDetected(event -> {
 			
-			System.out.println(sleepBareImage.getRotate());
-
+			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+			System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
+			
 			Dragboard db = sleepBareImage.startDragAndDrop(TransferMode.MOVE);
 
 			ClipboardContent content = new ClipboardContent();
@@ -575,15 +585,6 @@ public class gameBordController extends SplitPane {
 
 			event.consume();
 		});	
-	}
-
-	private GridPane haalGridPaneOp() {
-		for (Node node : borden[0].getChildren()) {
-			if (node instanceof GridPane) {
-				return (GridPane) node;
-			}
-		}
-		return null;
 	}
 
 	private void updateScores() {
@@ -668,17 +669,28 @@ public class gameBordController extends SplitPane {
 	void draaiDomino(ActionEvent event) {
 		if (sleepBareImage != null) {
 			if (horizontaal) {
+				System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+				System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
+				
 				sleepBareImage.setRotate(90);
-				sleepBareImage.setFitHeight(168);
-				sleepBareImage.setFitWidth(84);
-
+				
+				GridPane.setRowSpan(sleepBareImage, GridPane.getRowSpan(sleepBareImage) == 1 ? 2 : 1);
+				GridPane.setColumnSpan(sleepBareImage, GridPane.getColumnSpan(sleepBareImage) == 1 ? 2 : 1);			
+				
 			} else {
-				sleepBareImage.setRotate(-90);
-				sleepBareImage.setFitHeight(84);
-				sleepBareImage.setFitWidth(168);
+				sleepBareImage.setRotate(sleepBareImage.getRotate() - 90);
+				
+				GridPane.setRowSpan(sleepBareImage, GridPane.getRowSpan(sleepBareImage) == 1 ? 2 : 1);
+				GridPane.setColumnSpan(sleepBareImage, GridPane.getColumnSpan(sleepBareImage) == 1 ? 2 : 1);
 			}
+			
+			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+			System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
+			
 
 			horizontaal = !horizontaal;
+			
+			//updateBorden();
 
 			try {
 				dc.draaiDomino(gekozenTeLeggenDominos.get(koning));
