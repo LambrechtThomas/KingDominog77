@@ -8,7 +8,7 @@ import exceptions.PlaatIsBezetException;
 public class Koninkrijk {
 	private static final int rij = 5;
 	private static final int kolom = 5;
-	private static Tegel[][] bord;
+	private Tegel[][] bord;
 
 	/**
 	 * Een array voor de grid aanmaken
@@ -55,190 +55,198 @@ public class Koninkrijk {
 				&& !isPlaatsVrij(x, y - 1)) {
 			throw new PlaatIsBezetException();
 
-		} else if (isKasteelHier(x, y)) {
+		} else if (isKasteelHier(x, y) || (isKasteelHier(x, y + 1) && domino.isHorizontaal())
+				|| (isKasteelHier(x + 1, y) && !domino.isHorizontaal())) {
 			throw new PlaatIsBezetException();
 
-			// Kijken op kasteel
-		} else if (isKasteelHier(x + 1, y) || isKasteelHier(x - 1, y) || isKasteelHier(x, y + 1)
-				|| isKasteelHier(x, y - 1) || isKasteelHier(x - 1, y + 1) || isKasteelHier(x + 1, y - 1)
-				|| isKasteelHier(x + 1, y + 1) || isKasteelHier(x + 2, y) || isKasteelHier(x, y + 2)) {
-
-			// kijken of domino horizontaal is
-			if (domino.isHorizontaal()) {
-				// ......./......./.......
-				// ......./Kasteel/X / X
-				// ......./......./.......
-				if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
-
-					// ......./......./.......
-					// X / X /Kasteel/.......
-					// ......./......./.......
-				} else if (isKasteelHier(x, y + 2) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
-
-					// .X....../.X....../.......
-					// ......./Kasteel/.......
-					// ......./......./.......
-				} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
-
-					// ......./.X...../.X.....
-					// ......./Kasteel/.......
-					// ......./......./.......
-				} else if (isKasteelHier(x + 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
-
-					// ......./......./.......
-					// ......./Kasteel/.......
-					// ......./.X.... /.X.....
-				} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
-
-					// ......./......./.......
-					// ......./Kasteel/.......
-					// .X...../.X...../.......
-				} else if (isKasteelHier(x - 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x][y + 1] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x][y + 1] = domino.getTegels()[0];
-					}
+			// Kijken op kasteel en horizontaal
+		} else if (domino.isHorizontaal()
+				&& (isKasteelHier(x + 1, y) || isKasteelHier(x - 1, y) || isKasteelHier(x, y - 1)
+						|| isKasteelHier(x - 1, y + 1) || isKasteelHier(x + 1, y + 1) || isKasteelHier(x, y + 2))) {
+			// ......./......./.......
+			// ......./Kasteel/X / X
+			// ......./......./.......
+			if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
 				}
 
-				// Cheken op verticale dominos
-			} else if (!domino.isHorizontaal()) {
-				// ......./......./.x.....
-				// ......./Kasteel/.X.....
 				// ......./......./.......
-				if (isKasteelHier(x + 1, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
+				// X / X /Kasteel/.......
+				// ......./......./.......
+			} else if (isKasteelHier(x, y + 2) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
+				}
 
-					// ......./......./.......
-					// ......./Kasteel/.X.....
-					// ......./......./.X.....
-				} else if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
+				// .X....../.X....../.......
+				// ......./Kasteel/.......
+				// ......./......./.......
+			} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
+				}
+				// ......./.X...../.X.....
+				// ......./Kasteel/.......
+				// ......./......./.......
+			} else if (isKasteelHier(x + 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
+				}
 
-					// ......./......./.......
-					// .X...../Kasteel/.......
-					// .X...../......./.......
-				} else if (isKasteelHier(x, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
+				// ......./......./.......
+				// ......./Kasteel/.......
+				// ......./.X.... /.X.....
+			} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
+				}
 
-					// .X...../......./.......
-					// .X...../Kasteel/.......
-					// ......./......./.......
-				} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
-
-					// ......./.X...../.......
-					// ......./Kasteel/.......
-					// ......./......./.......
-				} else if (isKasteelHier(x + 2, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
-					// ......./......./.......
-					// ......./Kasteel/.......
-					// ......./.X...../.......
-				} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
-					if (!domino.isSpiegeld()) {
-						bord[x][y] = domino.getTegels()[0];
-						bord[x + 1][y] = domino.getTegels()[1];
-					} else {
-						bord[x][y] = domino.getTegels()[1];
-						bord[x + 1][y] = domino.getTegels()[0];
-					}
+				// ......./......./.......
+				// ......./Kasteel/.......
+				// .X...../.X...../.......
+			} else if (isKasteelHier(x - 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x, y + 1)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x][y + 1] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x][y + 1] = domino.getTegels()[0];
 				}
 			}
+			// Kijken op kasteel en verticaal
+		} else if (!domino.isHorizontaal() && (isKasteelHier(x, y + 1) || isKasteelHier(x + 1, y - 1) 
+				|| isKasteelHier(x + 2, y) || isKasteelHier(x, y - 1) || isKasteelHier(x - 1, y) || isKasteelHier(x + 1, y + 1))) {
+			/*
+			 *  
+			 *  
+			 * 
+			 * 
+			 */
+			// ......./......./.x.....
+			// ......./Kasteel/.X.....
+			// ......./......./.......
+			if (isKasteelHier(x + 1, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+
+				// ......./......./.......
+				// ......./Kasteel/.X.....
+				// ......./......./.X.....
+			} else if (isKasteelHier(x, y - 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+
+				// ......./......./.......
+				// .X...../Kasteel/.......
+				// .X...../......./.......
+			} else if (isKasteelHier(x, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+
+				// .X...../......./.......
+				// .X...../Kasteel/.......
+				// ......./......./.......
+			} else if (isKasteelHier(x + 1, y + 1) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+
+				// ......./.X...../.......
+				// ......./Kasteel/.......
+				// ......./......./.......
+			} else if (isKasteelHier(x + 2, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+				
+				// ......./......./.......
+				// ......./Kasteel/.......
+				// ......./.X...../.......
+			} else if (isKasteelHier(x - 1, y) && isPlaatsVrij(x, y) && isPlaatsVrij(x + 1, y)) {
+				if (!domino.isSpiegeld()) {
+					bord[x][y] = domino.getTegels()[0];
+					bord[x + 1][y] = domino.getTegels()[1];
+				} else {
+					bord[x][y] = domino.getTegels()[1];
+					bord[x + 1][y] = domino.getTegels()[0];
+				}
+
+			}
+
 			// Kijken of er een zelfde tegel naast ligt horizonaal
 			// .../.?./.?./..
 			// .?./.X./.X./.?.
 			// .../.?./.?./...
 		} else if (domino.isHorizontaal()) {
 			if (!domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[0], bord[x][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][y])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 2, kolom - 1)])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[1],
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][y])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 2, kolom - 1)])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
+					|| isZelfdeTegel(domino.getTegels()[1],
 							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+
 				if (isPlaatsVrij(x, y + 1)) {
 					bord[x][y] = domino.getTegels()[0];
 					bord[x][y + 1] = domino.getTegels()[1];
 				}
+
 			} else if (domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[1], bord[x][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][y])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 2, kolom - 1)])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[0],
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][y])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 2, kolom - 1)])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][Math.max(y - 1, 0)])
+					|| isZelfdeTegel(domino.getTegels()[0],
 							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
 				if (isPlaatsVrij(x, y + 1)) {
 					bord[x][y] = domino.getTegels()[1];
 					bord[x][y + 1] = domino.getTegels()[0];
 				}
+
 			} else {
 				throw new GeenJuistePlaatsException();
 			}
@@ -247,32 +255,51 @@ public class Koninkrijk {
 			// .?./.X./.?.
 			// .?./.X./.?.
 			// .../.?./...
+
 		} else if (!domino.isHorizontaal()) {
 			if (!domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[0], bord[x][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 1, kolom - 1)])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 2, rij - 1)][y])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[1],
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.max(x - 1, 0)][y])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[x][Math.min(y + 1, kolom - 1)])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 2, rij - 1)][y])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
+					|| isZelfdeTegel(domino.getTegels()[1],
 							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+
 				if (isPlaatsVrij(x + 1, y)) {
 					bord[x][y] = domino.getTegels()[0];
 					bord[x + 1][y] = domino.getTegels()[1];
 				}
+
 			} else if (domino.isSpiegeld() && (isZelfdeTegel(domino.getTegels()[1], bord[x][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
-					&& isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 1, kolom - 1)])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 2, rij - 1)][y])
-					&& isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
-					&& isZelfdeTegel(domino.getTegels()[0],
+					|| isZelfdeTegel(domino.getTegels()[1], bord[Math.max(x - 1, 0)][y])
+					|| isZelfdeTegel(domino.getTegels()[1], bord[x][Math.min(y + 1, kolom - 1)])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 2, rij - 1)][y])
+					|| isZelfdeTegel(domino.getTegels()[0], bord[Math.min(x + 1, rij - 1)][Math.max(y - 1, 0)])
+					|| isZelfdeTegel(domino.getTegels()[0],
 							bord[Math.min(x + 1, rij - 1)][Math.min(y + 1, kolom - 1)]))) {
+
 				if (isPlaatsVrij(x + 1, y)) {
 					bord[x][y] = domino.getTegels()[1];
 					bord[x + 1][y] = domino.getTegels()[0];
 				}
+
 			} else {
 				throw new GeenJuistePlaatsException();
 			}
+
+		} else {
+			throw new GeenJuistePlaatsException();
+		}
+
+		System.out.println();
+		for (Tegel[] tegels : bord) {
+			for (Tegel tegel : tegels) {
+				if (tegel == null)
+					System.out.printf("%7s", "x");
+				else
+					System.out.printf("%7s", tegel.getLandschap());
+			}
+			System.out.println();
 		}
 	}
 
@@ -291,12 +318,12 @@ public class Koninkrijk {
 			coordinaatX = 0;
 		else if (coordinaatY < 0)
 			coordinaatY = 0;
-		else if (coordinaatX > this.rij)
+		else if (coordinaatX >= rij)
 			coordinaatX = rij - 1;
-		else if (coordinaatY > this.kolom)
+		else if (coordinaatY >= kolom)
 			coordinaatY = kolom - 1;
 
-		return bord[coordinaatX][kolom] == null;
+		return bord[coordinaatX][coordinaatY] == null;
 	}
 
 	/**
@@ -319,8 +346,8 @@ public class Koninkrijk {
 	 * @return true/false
 	 */
 	public boolean isZelfdeTegel(Tegel tegel1, Tegel tegel2) {
-		if (tegel1 != null)
-			return tegel1.getLandschap().equals(tegel2);
+		if (tegel1 != null && tegel2 != null)
+			return tegel1.getLandschap().equals(tegel2.getLandschap());
 
 		return false;
 	}
@@ -358,16 +385,15 @@ public class Koninkrijk {
 	 * @param landschap
 	 * @return de oppervlakte
 	 */
-	public ArrayList<ArrayList<Integer>> berekenOppvervlakte(String landschap) {
+	public ArrayList<ArrayList<Integer>> berekenOppervlakte(String landschap) {
 		ArrayList<ArrayList<Integer>> oppervlakte = new ArrayList<>();
-		ArrayList<Integer> lijst = new ArrayList<>();
 
 		int[][] passeerdeTegel = new int[rij][kolom];
 		int[][] passeerdeTegelVoorKroon = new int[rij][kolom];
 
 		for (int i = 0; i < passeerdeTegel.length; i++) {
 			for (int j = 0; j < passeerdeTegel.length; j++) {
-				if (getBord()[i][j] != null && getBord()[i][j].getLandschap().equals(landschap)) {
+				if (bord[i][j] != null && bord[i][j].getLandschap().equals(landschap)) {
 					passeerdeTegel[i][j] = 1;
 					passeerdeTegelVoorKroon[i][j] = 1;
 				} else {
@@ -377,12 +403,12 @@ public class Koninkrijk {
 			}
 		}
 
-		for (int i = 0; i < getBord().length; i++) {
-			for (int j = 0; j < getBord().length; j++) {
+		for (int i = 0; i < bord.length; i++) {
+			for (int j = 0; j < bord.length; j++) {
 				ArrayList<Integer> tijdelijkeArray = new ArrayList<>();
 
 				int grootte = berekenHoeveelheidTegels(passeerdeTegel, i, j);
-				int kroontjes = berekenKroontjes(passeerdeTegelVoorKroon, getBord(), i, j, 0);
+				int kroontjes = berekenKroontjes(passeerdeTegelVoorKroon, bord, i, j, 0);
 
 				if (grootte > 1 || grootte == 1 && kroontjes >= 1) {
 					tijdelijkeArray.add(grootte);
@@ -423,15 +449,11 @@ public class Koninkrijk {
 		return teller;
 	}
 
-	// ===============================================================
-	// Hoe wordt hier gezocht op landschap? Nergens terug te vinden
-	// ===============================================================
-
 	/**
-	 * Bereken het aantal kroontjes door het bord af te gaan, zoekende naar een
-	 * specifiek landschap
+	 * Bereken het aantal kroontjes door het bord af te gaan
 	 * 
-	 * @param grid      de 5x5 van een specifiek landschap
+	 * @param grid      de 5x5 van een specifiek landschap gerepresenteerd door een
+	 *                  1
 	 * @param bord      de hele 5x5 van het spel
 	 * @param i         de x coördinaten van het bord
 	 * @param j         de y coördinaten van het bord

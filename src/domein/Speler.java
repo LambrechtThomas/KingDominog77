@@ -45,15 +45,11 @@ public class Speler {
 
 		this.koninkrijk = new Koninkrijk();
 		this.kasteel = new KasteelTegel();
-		koninkrijk.setKasteel(0, 0, kasteel);
+		koninkrijk.setKasteel(2, 2, kasteel);
 	}
 
 	public Speler(String gebruikersnaam, int geboortejaar) {
 		this(gebruikersnaam, geboortejaar, 0, 0);
-
-		this.koninkrijk = new Koninkrijk();
-		this.kasteel = new KasteelTegel();
-		koninkrijk.setKasteel(0, 0, kasteel);
 	}
 
 	// Setters

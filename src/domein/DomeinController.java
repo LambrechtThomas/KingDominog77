@@ -255,6 +255,7 @@ public class DomeinController {
 	 * @throws Exception
 	 */
 	public void plaatsDomino(dominoTegelDTO dominoDTO, spelerDTO speler, int rij, int kolom) throws Exception {
+		checkVoorHuidigSpel();
 		if (speler.gebruikersnaam().equals(huidigSpel.getKoning().getGebruikersnaam())) {
 			huidigSpel.plaatsDominoTegel(dominoDTO.volgnummer(), rij, kolom);
 		} else
@@ -347,6 +348,12 @@ public class DomeinController {
 		Speler s = huidigSpel.geefWinnaar();
 		return new spelerDTO(s.getGebruikersnaam(), s.getGeboortejaar(), s.getTotaleScore(), s.getAantalGewonnen(),
 				s.getAantalGespeeld(), s.getKleur());
+	}
+	
+	public void berekenScores() throws Exception {
+		checkVoorHuidigSpel();
+		
+		huidigSpel.berekenScores();
 	}
 
 	// === Checks ===

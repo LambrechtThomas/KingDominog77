@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 public class Spel {
 	private ArrayList<DominoTegel> startKolom;
@@ -45,8 +46,8 @@ public class Spel {
 			int randomGetal = sr.nextInt(alleDominos.size());
 			DominoTegel domino = alleDominos.get(randomGetal);
 			startKolom.add(domino);
-			alleDominos.remove(domino);
 		}
+		gebruikteDominos.addAll(startKolom);
 	}
 
 	// Setters
@@ -57,15 +58,6 @@ public class Spel {
 	 */
 	public void setStartKolom(ArrayList<DominoTegel> startKolom) {
 		this.startKolom = startKolom;
-	}
-
-	/**
-	 * Set de gebruikte dominos
-	 * 
-	 * @param gebruikteDominos
-	 */
-	public void setGebruikteDominos(ArrayList<DominoTegel> gebruikteDominos) {
-		this.gebruikteDominos = gebruikteDominos;
 	}
 
 	// Getters
@@ -123,7 +115,8 @@ public class Spel {
 	 * @param kolom  het y coördinaat van het bord
 	 */
 	public void plaatsDominoTegel(int dominoNummer, int rij, int kolom) throws Exception {
-		koning.plaatsDomino(alleDominos.stream().filter(v -> v.getVolgnummer() == dominoNummer).findFirst().get(), rij, kolom);
+		koning.plaatsDomino(alleDominos.stream().filter(v -> v.getVolgnummer() == dominoNummer).findFirst().get(), rij,
+				kolom);
 	}
 
 	/**
@@ -137,14 +130,13 @@ public class Spel {
 	 * De tegels die op tafel liggen (start/eindkolom)
 	 */
 	public void wisselKolomTegel() {
-		gebruikteDominos.addAll(startKolom);
-
 		startKolom.clear();
 
 		for (int i = 0; i < huidigeSpelers.size(); i++) {
-			startKolom.add(alleDominos.get(0));
-			alleDominos.remove(0);
+			startKolom.add(alleDominos.stream().filter(v -> !gebruikteDominos.contains(v)).collect(Collectors.toList()).get(i));
 		}
+		
+		gebruikteDominos.addAll(startKolom);
 
 		schud();
 	}
@@ -173,12 +165,12 @@ public class Spel {
 	 */
 	public void berekenScores() {
 		for (Speler speler : huidigeSpelers) {
-			speler.setMoerasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("moeras"));
-			speler.setBosTegelScores(speler.getKoninkrijk().berekenOppvervlakte("bos"));
-			speler.setGrasTegelScores(speler.getKoninkrijk().berekenOppvervlakte("gras"));
-			speler.setMijnTegelScores(speler.getKoninkrijk().berekenOppvervlakte("mijn"));
-			speler.setWaterTegelScores(speler.getKoninkrijk().berekenOppvervlakte("water"));
-			speler.setGraanTegelScores(speler.getKoninkrijk().berekenOppvervlakte("graan"));
+			speler.setMoerasTegelScores(speler.getKoninkrijk().berekenOppervlakte("moeras"));
+			speler.setBosTegelScores(speler.getKoninkrijk().berekenOppervlakte("bos"));
+			speler.setGrasTegelScores(speler.getKoninkrijk().berekenOppervlakte("gras"));
+			speler.setMijnTegelScores(speler.getKoninkrijk().berekenOppervlakte("mijn"));
+			speler.setWaterTegelScores(speler.getKoninkrijk().berekenOppervlakte("water"));
+			speler.setGraanTegelScores(speler.getKoninkrijk().berekenOppervlakte("graan"));
 
 			speler.berekenScore();
 		}
@@ -192,7 +184,7 @@ public class Spel {
 		alleDominos.stream().filter(v -> v.getVolgnummer() == volgnummer).findFirst().get().spiegel();
 		;
 	}
-	
+
 	/**
 	 * Geeft de Winnaar speler
 	 * 

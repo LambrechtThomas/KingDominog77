@@ -88,13 +88,6 @@ class SpelTest {
 	// ------------------------------------------------------------------
 	// Tests voor setEindKolom. ----------------------------------------
 
-	@ParameterizedTest
-	@NullAndEmptySource
-	void spel_setEindKolom_metNullOflegeLijst_gooitException(ArrayList<DominoTegel> eindKolom) {
-		// Zet de eindkolom met een lege of null lijst
-		assertThrows(IllegalArgumentException.class, () -> spel.setGebruikteDominos(eindKolom));
-	}
-
 	@Test
 	void spel_setEindKolom_metGeldigeLijst_zetEindKolom() {
 		// Nieuwe eindkolom initialiseren

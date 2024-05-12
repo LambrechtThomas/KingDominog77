@@ -15,6 +15,8 @@ public class DominoTegel {
 	public DominoTegel(int volgnummer, Tegel[] tegels) {
 		this.volgnummer = volgnummer;
 		this.tegels = tegels;
+		horizontaal = true;
+		spiegeld = false;
 	}
 
 	// Getters
