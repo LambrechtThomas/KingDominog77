@@ -88,10 +88,10 @@ public class MainApp {
 
 		for (int i = 0; i < hoeveelSpelers; i++) {
 			System.out.printf("%n%s %d: %n", vertaal.geefWoord("PLAYER"), i + 1);
-			
+
 			try {
 				dc.spelerDoetMee(kiesEenSpeler(), kiesEenKleur()); // hier
-				
+
 			} catch (Exception e) {
 				System.err.println(e);
 				startConsoleGame();
@@ -100,7 +100,7 @@ public class MainApp {
 
 		try {
 			dc.startSpel(); // hier
-			
+
 		} catch (Exception e) {
 			System.err.println(e);
 			startConsoleGame();
@@ -108,7 +108,7 @@ public class MainApp {
 
 		try {
 			System.out.println(dc.geefDeelnemendeSpelersInSpel()); // hier
-			
+
 		} catch (Exception e) {
 			System.err.println(e);
 			startConsoleGame();
@@ -120,7 +120,7 @@ public class MainApp {
 
 				speelRonde();
 			}
-			
+
 		} catch (Exception e) {
 			System.err.println(e);
 			startConsoleGame();
@@ -131,10 +131,10 @@ public class MainApp {
 		try {
 			ArrayList<dominoTegelDTO> startKolom = dc.geefStartKolom();
 			HashMap<spelerDTO, dominoTegelDTO> keuzes = new HashMap<>();
-			int aantalSpelers = dc.geefAantalSpelers();	//Hier
+			int aantalSpelers = dc.geefAantalSpelers(); // Hier
 
 			for (int i = 0; i < aantalSpelers; i++) {
-				spelerDTO koning = dc.geefKoning();	//Hier
+				spelerDTO koning = dc.geefKoning(); // Hier
 
 				System.out.printf("%s %s: %n", vertaal.geefWoord("IS_PLAYING"), koning.gebruikersnaam());
 
@@ -142,11 +142,11 @@ public class MainApp {
 
 				keuzes.put(koning, startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
 				startKolom.remove(startKolom.stream().filter(v -> v.volgnummer() == keuze).findFirst().get());
-				dc.kiesNieuweKoning(); //Hier
+				dc.kiesNieuweKoning(); // Hier
 			}
 
 			bevestiging(keuzes);
-			
+
 		} catch (Exception e) {
 			System.err.println(e);
 			startConsoleGame();
@@ -261,15 +261,16 @@ public class MainApp {
 				System.out.printf("%s ", vertaal.geefWoord("ENTER_USER_ID"));
 				gebruikersnaam = input.nextLine();
 
-				correct = gebruikersnaam == null || gebruikersnaam.isBlank() || dc.bestaatSpeler(gebruikersnaam);
-				if (!correct)
+				if (gebruikersnaam == null || gebruikersnaam.isBlank() || dc.bestaatSpeler(gebruikersnaam))
 					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_USER_ID"));
-				
+				else
+					correct = true;
+
 			} catch (Exception e) {
 				System.err.print(e);
 				input.nextLine();
 			}
-			
+
 		} while (!correct);
 
 		return gebruikersnaam;
@@ -284,15 +285,16 @@ public class MainApp {
 				System.out.printf("%s ", vertaal.geefWoord("ENTER_BIRTHDAY"));
 				gebrootedatum = input.nextInt();
 
-				correct = gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue();
-				if (!correct)
+				if (correct = gebrootedatum < Year.now().getValue() - 121 || gebrootedatum > Year.now().getValue())
 					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_DATE"));
-				
+				else
+					correct = true;
+
 			} catch (Exception e) {
 				System.err.print(e);
 				input.nextLine();
 			}
-			
+
 		} while (!correct);
 
 		return gebrootedatum;
@@ -324,10 +326,11 @@ public class MainApp {
 				System.out.printf("%s ", vertaal.geefWoord("MAKE_UR_CHOICE"));
 				getal = input.nextInt();
 
-				correct = getal < ondergrens || getal > bovengrens;
-				if (!correct)
+				if (getal < ondergrens || getal > bovengrens)
 					System.out.printf("%s%n%n", vertaal.geefWoord("VALID_NUM"));
-				
+				else
+					correct = true;
+
 			} catch (Exception e) {
 				System.err.print(e);
 				input.nextLine();
