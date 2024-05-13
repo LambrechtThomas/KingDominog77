@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import DTO.dominoTegelDTO;
 import DTO.spelerDTO;
@@ -63,7 +64,6 @@ public class gameBordController extends SplitPane {
 	private ArrayList<dominoTegelDTO> eindKolom;
 	private ArrayList<dominoTegelDTO> startKolom;
 	private boolean horizontaal;
-	private boolean spiegeld;
 
 	@FXML
 	private AnchorPane anchBord1;
@@ -201,7 +201,7 @@ public class gameBordController extends SplitPane {
 		gridPanePerPersoon = new HashMap<>();
 		gekozenTeLeggenDominos = new HashMap<>();
 		horizontaal = true;
-		spiegeld = false;
+
 
 		try {
 			dc.startSpel();
@@ -298,7 +298,7 @@ public class gameBordController extends SplitPane {
 
 		ArrayList<spelerDTO> overigeSpelers = new ArrayList<>();
 		overigeSpelers.addAll(deelnemers);
-		overigeSpelers.remove(koning);
+		overigeSpelers.removeAll(overigeSpelers.stream().filter(v -> v.gebruikersnaam().equals(koning.gebruikersnaam())).collect(Collectors.toList()));
 
 		for (int i = 0; i < overigeSpelers.size(); i++) {
 			lbVelden[i + 1].setText(String.format("%s", overigeSpelers.get(i)));
@@ -314,7 +314,7 @@ public class gameBordController extends SplitPane {
 	}
 
 	private void herSchaal(spelerDTO spelerDTO, int grootte) {
-		GridPane pane = gridPanePerPersoon.get(spelerDTO);
+		GridPane pane = gridPanePerPersoon.get(gridPanePerPersoon.keySet().stream().filter(v -> v.gebruikersnaam().equals(spelerDTO.gebruikersnaam())).findFirst().get());
 
 		pane.getRowConstraints().clear();
 		pane.getColumnConstraints().clear();
@@ -347,7 +347,6 @@ public class gameBordController extends SplitPane {
 		if (spelTenEinde()) {
 			eindeGame();
 		}
-		updateScores();
 
 		lblPlayingUsername.setText(String.format("Round %d", getRonde()));
 		lbAlgemeneTekst.setText("Turn dominos");
@@ -514,8 +513,9 @@ public class gameBordController extends SplitPane {
 				public void handle(ActionEvent event) {
 					boolean correct = false;
 					try {
-						System.out.printf("%s op %d en %d %n", gekozenTeLeggenDominos.get(koning).volgnummer(), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
-						
+						System.out.printf("%s op %d en %d %n", gekozenTeLeggenDominos.get(koning).volgnummer(),
+								GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+
 						dc.plaatsDomino(gekozenTeLeggenDominos.get(koning), koning,
 								GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
 						correct = true;
@@ -527,9 +527,8 @@ public class gameBordController extends SplitPane {
 						gekozenTeLeggenDominos.remove(koning);
 						volgendeSpeler();
 						lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
-						
+
 						horizontaal = true;
-						spiegeld = false;
 						
 						renderBord();
 					}
@@ -559,24 +558,19 @@ public class gameBordController extends SplitPane {
 				gekozenTeLeggenDominos.get(koning).volgnummer())));
 		sleepBareImage.setFitWidth(168);
 		sleepBareImage.setFitHeight(84);
-		
+
 		GridPane.setColumnSpan(sleepBareImage, 2);
 		GridPane.setRowSpan(sleepBareImage, 1);
 		grid.add(sleepBareImage, 0, 0);
-		
+
 		gridPanePerPersoon.put(koning, grid);
 
-		
-		System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
-		System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
-		
-		// TODO HIER
-
 		sleepBareImage.setOnDragDetected(event -> {
-			
-			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(),
+					GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage),
+					GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
 			System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
-			
+
 			Dragboard db = sleepBareImage.startDragAndDrop(TransferMode.MOVE);
 
 			ClipboardContent content = new ClipboardContent();
@@ -584,7 +578,7 @@ public class gameBordController extends SplitPane {
 			db.setContent(content);
 
 			event.consume();
-		});	
+		});
 	}
 
 	private void updateScores() {
@@ -595,7 +589,7 @@ public class gameBordController extends SplitPane {
 			deelnemers = dc.geefDeelnemendeSpelersInSpel();
 		} catch (Exception e) {
 			System.err.println(e);
-			//terugNaarStart();
+			// terugNaarStart();
 		}
 
 		for (int i = 0; i < deelnemers.size(); i++) {
@@ -648,14 +642,14 @@ public class gameBordController extends SplitPane {
 		selecteerdeImage = imageView.getImage();
 
 		updateKoning();
-		System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString()); // RAndom
+		System.out.printf("%s selected %s%n", koning.gebruikersnaam(), selecteerdeImage.toString());
 	}
 
 	@FXML
 	void speigelDomino(ActionEvent event) {
 		if (sleepBareImage != null) {
 			sleepBareImage.setRotate(sleepBareImage.getRotate() + 180);
-			spiegeld = !spiegeld;
+
 
 			try {
 				dc.spiegelDomino(gekozenTeLeggenDominos.get(koning));
@@ -669,28 +663,32 @@ public class gameBordController extends SplitPane {
 	void draaiDomino(ActionEvent event) {
 		if (sleepBareImage != null) {
 			if (horizontaal) {
-				System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
-				System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
-				
+				System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(),
+						GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage),
+						GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+				System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(),
+						sleepBareImage.getFitHeight());
+
 				sleepBareImage.setRotate(90);
-				
+
 				GridPane.setRowSpan(sleepBareImage, GridPane.getRowSpan(sleepBareImage) == 1 ? 2 : 1);
-				GridPane.setColumnSpan(sleepBareImage, GridPane.getColumnSpan(sleepBareImage) == 1 ? 2 : 1);			
-				
+				GridPane.setColumnSpan(sleepBareImage, GridPane.getColumnSpan(sleepBareImage) == 1 ? 2 : 1);
+
 			} else {
 				sleepBareImage.setRotate(sleepBareImage.getRotate() - 90);
-				
+
 				GridPane.setRowSpan(sleepBareImage, GridPane.getRowSpan(sleepBareImage) == 1 ? 2 : 1);
 				GridPane.setColumnSpan(sleepBareImage, GridPane.getColumnSpan(sleepBareImage) == 1 ? 2 : 1);
 			}
-			
-			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(), GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage), GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
+
+			System.out.printf("%f row:%d column%d row:%d column%d%n", sleepBareImage.getRotate(),
+					GridPane.getRowSpan(sleepBareImage), GridPane.getColumnSpan(sleepBareImage),
+					GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
 			System.out.printf("Met image van %f op %f %n", sleepBareImage.getFitWidth(), sleepBareImage.getFitHeight());
-			
 
 			horizontaal = !horizontaal;
-			
-			//updateBorden();
+
+			// updateBorden();
 
 			try {
 				dc.draaiDomino(gekozenTeLeggenDominos.get(koning));
