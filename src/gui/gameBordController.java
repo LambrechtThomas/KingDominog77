@@ -512,7 +512,8 @@ public class gameBordController extends SplitPane {
 								GridPane.getRowIndex(sleepBareImage), GridPane.getColumnIndex(sleepBareImage));
 						correct = true;
 					} catch (Exception e) {
-						System.out.println(e);
+						dc.errorBox("Placing domino failed", "Wrong location",
+								"Please attach the domino to the corresponing tile.");
 					}
 
 					if (correct) {
