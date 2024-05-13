@@ -167,12 +167,14 @@ public class MenuLoginController extends AnchorPane {
 			public void handle(ActionEvent event) {
 				spelerDTO selectedItem = lvSpelers.getSelectionModel().getSelectedItem();
 
+				if(selectedItem != null) {
 				// Verwijderen uit LV van Spelers
 				observableSpelerLijst.remove(selectedItem);
 				// Speler -> Gebruiker
 				beschikbareSpelers.add(selectedItem);
 				// update veranderingen
 				updateSpelers();
+				}
 			}
 		});
 
