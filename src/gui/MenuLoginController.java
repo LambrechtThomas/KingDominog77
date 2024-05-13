@@ -147,17 +147,19 @@ public class MenuLoginController extends AnchorPane {
 		// Gebruiker -> Speler
 		btnAddAanSpelers.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				if (observableSpelerLijst.size() <= 3 && observableSpelerLijst.size() != 0) {
+				if (observableSpelerLijst.size() <= 3) {
 					// Geselecteerd item uit de ListView in een variabele zetten
 					spelerDTO selectedItem = lvGebruikers.getSelectionModel().getSelectedItem();
 
 					// Gebruikers -> Spelers
+					if(selectedItem != null) {
 					observableSpelerLijst.add(selectedItem);
 					// Gebruiker uit de ObservableList deleten
 					beschikbareSpelers.remove(selectedItem);
 
 					// Updaten van de ListView van gebruikers
 					updateSpelers();
+					}
 				}
 			}
 		});
@@ -166,7 +168,7 @@ public class MenuLoginController extends AnchorPane {
 		btnRemoveVanSpelers.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				spelerDTO selectedItem = lvSpelers.getSelectionModel().getSelectedItem();
-
+				
 				if(selectedItem != null) {
 				// Verwijderen uit LV van Spelers
 				observableSpelerLijst.remove(selectedItem);
@@ -175,6 +177,7 @@ public class MenuLoginController extends AnchorPane {
 				// update veranderingen
 				updateSpelers();
 				}
+				
 			}
 		});
 
