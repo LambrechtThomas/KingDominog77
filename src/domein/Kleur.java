@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import taalmanager.vertaal;
 
 public enum Kleur {
-	ROZE(Color.PINK), BLAUW(Color.BLUE), GEEL(Color.ORANGE), GROEN(Color.GREEN);
+	ROZE(Color.PINK.darker()), BLAUW(Color.BLUE), GEEL(Color.ORANGE), GROEN(Color.GREEN);
 
 	private final Color color;
 
