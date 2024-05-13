@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,7 @@ public class MenuStartController extends AnchorPane {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
 		loader.setRoot(this);
 		loader.setController(this);
+		
 		try {
 			loader.load();
 		} catch (IOException ex) {
@@ -39,14 +41,18 @@ public class MenuStartController extends AnchorPane {
 		loadFxmlScreen("menuStart.fxml");
 		this.dc = dc2;
 		this.stage = stage;
+		
+		
 
 		btnDis();
 	}
 
 	public void btnDis() {
-		btnNieuwSpel.setDisable(true);
-		if (dc.isSpelKlaarGezet())
-			btnNieuwSpel.setDisable(false);
+	    Platform.runLater(() -> {
+	        btnNieuwSpel.setDisable(true);
+	        if (dc.isSpelKlaarGezet())
+	            btnNieuwSpel.setDisable(false);
+	    });
 	}
 
 	//
