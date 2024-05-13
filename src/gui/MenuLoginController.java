@@ -147,7 +147,7 @@ public class MenuLoginController extends AnchorPane {
 		// Gebruiker -> Speler
 		btnAddAanSpelers.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				if (observableSpelerLijst.size() <= 3) {
+				if (observableSpelerLijst.size() <= 3 && observableSpelerLijst.size() != 0) {
 					// Geselecteerd item uit de ListView in een variabele zetten
 					spelerDTO selectedItem = lvGebruikers.getSelectionModel().getSelectedItem();
 
