@@ -14,12 +14,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -155,16 +153,9 @@ public class gameBordController extends SplitPane {
 	@FXML
 	private Label lblPlayingUsername;
 
-	@FXML
-	private Label lblProgressie;
-
-	@FXML
-	private ProgressBar pbProgressie;
-
 	public void initialize() {
 		btnDraai.setText(vertaal.geefWoord("TURN_RIGHT"));
 		btnSpiegel.setText(vertaal.geefWoord("MIRROR"));
-		lblProgressie.setText(vertaal.geefWoord("ALMOST_YOUR_TURN"));
 		lblPlayingUsername.setText(vertaal.geefWoord("IS_PLAYING"));
 	}
 
@@ -201,7 +192,6 @@ public class gameBordController extends SplitPane {
 		gridPanePerPersoon = new HashMap<>();
 		gekozenTeLeggenDominos = new HashMap<>();
 		horizontaal = true;
-
 
 		try {
 			dc.startSpel();
@@ -298,7 +288,8 @@ public class gameBordController extends SplitPane {
 
 		ArrayList<spelerDTO> overigeSpelers = new ArrayList<>();
 		overigeSpelers.addAll(deelnemers);
-		overigeSpelers.removeAll(overigeSpelers.stream().filter(v -> v.gebruikersnaam().equals(koning.gebruikersnaam())).collect(Collectors.toList()));
+		overigeSpelers.removeAll(overigeSpelers.stream().filter(v -> v.gebruikersnaam().equals(koning.gebruikersnaam()))
+				.collect(Collectors.toList()));
 
 		for (int i = 0; i < overigeSpelers.size(); i++) {
 			lbVelden[i + 1].setText(String.format("%s", overigeSpelers.get(i)));
@@ -314,7 +305,8 @@ public class gameBordController extends SplitPane {
 	}
 
 	private void herSchaal(spelerDTO spelerDTO, int grootte) {
-		GridPane pane = gridPanePerPersoon.get(gridPanePerPersoon.keySet().stream().filter(v -> v.gebruikersnaam().equals(spelerDTO.gebruikersnaam())).findFirst().get());
+		GridPane pane = gridPanePerPersoon.get(gridPanePerPersoon.keySet().stream()
+				.filter(v -> v.gebruikersnaam().equals(spelerDTO.gebruikersnaam())).findFirst().get());
 
 		pane.getRowConstraints().clear();
 		pane.getColumnConstraints().clear();
@@ -529,7 +521,7 @@ public class gameBordController extends SplitPane {
 						lbAlgemeneTekst.setText(String.format("%s Place a domino", koning.gebruikersnaam()));
 
 						horizontaal = true;
-						
+
 						renderBord();
 					}
 				}
@@ -649,7 +641,6 @@ public class gameBordController extends SplitPane {
 	void speigelDomino(ActionEvent event) {
 		if (sleepBareImage != null) {
 			sleepBareImage.setRotate(sleepBareImage.getRotate() + 180);
-
 
 			try {
 				dc.spiegelDomino(gekozenTeLeggenDominos.get(koning));
